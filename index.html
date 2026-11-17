@@ -181,7 +181,38 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
 .noitems{text-align:center;color:var(--mute);padding:80px 10px;font-size:14.5px}
 .toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,100px);background:var(--ink);color:var(--paper);padding:12px 22px;border-radius:99px;z-index:200;transition:.4s cubic-bezier(.2,.7,.2,1);font-size:14px}
 .toast.on{transform:translate(-50%,0)}
+
+/* ADMIN SP RECUERDOS */
+.admin-dot{width:9px;height:9px;border-radius:50%;background:var(--or);display:inline-block;margin-left:9px;box-shadow:0 0 0 0 #ff7a0080;animation:adminPulse 1.8s infinite;vertical-align:middle}
+@keyframes adminPulse{70%{box-shadow:0 0 0 9px #ff7a0000}100%{box-shadow:0 0 0 0 #ff7a0000}}
+.admin-trigger{display:inline-flex;align-items:center;gap:8px;color:#8c887f;font-size:12px;cursor:pointer}
+.admin-trigger:hover{color:#fff}
+.admin-overlay{position:fixed;inset:0;background:#000b;z-index:300;display:none;align-items:center;justify-content:center;padding:18px;overflow:auto}
+.admin-overlay.open{display:flex}
+.admin-box{width:min(900px,100%);max-height:92vh;overflow:auto;background:var(--paper);border-radius:10px;color:var(--ink);box-shadow:0 24px 90px #0008}
+.admin-head{background:var(--ink);color:var(--paper);padding:18px 22px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:2}
+.admin-head b{font-size:15px;letter-spacing:.08em}.admin-head button{color:var(--paper);font-size:13px}
+.admin-body{padding:22px;display:grid;gap:18px}
+.admin-login{max-width:420px;margin:auto;width:100%;padding:28px 22px;display:grid;gap:14px}
+.admin-login h3{font-size:28px;letter-spacing:-.04em}.admin-login p,.admin-muted{font-size:13px;color:var(--mute)}
+.admin-field{display:grid;gap:6px}.admin-field label{font-size:12px;color:var(--mute)}
+.admin-field input,.admin-field textarea,.admin-field select{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:6px;background:#fff;color:var(--ink);font:inherit;font-size:14px;min-width:0}
+.admin-field textarea{min-height:78px;resize:vertical}
+.admin-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.admin-btn{background:var(--ink);color:#fff;padding:10px 16px;border-radius:99px;font-size:13px;font-weight:600}.admin-btn.alt{background:transparent;color:var(--ink);border:1px solid var(--line)}.admin-btn.danger{background:#9d2929}
+.admin-tabs{display:flex;gap:7px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:12px}
+.admin-tab{padding:8px 14px;border:1px solid var(--line);border-radius:99px;font-size:13px}.admin-tab.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.admin-layout{display:grid;grid-template-columns:1fr 1fr;gap:18px}.admin-panel{border:1px solid var(--line);border-radius:8px;padding:16px;display:grid;gap:12px;align-content:start}
+.admin-panel h4{font-size:16px}.admin-list{display:grid;gap:7px;max-height:360px;overflow:auto}
+.admin-item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px;border:1px solid var(--line);border-radius:6px;background:#fff;font-size:13px}
+.admin-item span{min-width:0;overflow-wrap:anywhere}.admin-item button{font-size:12px;text-decoration:underline}
+.admin-msg{font-size:13px;min-height:18px;color:#9d2929}.admin-msg.ok{color:#287344}
+.admin-preview{width:72px;height:72px;object-fit:cover;border-radius:6px;background:var(--panel)}
+.pic .product-photo{width:72%;height:78%;object-fit:contain;filter:drop-shadow(0 18px 18px #0002)}
+@media(max-width:680px){.admin-layout{grid-template-columns:1fr}.admin-body{padding:14px}.admin-head{padding:15px}}
+
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
@@ -279,7 +310,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
 </section>
 </main>
 
-<footer><div class="wrap"><div class="logo"><b style="font-size:22px">SP</b><span>RECUERDOS</span></div><span>Regalos empresariales · Envíos a todo el país · Venta por mayor</span></div></footer>
+<footer><div class="wrap"><div class="logo"><b style="font-size:22px">SP</b><span>RECUERDOS</span></div><span>Regalos empresariales · Envíos a todo el país · Venta por mayor</span><button class="admin-trigger" id="adminTrigger" type="button" aria-label="Acceso administrador">Acceso <i class="admin-dot"></i></button></div></footer>
 
 <div class="veil" id="veil"></div>
 <aside class="drawer" id="drawer" aria-label="Mi pedido">
@@ -294,10 +325,58 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
 </aside>
 <div class="toast" id="toast"></div>
 
+<div class="admin-overlay" id="adminOverlay" aria-hidden="true">
+  <div class="admin-box">
+    <div class="admin-head"><b>SP RECUERDOS <span style="color:var(--or)">/ ADMIN</span></b><button id="adminClose" type="button">CERRAR ×</button></div>
+    <div id="adminLogin" class="admin-login">
+      <h3>Acceso privado.</h3><p>Ingresá con el usuario administrador creado en Supabase Auth.</p>
+      <form id="adminLoginForm" style="display:grid;gap:12px">
+        <div class="admin-field"><label for="adminUsername">USUARIO</label><input id="adminUsername" type="text" autocomplete="username" required placeholder="admin" pattern="[A-Za-z0-9._-]{3,30}" title="Usá entre 3 y 30 caracteres: letras, números, punto, guion o guion bajo."></div>
+        <div class="admin-field"><label for="adminPassword">CONTRASEÑA</label><input id="adminPassword" type="password" autocomplete="current-password" required></div>
+        <button class="admin-btn" type="submit">INGRESAR</button><div class="admin-msg" id="adminLoginMsg"></div>
+      </form>
+    </div>
+    <div id="adminDashboard" class="admin-body" hidden>
+      <div class="admin-actions" style="justify-content:space-between"><div><b>Panel de administración</b><div class="admin-muted">Los cambios se publican en el catálogo.</div></div><button class="admin-btn alt" id="adminLogout" type="button">Cerrar sesión</button></div>
+      <div class="admin-tabs"><button class="admin-tab on" data-admin-tab="products" type="button">Productos</button><button class="admin-tab" data-admin-tab="categories" type="button">Categorías</button></div>
+      <section id="adminProducts" class="admin-layout">
+        <div class="admin-panel"><h4>Productos publicados</h4><div class="admin-list" id="adminProductList"></div><button class="admin-btn alt" id="newProduct" type="button">+ Nuevo producto</button></div>
+        <form class="admin-panel" id="productForm">
+          <h4 id="productFormTitle">Editar producto</h4><input type="hidden" id="editProductId">
+          <div class="admin-field"><label>NOMBRE</label><input id="editProductName" required maxlength="90"></div>
+          <div class="admin-field"><label>CATEGORÍA</label><select id="editProductCategory" required></select></div>
+          <div class="admin-field"><label>DESCRIPCIÓN</label><textarea id="editProductDescription" maxlength="300"></textarea></div>
+          <div class="admin-field"><label>PRECIO (opcional)</label><input id="editProductPrice" placeholder="Ej: 12500" inputmode="decimal"></div>
+          <div class="admin-field"><label>ETIQUETA (opcional)</label><input id="editProductBadge" placeholder="Nuevo / Más pedido / Combo"></div>
+          <div class="admin-field"><label>MODELO DE VISTA PREVIA</label><select id="editProductArt"><option value="termo">Termo</option><option value="botella">Botella</option><option value="vaso">Vaso</option><option value="mate">Mate</option><option value="mochila">Mochila</option><option value="cuaderno">Cuaderno</option><option value="lata">Lata</option><option value="set">Set</option></select></div>
+          <div class="admin-field"><label>COLORES (separados por coma)</label><input id="editProductColors" placeholder="negro, gris, naranja"></div>
+          <div class="admin-field"><label>FOTO DEL PRODUCTO</label><input id="editProductImage" type="file" accept="image/png,image/jpeg,image/webp"><span class="admin-muted">JPG, PNG o WEBP. Máximo 5 MB.</span><img id="productImagePreview" class="admin-preview" hidden></div>
+          <div class="admin-actions"><button class="admin-btn" type="submit">GUARDAR PRODUCTO</button><button class="admin-btn danger" id="deleteProduct" type="button">ELIMINAR</button></div><div class="admin-msg" id="productMsg"></div>
+        </form>
+      </section>
+      <section id="adminCategories" class="admin-layout" hidden>
+        <div class="admin-panel"><h4>Categorías actuales</h4><div class="admin-list" id="adminCategoryList"></div></div>
+        <form class="admin-panel" id="categoryForm"><h4>Nueva categoría</h4><div class="admin-field"><label>NOMBRE</label><input id="newCategoryName" maxlength="50" required placeholder="Ej: Regalos premium"></div><button class="admin-btn" type="submit">CREAR CATEGORÍA</button><div class="admin-msg" id="categoryMsg"></div><p class="admin-muted">Para eliminar una categoría, primero reasigná o eliminá sus productos.</p></form>
+      </section>
+      <div class="admin-msg" id="adminSaveMsg"></div>
+    </div>
+  </div>
+</div>
+
+
 <script>
 /* Número de WhatsApp en formato internacional, sin + ni espacios (ej: "5493462123456").
    Vacío = WhatsApp deja elegir el contacto. */
 const WHATSAPP = "";
+// Pegá aquí la URL y la anon/public key de ESTE proyecto Supabase.
+// Nunca uses service_role key en el navegador.
+const SUPABASE_URL = "https://zzrmqidzfjqrmrictels.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_6b27IFeNHruaWcIO5mP_yg_lwn79eZ5";
+const CONTENT_TABLE = "sp_recuerdos_content";
+const STORAGE_BUCKET = "sp-recuerdos-media";
+const CONTENT_KEY = "main";
+const sb = (window.supabase && SUPABASE_URL.startsWith("https://") && !SUPABASE_ANON_KEY.includes("YOUR_"))
+  ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 
 const COLORS={negro:"#1b1b1b",gris:"#8a8a8e",naranja:"#ff7a00",blanco:"#f2f0ea",azul:"#25406e",verde:"#2c5a40",rojo:"#b02a30"};
 const lum=h=>{const n=parseInt(h.slice(1),16);return .299*(n>>16)+.587*((n>>8)&255)+.114*(n&255)};
@@ -322,7 +401,7 @@ const ART={
  set:c=>`<svg viewBox="0 0 240 250"><ellipse cx="120" cy="232" rx="92" ry="6" fill="#000" opacity=".14"/><rect x="26" y="68" width="50" height="158" rx="13" fill="${c}"/><rect x="23" y="50" width="56" height="24" rx="8" fill="#000" opacity=".4"/>${mark(c,51,150,34)}<g transform="translate(70 90) scale(.78)"><line x1="110" y1="26" x2="126" y2="122" stroke="#b9b9b9" stroke-width="6" stroke-linecap="round"/><path d="M44 92h112c0 58-10 124-56 124S44 150 44 92z" fill="${c}"/><ellipse cx="100" cy="92" rx="56" ry="13" fill="#000" opacity=".4"/></g><g transform="translate(158 120) scale(.56)"><rect x="58" y="70" width="84" height="156" rx="9" fill="${c}"/><rect x="54" y="48" width="92" height="28" rx="7" fill="#000" opacity=".4"/></g></svg>`
 };
 
-const P=[
+let P=[
  {id:1,n:"Termo de acero inoxidable",c:"Termos",a:"termo",d:"Grabado láser. Mantiene frío y calor por horas.",cols:["negro","gris","naranja","blanco"],b:"Más pedido"},
  {id:2,n:"Termo media manija",c:"Termos",a:"termo",d:"El clásico para el mate, ideal para regalar.",cols:["negro","gris","azul","blanco"]},
  {id:3,n:"Termo bala 1 litro",c:"Termos",a:"termo",d:"Gran capacidad para toda la jornada.",cols:["negro","naranja","gris","verde"]},
@@ -340,7 +419,7 @@ const P=[
  {id:15,n:"Set matero",c:"Sets y combos",a:"set",d:"Termo, mate y yerbera. Regalo completo.",cols:["negro","gris","naranja"],b:"Combo"},
  {id:16,n:"Combo de campaña",c:"Sets y combos",a:"set",d:"Combos armados para fechas especiales.",cols:["negro","naranja","gris"]}
 ];
-const CATS=["Todos",...new Set(P.map(p=>p.c))];
+let CATS=["Todos",...new Set(P.map(p=>p.c))];
 const LAB=[{id:1,l:"Termo"},{id:4,l:"Mate"},{id:7,l:"Botella"},{id:12,l:"Mochila"},{id:13,l:"Cuaderno"},{id:14,l:"Lata"}];
 
 let cat="Todos",query="",cart=[],labId=1,labCol="negro";
@@ -352,10 +431,12 @@ const save=()=>{try{localStorage.setItem("sp_cart",JSON.stringify(cart))}catch(e
 
 /* ---- Probador ---- */
 function lab(){
-  const p=prod(labId);
-  $("#obj").innerHTML=ART[p.a](COLORS[labCol]);
-  $("#labName").textContent=LAB.find(x=>x.id===labId).l;
-  $("#tabs").innerHTML=LAB.map(x=>`<button class="tab ${x.id===labId?'on':''}" data-t="${x.id}">${x.l}</button>`).join("");
+  let p=prod(labId);
+  if(!p){p=P[0];if(!p)return;labId=p.id;}
+  const activeLab=LAB.find(x=>x.id===labId);
+  $("#obj").innerHTML=ART[p.a](COLORS[labCol]||COLORS.negro);
+  $("#labName").textContent=activeLab?.l||p.n;
+  $("#tabs").innerHTML=LAB.filter(x=>prod(x.id)).map(x=>`<button class="tab ${x.id===labId?'on':''}" data-t="${x.id}">${x.l}</button>`).join("");
   const cols=p.cols.includes(labCol)?p.cols:(labCol=p.cols[0],p.cols);
   $("#labSw").innerHTML=cols.map(k=>`<button class="${k===labCol?'on':''}" data-k="${k}" title="${k}" aria-label="${k}" style="background:${COLORS[k]}"></button>`).join("");
   $("#obj").innerHTML=ART[p.a](COLORS[labCol]);
@@ -389,15 +470,15 @@ function grid(){
   $("#n").textContent=list.length+" productos";
   $("#grid").innerHTML=list.length?list.map(p=>`
     <article class="card" data-id="${p.id}">
-      <div class="pic">${p.b?`<span class="badge">${p.b}</span>`:""}${ART[p.a](COLORS[sel[p.id]])}<button class="quick" data-add="${p.id}">Agregar al pedido</button></div>
-      <div class="meta"><h3>${p.n}</h3><span>Consultar</span></div>
-      <p class="desc">${p.d}</p>
+      <div class="pic">${p.b?`<span class="badge">${esc(p.b)}</span>`:""}${p.image?`<img class="product-photo" src="${esc(p.image)}" alt="${esc(p.n)}" loading="lazy">`:ART[p.a](COLORS[sel[p.id]])}<button class="quick" data-add="${p.id}">Agregar al pedido</button></div>
+      <div class="meta"><h3>${esc(p.n)}</h3><span>${p.price?`$ ${esc(String(p.price))}`:"Consultar"}</span></div>
+      <p class="desc">${esc(p.d||"")}</p>
       <div class="sw">${p.cols.map(k=>`<button class="${k===sel[p.id]?'on':''}" data-k="${k}" title="${k}" aria-label="${k}" style="background:${COLORS[k]}"></button>`).join("")}</div>
     </article>`).join(""):`<div class="empty">No encontramos ese producto. Probá con otra búsqueda.</div>`;
   reveal();
 }
 function paintAll(){
-  document.querySelectorAll(".card").forEach(c=>{const p=prod(+c.dataset.id);c.querySelector(".pic svg").outerHTML=ART[p.a](COLORS[sel[p.id]])});
+  document.querySelectorAll(".card").forEach(c=>{const p=prod(+c.dataset.id);const svg=c.querySelector(".pic svg");if(p&&svg)svg.outerHTML=ART[p.a](COLORS[sel[p.id]]||COLORS.negro)});
   cartUI();
 }
 function reveal(){
@@ -411,9 +492,9 @@ function add(id,k){
 }
 function cartUI(){
   $("#count").textContent=cart.reduce((a,i)=>a+i.q,0);
-  $("#items").innerHTML=cart.length?cart.map((it,i)=>{const p=prod(it.id);return `
-    <div class="it"><div class="t">${ART[p.a](COLORS[it.k])}</div>
-    <div><h5>${p.n}</h5><small>Color: ${it.k}</small></div>
+  $("#items").innerHTML=cart.length?cart.filter(it=>prod(it.id)).map((it,i)=>{const p=prod(it.id);return `
+    <div class="it"><div class="t">${p.image?`<img src="${esc(p.image)}" alt="" style="width:90%;height:90%;object-fit:contain">`:ART[p.a](COLORS[it.k]||COLORS.negro)}</div>
+    <div><h5>${esc(p.n)}</h5><small>Color: ${esc(it.k||"sin especificar")}</small></div>
     <div class="qty"><button data-m="${i}" aria-label="Menos">−</button><span>${it.q}</span><button data-p="${i}" aria-label="Más">+</button></div></div>`}).join(""):`<div class="noitems">Todavía no agregaste productos.<br>Elegí del catálogo o probá tu marca arriba.</div>`;
   save();
 }
@@ -425,7 +506,7 @@ $("#q").oninput=e=>{query=e.target.value;grid()};
 $("#grid").onclick=e=>{
   const card=e.target.closest(".card");if(!card)return;
   const id=+card.dataset.id,k=e.target.closest("[data-k]");
-  if(k){sel[id]=k.dataset.k;card.querySelector(".pic svg").outerHTML=ART[prod(id).a](COLORS[sel[id]]);
+  if(k){sel[id]=k.dataset.k;const svg=card.querySelector(".pic svg");if(svg)svg.outerHTML=ART[prod(id).a](COLORS[sel[id]]);
     card.querySelectorAll(".sw button").forEach(b=>b.classList.toggle("on",b.dataset.k===sel[id]));return}
   if(e.target.closest("[data-add]"))add(id,sel[id]);
 };
@@ -438,17 +519,158 @@ $("#items").onclick=e=>{
 $("#openCart").onclick=()=>cartOpen(true);
 $("#closeCart").onclick=$("#veil").onclick=()=>cartOpen(false);
 const wa=t=>`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(t)}`;
-$("#waMain").href=wa("Hola SP Recuerdos! Quiero consultar por productos personalizados.");
+$("#waMain").href=wa("Hola! Quiero consultar por productos personalizados.");
 $("#send").onclick=()=>{
   if(!cart.length){toast("Agregá al menos un producto");return}
-  const lines=cart.map(i=>`• ${i.q} x ${prod(i.id).n} (${i.k})`).join("\n");
+  const lines=cart.filter(i=>prod(i.id)).map(i=>`• ${i.q} x ${prod(i.id).n} (${i.k})${prod(i.id).price?` — $ ${prod(i.id).price}`:""}`).join("\n");
   const name=$("#name").value.trim(),note=$("#note").value.trim();
   const b=brand.t?`\nTexto a grabar: ${brand.t}`:"";
   const lg=brand.img?`\nTengo logo: lo envío por este chat.`:"";
-  window.open(wa(`Hola SP Recuerdos! Quiero cotizar este pedido:\n\n${lines}\n${b}${lg}${name?`\nNombre/Empresa: ${name}`:""}${note?`\nNotas: ${note}`:""}`),"_blank");
+  window.open(wa(`Hola! Quiero cotizar este pedido:\n\n${lines}\n${b}${lg}${name?`\nNombre/Empresa: ${name}`:""}${note?`\nNotas: ${note}`:""}`),"_blank");
 };
 
-lab();chips();grid();cartUI();
+
+/* ---- Administración Supabase: catálogo SP Recuerdos ---- */
+let adminUser=null, adminIsAllowed=false, pendingProductImage=null;
+const adminMsg=(id,msg,ok=false)=>{const el=document.getElementById(id);if(el){el.textContent=msg;el.classList.toggle("ok",!!ok)}};
+function refreshCatalogState(){
+  CATS=["Todos",...Array.from(new Set(P.map(p=>p.c).filter(Boolean)))];
+  P.forEach(p=>{if(!Array.isArray(p.cols)||!p.cols.length)p.cols=["negro"];if(!ART[p.a])p.a="termo";if(!(p.id in sel))sel[p.id]=p.cols[0];});
+  Object.keys(sel).forEach(id=>{if(!P.some(p=>String(p.id)===String(id)))delete sel[id]});
+  if(!CATS.includes(cat))cat="Todos";
+}
+async function loadRemoteCatalog(){
+  if(!sb)return;
+  const {data,error}=await sb.from(CONTENT_TABLE).select("value").eq("key",CONTENT_KEY).maybeSingle();
+  if(error){console.warn("No se pudo leer el catálogo remoto",error);return}
+  const c=data?.value;
+  if(c && Array.isArray(c.products) && Array.isArray(c.categories)){
+    P=c.products; CATS=["Todos",...c.categories];
+    if(c.whatsapp) { /* el número se configura en el código, no desde contenido público */ }
+    refreshCatalogState();
+  }
+}
+async function saveRemoteCatalog(){
+  if(!sb || !adminIsAllowed)throw new Error("No hay una sesión administradora válida.");
+  const categories=CATS.filter(c=>c!=="Todos");
+  const payload={products:P,categories};
+  const {error}=await sb.from(CONTENT_TABLE).upsert({key:CONTENT_KEY,value:payload},{onConflict:"key"});
+  if(error)throw error;
+  refreshCatalogState();chips();grid();cartUI();
+}
+async function checkAdmin(){
+  if(!sb)return false;
+  const {data:{session}}=await sb.auth.getSession();
+  if(!session)return false;
+  const {data,error}=await sb.from("sp_recuerdos_admins").select("user_id").eq("user_id",session.user.id).maybeSingle();
+  adminUser=session.user;adminIsAllowed=!!data&&!error;
+  if(!adminIsAllowed){await sb.auth.signOut();adminUser=null;}
+  return adminIsAllowed;
+}
+function showAdminLogin(message=""){
+  $("#adminLogin").hidden=false;$("#adminDashboard").hidden=true;
+  adminMsg("adminLoginMsg",message);
+}
+async function openAdmin(){
+  $("#adminOverlay").classList.add("open");$("#adminOverlay").setAttribute("aria-hidden","false");
+  if(!sb){showAdminLogin("Configurá SUPABASE_URL y SUPABASE_ANON_KEY en el código primero.");return}
+  if(await checkAdmin())showAdminDashboard();else showAdminLogin();
+}
+function showAdminDashboard(){
+  $("#adminLogin").hidden=true;$("#adminDashboard").hidden=false;
+  renderAdminProducts();renderAdminCategories();fillCategorySelect();
+}
+function closeAdmin(){$("#adminOverlay").classList.remove("open");$("#adminOverlay").setAttribute("aria-hidden","true")}
+function renderAdminProducts(){
+  $("#adminProductList").innerHTML=P.map(p=>`<div class="admin-item"><span><b>${esc(p.n)}</b><br><small>${esc(p.c||"")}${p.price?` · $ ${esc(String(p.price))}`:""}</small></span><button type="button" data-edit-product="${p.id}">EDITAR</button></div>`).join("")||'<p class="admin-muted">Todavía no hay productos.</p>';
+}
+function renderAdminCategories(){
+  $("#adminCategoryList").innerHTML=CATS.filter(c=>c!=="Todos").map(c=>`<div class="admin-item"><span>${esc(c)} <small>(${P.filter(p=>p.c===c).length})</small></span><button type="button" data-delete-category="${esc(c)}">ELIMINAR</button></div>`).join("")||'<p class="admin-muted">No hay categorías.</p>';
+}
+function fillCategorySelect(){
+  $("#editProductCategory").innerHTML=CATS.filter(c=>c!=="Todos").map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join("");
+}
+function resetProductForm(){
+  $("#productForm").reset();$("#editProductId").value="";$("#productFormTitle").textContent="Nuevo producto";$("#deleteProduct").hidden=true;$("#productImagePreview").hidden=true;pendingProductImage=null;
+}
+function editProduct(id){
+  const p=P.find(x=>String(x.id)===String(id));if(!p)return;
+  fillCategorySelect();$("#editProductId").value=p.id;$("#editProductName").value=p.n||"";$("#editProductCategory").value=p.c||CATS[1]||"";
+  $("#editProductDescription").value=p.d||"";$("#editProductPrice").value=p.price||"";$("#editProductBadge").value=p.b||"";
+  $("#editProductArt").value=p.a||"termo";$("#editProductColors").value=(p.cols||[]).join(", ");
+  $("#productFormTitle").textContent="Editar producto";$("#deleteProduct").hidden=false;
+  const preview=$("#productImagePreview");if(p.image){preview.src=p.image;preview.hidden=false}else preview.hidden=true;
+  adminMsg("productMsg","");
+}
+async function uploadProductImage(file){
+  if(!file)return null;
+  if(file.size>5*1024*1024)throw new Error("La imagen supera los 5 MB.");
+  if(!["image/jpeg","image/png","image/webp"].includes(file.type))throw new Error("Formato no permitido. Usá JPG, PNG o WEBP.");
+  const ext=file.type==="image/png"?"png":file.type==="image/webp"?"webp":"jpg";
+  const path=`products/${crypto.randomUUID()}.${ext}`;
+  const {error}=await sb.storage.from(STORAGE_BUCKET).upload(path,file,{upsert:false,contentType:file.type});
+  if(error)throw error;
+  const {data}=sb.storage.from(STORAGE_BUCKET).getPublicUrl(path);
+  return data.publicUrl;
+}
+$("#adminTrigger").addEventListener("click",openAdmin);
+$("#adminClose").addEventListener("click",closeAdmin);
+$("#adminOverlay").addEventListener("click",e=>{if(e.target.id==="adminOverlay")closeAdmin()});
+$("#adminLoginForm").addEventListener("submit",async e=>{
+  e.preventDefault();if(!sb)return;
+  adminMsg("adminLoginMsg","Verificando...");
+  const username=$("#adminUsername").value.trim().toLowerCase();
+  // Supabase Auth requires an email internally; the admin enters only a username.
+  const internalEmail=`${username}@sp-recuerdos-login.com`;
+  const {error}=await sb.auth.signInWithPassword({email:internalEmail,password:$("#adminPassword").value});
+  if(error){adminMsg("adminLoginMsg","Email o contraseña incorrectos.");return}
+  if(await checkAdmin()){showAdminDashboard();adminMsg("adminLoginMsg","")}else showAdminLogin("Esta cuenta no tiene permisos de administrador.");
+});
+$("#adminLogout").addEventListener("click",async()=>{if(sb)await sb.auth.signOut();adminUser=null;adminIsAllowed=false;showAdminLogin("Sesión cerrada.")});
+document.querySelectorAll("[data-admin-tab]").forEach(b=>b.addEventListener("click",()=>{
+  document.querySelectorAll("[data-admin-tab]").forEach(x=>x.classList.toggle("on",x===b));
+  const products=b.dataset.adminTab==="products";$("#adminProducts").hidden=!products;$("#adminCategories").hidden=products;
+}));
+$("#adminProductList").addEventListener("click",e=>{const b=e.target.closest("[data-edit-product]");if(b)editProduct(b.dataset.editProduct)});
+$("#newProduct").addEventListener("click",()=>{resetProductForm();fillCategorySelect();$("#productMsg").textContent=""});
+$("#editProductImage").addEventListener("change",e=>{const f=e.target.files[0];if(!f)return;const u=URL.createObjectURL(f);$("#productImagePreview").src=u;$("#productImagePreview").hidden=false});
+$("#productForm").addEventListener("submit",async e=>{
+  e.preventDefault();if(!adminIsAllowed)return;
+  const id=$("#editProductId").value;const old=P.find(p=>String(p.id)===String(id));
+  const name=$("#editProductName").value.trim(),category=$("#editProductCategory").value;
+  if(!category){adminMsg("productMsg","Primero creá una categoría.");return}
+  const colors=$("#editProductColors").value.split(",").map(x=>x.trim().toLowerCase()).filter(x=>COLORS[x]);
+  const item={...(old||{}),id:old?old.id:Date.now(),n:name,c:category,d:$("#editProductDescription").value.trim(),price:$("#editProductPrice").value.trim(),b:$("#editProductBadge").value.trim(),a:$("#editProductArt").value,cols:colors.length?colors:["negro"]};
+  try{
+    adminMsg("productMsg","Guardando...");
+    const file=$("#editProductImage").files[0];if(file)item.image=await uploadProductImage(file);
+    if(old)P=P.map(p=>String(p.id)===String(id)?item:p);else P.push(item);
+    await saveRemoteCatalog();renderAdminProducts();renderAdminCategories();editProduct(item.id);adminMsg("productMsg","Producto guardado y publicado.",true);
+  }catch(err){adminMsg("productMsg",err.message||"No se pudo guardar el producto.")}
+});
+$("#deleteProduct").addEventListener("click",async()=>{
+  const id=$("#editProductId").value;if(!id||!confirm("¿Eliminar este producto del catálogo?"))return;
+  const previous=P;P=P.filter(p=>String(p.id)!==String(id));
+  try{await saveRemoteCatalog();resetProductForm();renderAdminProducts();renderAdminCategories();adminMsg("productMsg","Producto eliminado.",true)}catch(err){P=previous;adminMsg("productMsg",err.message||"No se pudo eliminar")}
+});
+$("#categoryForm").addEventListener("submit",async e=>{
+  e.preventDefault();const name=$("#newCategoryName").value.trim();if(!name)return;
+  if(CATS.some(c=>c.toLowerCase()===name.toLowerCase())){adminMsg("categoryMsg","Esa categoría ya existe.");return}
+  const previous=[...CATS];CATS.push(name);
+  try{await saveRemoteCatalog();renderAdminCategories();fillCategorySelect();$("#categoryForm").reset();adminMsg("categoryMsg","Categoría creada.",true)}catch(err){CATS=previous;adminMsg("categoryMsg",err.message||"No se pudo crear")}
+});
+$("#adminCategoryList").addEventListener("click",async e=>{
+  const b=e.target.closest("[data-delete-category]");if(!b)return;const name=b.dataset.deleteCategory;
+  if(P.some(p=>p.c===name)){adminMsg("categoryMsg","No se puede borrar: todavía tiene productos asignados.");return}
+  if(!confirm(`¿Eliminar la categoría ${name}?`))return;
+  const previous=[...CATS];CATS=CATS.filter(c=>c!==name);
+  try{await saveRemoteCatalog();renderAdminCategories();fillCategorySelect();adminMsg("categoryMsg","Categoría eliminada.",true)}catch(err){CATS=previous;adminMsg("categoryMsg",err.message||"No se pudo eliminar")}
+});
+async function initSite(){
+  if(sb)await loadRemoteCatalog();
+  refreshCatalogState();lab();chips();grid();cartUI();
+}
+initSite();
 </script>
 </body>
 </html>
