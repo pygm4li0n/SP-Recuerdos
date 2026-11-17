@@ -50,24 +50,25 @@ nav a:hover::after{transform:scaleX(1)}
 }
 
 /* HERO - Desktop Fit & Align */
-.hero{padding:64px 0 72px}
+.hero { padding: 64px 0 72px; }
+.hero .wrap { display: grid; grid-template-columns: .9fr 1.1fr; gap: 56px; align-items: center; }
+
 @media(min-width:961px){
-  .hero{
-    min-height:calc(100vh - 104px); /* Viewport - Header - Util bar */
-    display:flex;
-    align-items:center;
-    padding:0;
+  .hero {
+    /* 100dvh (dynamic viewport) menos el header (70px) y la barra naranja (32px) */
+    min-height: calc(100dvh - 102px); 
+    display: flex;
+    align-items: center;
+    padding: 0;
   }
-  .hero .wrap{
-    width:100%;
-    display:grid;
-    grid-template-columns:.9fr 1.1fr;
-    gap:56px;
-    align-items:start; /* Alinea los tops del título y el visualizador */
+  .hero .wrap {
+    width: 100%;
+    align-items: start; /* Alinea el título y el visualizador arriba */
   }
-  .hero-left { margin-top: 24px; } /* Ajuste óptico para alinear visualmente con el cajón del lab */
+  .hero-left { 
+    margin-top: 18px; /* Ajuste fino para que el kicker alinee con el borde del cajón */
+  }
 }
-.hero .wrap{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:center}
 .kicker{font-size:13px;color:var(--mute);margin-bottom:24px;display:flex;gap:10px;align-items:center}
 .kicker::before{content:"";width:28px;height:1px;background:var(--ink)}
 h1{font-size:clamp(44px,6vw,88px);font-weight:600;letter-spacing:-.045em;line-height:.96}
@@ -312,7 +313,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
     </div>
 
     <div class="lab">
-      <div class="labhead"><b>Probá tu marca</b><span id="labName">Termo</span></div>
+      <div class="labhead"><b>Simulador en vivo</b><span id="labName">Termo</span></div>
       <div class="stage" id="stage"><div class="obj" id="obj"></div></div>
       <div class="ctrl">
         <div class="tabs" id="tabs"></div>
