@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SP Recuerdos — Regalos empresariales personalizados</title>
+<meta name="description" content="Productos personalizados para empresas, eventos y equipos. Probá tu marca en el producto. Envíos a todo el país. Venta por mayor.">
+<style>
+:root{--paper:#f6f4ef;--panel:#ebe8e1;--ink:#0c0c0c;--mute:#6f6b63;--line:#d9d5cc;--or:#ff7a00}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:"Helvetica Neue",Helvetica,Arial,system-ui,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+.wrap{max-width:1320px;margin:0 auto;padding:0 28px}
+::selection{background:var(--or);color:#000}
+em{font-family:Georgia,"Times New Roman",serif;font-weight:400;font-style:italic}
+
+/* UTIL + HEADER */
+.util{background:var(--or);color:#000;font-size:12px;font-weight:600;text-align:center;padding:7px 12px;letter-spacing:.02em}
+header.top{position:sticky;top:0;z-index:40;background:var(--ink);color:#f2efe8}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;height:70px}
+.logo{display:flex;align-items:baseline;gap:9px}
+.logo b{font-size:30px;font-weight:900;font-style:italic;letter-spacing:-.07em;color:var(--or)}
+.logo span{font-size:10px;font-weight:700;letter-spacing:.24em}
+nav{display:flex;gap:36px;font-size:14px;color:#b8b4aa}
+nav a{position:relative;transition:.2s}
+nav a:hover{color:#fff}
+nav a::after{content:"";position:absolute;left:0;right:0;bottom:-5px;height:1px;background:var(--or);transform:scaleX(0);transform-origin:left;transition:.25s}
+nav a:hover::after{transform:scaleX(1)}
+.cartbtn{background:var(--or);color:#000;font-size:14px;font-weight:600;padding:9px 10px 9px 18px;border-radius:99px;display:flex;gap:10px;align-items:center;transition:.2s}
+.cartbtn i{font-style:normal;background:#000;color:var(--or);font-size:12px;border-radius:99px;min-width:25px;height:25px;display:grid;place-items:center;padding:0 7px}
+.cartbtn:hover{background:#fff}
+@media(max-width:760px){nav{display:none}}
+
+/* HERO */
+.hero{padding:64px 0 72px}
+.hero .wrap{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:center}
+.kicker{font-size:13px;color:var(--mute);margin-bottom:24px;display:flex;gap:10px;align-items:center}
+.kicker::before{content:"";width:28px;height:1px;background:var(--ink)}
+h1{font-size:clamp(44px,6.6vw,98px);font-weight:600;letter-spacing:-.045em;line-height:.96}
+h1 u{text-decoration:none;color:var(--or)}
+.lede{max-width:420px;color:var(--mute);margin-top:28px;font-size:17px}
+.heroact{display:flex;gap:26px;align-items:center;margin-top:32px;flex-wrap:wrap}
+.btn{background:var(--ink);color:var(--paper);padding:15px 26px;border-radius:99px;font-size:14px;font-weight:600;transition:.2s;display:inline-block;text-align:center}
+.btn:hover{background:var(--or);color:#000}
+.link{font-size:14px;border-bottom:1px solid currentColor;padding-bottom:2px;transition:.2s}
+.link:hover{color:var(--or)}
+@media(max-width:960px){.hero .wrap{grid-template-columns:1fr;gap:44px}.hero{padding-top:40px}}
+
+/* LAB (probador) */
+.lab{background:var(--panel);border-radius:8px;overflow:hidden;border:1px solid var(--line)}
+.labhead{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;font-size:13px;border-bottom:1px solid var(--line)}
+.labhead b{font-weight:600;display:flex;align-items:center;gap:8px}
+.labhead b::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--or)}
+.labhead span{color:var(--mute)}
+.stage{height:min(46vw,400px);min-height:300px;display:flex;align-items:center;justify-content:center;perspective:900px;position:relative}
+.stage::before{content:"";position:absolute;width:58%;aspect-ratio:1;border-radius:50%;background:#fff;opacity:.55}
+.stage .obj{width:min(250px,56%);transition:transform .25s ease-out;position:relative}
+.stage .obj svg{width:100%;height:auto;display:block;filter:drop-shadow(0 22px 22px #0002)}
+.ctrl{background:var(--paper);padding:20px;display:grid;gap:16px}
+.tabs{display:flex;gap:4px;flex-wrap:wrap}
+.tab{padding:7px 14px;border-radius:99px;font-size:13.5px;color:var(--mute);border:1px solid var(--line);transition:.2s}
+.tab:hover{color:var(--ink);border-color:var(--ink)}
+.tab.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.field span{display:block;font-size:12px;color:var(--mute);margin-bottom:6px}
+.field input{width:100%;background:#fff;border:1px solid var(--line);border-radius:6px;padding:13px 14px;font:inherit;font-size:16px;outline:0;color:var(--ink)}
+.field input:focus{border-color:var(--ink)}
+.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;justify-content:space-between}
+.up{font-size:13.5px;border:1px dashed #a9a59c;border-radius:99px;padding:9px 16px;cursor:pointer;transition:.2s}
+.up:hover{border-color:var(--or);color:var(--or)}
+.ghost{font-size:13px;color:var(--mute);border-bottom:1px solid var(--line)}
+.ghost:hover{color:var(--ink)}
+.left{display:flex;gap:10px;align-items:center}
+.sw{display:flex;gap:9px}
+.sw button{width:20px;height:20px;border-radius:50%;box-shadow:inset 0 0 0 1px #0003;position:relative}
+.sw button.on::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:1.5px solid var(--ink)}
+.fine{font-size:12px;color:var(--mute)}
+
+/* STRIP */
+.strip{border-block:1px solid var(--line)}
+.strip .wrap{display:grid;grid-template-columns:repeat(4,1fr)}
+.strip div{padding:20px 0 20px 22px;border-left:1px solid var(--line);font-size:14px}
+.strip div:first-child{border-left:0;padding-left:0}
+.strip b{display:block;font-weight:600}
+.strip span{color:var(--mute)}
+@media(max-width:760px){.strip .wrap{grid-template-columns:1fr 1fr}.strip div:nth-child(3){border-left:0;padding-left:0}.strip div:nth-child(n+3){border-top:1px solid var(--line)}}
+
+/* SAY (se use / se vea / se comparta) */
+.say{padding:100px 0 60px}
+.say .top{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;align-items:flex-end;margin-bottom:44px}
+h2{font-size:clamp(32px,4.6vw,62px);font-weight:600;letter-spacing:-.04em;line-height:1}
+.rows{border-bottom:1px solid var(--ink)}
+.rowx{display:grid;grid-template-columns:1.3fr 1fr auto;gap:30px;align-items:center;padding:26px 0;border-top:1px solid var(--ink);transition:.35s;position:relative}
+.rowx:hover{background:var(--ink);color:var(--paper);padding-left:24px;padding-right:24px}
+.rowx strong{font-size:clamp(46px,9vw,132px);font-weight:600;letter-spacing:-.055em;line-height:.9}
+.rowx p{color:var(--mute);font-size:16px;max-width:340px;transition:.3s}
+.rowx:hover p{color:#bdb9af}
+.rowx i{font-style:normal;font-size:34px;transition:.35s}
+.rowx:hover i{color:var(--or);transform:translateX(8px)}
+.rowx:hover strong{color:var(--or)}
+@media(max-width:760px){.rowx{grid-template-columns:1fr;gap:10px}.rowx i{display:none}}
+
+/* CATALOG */
+section{padding:90px 0}
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap;margin-bottom:34px}
+.count{color:var(--mute);font-size:14px}
+.tools{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;align-items:center;padding:14px 0;border-block:1px solid var(--line);margin-bottom:34px;position:sticky;top:70px;background:var(--paper);z-index:20}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{padding:8px 15px;border-radius:99px;font-size:14px;color:var(--mute);transition:.2s}
+.chip:hover{color:var(--ink)}
+.chip.on{background:var(--ink);color:var(--paper)}
+.search{background:none;border:0;border-bottom:1px solid var(--line);font:inherit;font-size:14px;padding:8px 2px;width:200px;outline:0;color:var(--ink)}
+.search:focus{border-color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:46px 24px}
+@media(max-width:980px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.grid{grid-template-columns:1fr}}
+.card{opacity:0;transform:translateY(14px);transition:opacity .6s,transform .6s}
+.card.in{opacity:1;transform:none}
+.pic{background:var(--panel);border-radius:8px;aspect-ratio:1/1.08;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.pic svg{width:56%;height:auto;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.card:hover .pic svg{transform:translateY(-8px) scale(1.03)}
+.badge{position:absolute;top:14px;left:14px;font-size:12px;background:var(--ink);color:var(--paper);padding:4px 11px;border-radius:99px}
+.quick{position:absolute;left:14px;right:14px;bottom:14px;background:var(--ink);color:var(--paper);border-radius:99px;padding:12px;font-size:14px;font-weight:600;text-align:center;opacity:0;transform:translateY(8px);transition:.3s}
+.card:hover .quick{opacity:1;transform:none}
+.quick:hover{background:var(--or);color:#000}
+@media(hover:none){.quick{opacity:1;transform:none}}
+.meta{display:flex;justify-content:space-between;gap:14px;margin-top:16px;align-items:baseline}
+.meta h3{font-size:17px;font-weight:600;letter-spacing:-.015em;line-height:1.25}
+.meta span{font-size:13px;color:var(--mute);white-space:nowrap}
+.desc{font-size:14px;color:var(--mute);margin-top:4px;max-width:34ch}
+.card .sw{margin-top:12px}
+.card .sw button{width:16px;height:16px}
+.empty{grid-column:1/-1;text-align:center;color:var(--mute);padding:60px 0}
+
+/* PROCESS */
+.process{border-top:1px solid var(--line)}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;margin-top:56px}
+@media(max-width:860px){.steps{grid-template-columns:1fr 1fr}}
+.step{border-top:1px solid var(--ink);padding-top:16px}
+.step small{font-size:13px;color:var(--mute)}
+.step h4{font-size:22px;font-weight:600;letter-spacing:-.02em;margin:40px 0 8px}
+.step p{font-size:14.5px;color:var(--mute)}
+
+/* CONTACT */
+.contact{background:var(--or);color:#000;padding:100px 0}
+.contact .wrap{display:grid;grid-template-columns:1.3fr .7fr;gap:60px;align-items:end}
+@media(max-width:860px){.contact .wrap{grid-template-columns:1fr}}
+.contact h2{font-size:clamp(42px,7.4vw,112px);letter-spacing:-.05em;line-height:.93}
+.contact p{margin-bottom:26px;max-width:360px;font-size:17px}
+.contact .btn{background:#000;color:#fff}
+.contact .btn:hover{background:#fff;color:#000}
+.contact .link{margin-left:22px}
+.contact .link:hover{color:#fff}
+footer{background:var(--ink);color:#8c887f;font-size:13px;padding:30px 0}
+footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
+
+/* DRAWER */
+.veil{position:fixed;inset:0;background:#0007;z-index:90;opacity:0;pointer-events:none;transition:.3s}
+.veil.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(430px,100%);background:var(--paper);z-index:100;transform:translateX(100%);transition:.4s cubic-bezier(.2,.7,.2,1);display:flex;flex-direction:column}
+.drawer.on{transform:none}
+.dh{display:flex;justify-content:space-between;align-items:center;padding:22px 26px;background:var(--ink);color:var(--paper)}
+.dh h3{font-size:20px;font-weight:600;letter-spacing:-.02em}
+.x{font-size:14px;border-bottom:1px solid var(--or)}
+.items{flex:1;overflow:auto;padding:6px 26px}
+.it{display:grid;grid-template-columns:64px 1fr auto;gap:14px;align-items:center;padding:16px 0;border-bottom:1px solid var(--line)}
+.it .t{width:64px;height:64px;border-radius:6px;background:var(--panel);display:grid;place-items:center}
+.it .t svg{width:62%}
+.it h5{font-size:14.5px;font-weight:600;line-height:1.25}
+.it small{color:var(--mute);font-size:12.5px}
+.qty{display:flex;align-items:center;border:1px solid var(--line);border-radius:99px}
+.qty button{width:28px;height:28px}
+.qty button:hover{color:var(--or)}
+.qty span{min-width:24px;text-align:center;font-size:14px}
+.df{padding:20px 26px 26px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:10px}
+.df input,.df textarea{background:#fff;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font:inherit;font-size:14px;outline:0;width:100%;resize:none;color:var(--ink)}
+.df input:focus,.df textarea:focus{border-color:var(--ink)}
+.df .btn{width:100%;margin-top:4px}
+.df small{color:var(--mute);font-size:12.5px;text-align:center}
+.noitems{text-align:center;color:var(--mute);padding:80px 10px;font-size:14.5px}
+.toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,100px);background:var(--ink);color:var(--paper);padding:12px 22px;border-radius:99px;z-index:200;transition:.4s cubic-bezier(.2,.7,.2,1);font-size:14px}
+.toast.on{transform:translate(-50%,0)}
+</style>
+</head>
+<body>
+
+<div class="util">Envíos a todo el país · Venta por mayor · Productos personalizados</div>
+<header class="top">
+  <div class="wrap">
+    <a href="#top" class="logo"><b>SP</b><span>RECUERDOS</span></a>
+    <nav><a href="#probador">Probá tu marca</a><a href="#catalogo">Catálogo</a><a href="#como">Cómo pedir</a><a href="#contacto">Contacto</a></nav>
+    <button class="cartbtn" id="openCart">Mi pedido <i id="count">0</i></button>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero" id="probador" style="padding-bottom:72px">
+  <div class="wrap">
+    <div>
+      <p class="kicker">Regalos empresariales · Argentina</p>
+      <h1>Tu marca, <em>en las cosas</em> que <u>se usan.</u></h1>
+      <p class="lede">Escribí el nombre de tu empresa o subí tu logo y mirá cómo queda. Después pedí la cotización por WhatsApp, en la cantidad que necesites.</p>
+      <div class="heroact"><a href="#catalogo" class="btn">Ver catálogo</a><a href="#como" class="link">Cómo pedir</a></div>
+    </div>
+
+    <div class="lab">
+      <div class="labhead"><b>Probá tu marca</b><span id="labName">Termo</span></div>
+      <div class="stage" id="stage"><div class="obj" id="obj"></div></div>
+      <div class="ctrl">
+        <div class="tabs" id="tabs"></div>
+        <label class="field"><span>Nombre de tu marca o frase</span><input id="brandText" maxlength="18" placeholder="Ej: Tu Empresa" autocomplete="off"></label>
+        <div class="row">
+          <div class="left">
+            <label class="up">Subir logo<input type="file" id="logo" accept="image/*" hidden></label>
+            <button class="ghost" id="clearLogo" hidden>Quitar</button>
+          </div>
+          <div class="sw" id="labSw"></div>
+        </div>
+        <button class="btn" id="labAdd">Agregar al pedido</button>
+        <p class="fine">Vista previa orientativa. Antes de producir te mandamos el diseño para aprobar.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="strip"><div class="wrap">
+  <div><b>Personalizados</b><span>Con tu logo o diseño</span></div>
+  <div><b>Venta por mayor</b><span>Precio según cantidad</span></div>
+  <div><b>Envíos</b><span>A todo el país</span></div>
+  <div><b>Atención directa</b><span>Por WhatsApp</span></div>
+</div></div>
+
+<section class="say">
+  <div class="wrap">
+    <div class="top"><h2>No es solo vender.<br>Es que tu marca…</h2><p class="count">Lo que buscamos en cada pedido</p></div>
+    <div class="rows">
+      <div class="rowx"><strong>se use.</strong><p>Productos pensados para el día a día: termos, mates, botellas y más.</p><i>→</i></div>
+      <div class="rowx"><strong>se vea.</strong><p>Tu logo grabado o impreso en cada pieza, bien presente.</p><i>→</i></div>
+      <div class="rowx"><strong>se comparta.</strong><p>Regalos para clientes, equipos y eventos que dejan recuerdo.</p><i>→</i></div>
+    </div>
+  </div>
+</section>
+
+<section id="catalogo" style="padding-top:60px">
+  <div class="wrap">
+    <div class="head">
+      <h2>El <em>catálogo</em></h2>
+      <p class="count" id="n"></p>
+    </div>
+    <div class="tools">
+      <div class="chips" id="chips"></div>
+      <input class="search" id="q" placeholder="Buscar" aria-label="Buscar producto">
+    </div>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<section class="process" id="como">
+  <div class="wrap">
+    <h2>Cómo <em>pedir</em></h2>
+    <div class="steps">
+      <div class="step"><small>01</small><h4>Elegí</h4><p>Sumá al pedido los productos y colores que te gusten.</p></div>
+      <div class="step"><small>02</small><h4>Mandanos tu logo</h4><p>Te mostramos cómo queda antes de producir.</p></div>
+      <div class="step"><small>03</small><h4>Cotización</h4><p>Te pasamos el precio según cantidad. Consultanos el mínimo de compra.</p></div>
+      <div class="step"><small>04</small><h4>Recibilo</h4><p>Enviamos a todo el país.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contacto">
+  <div class="wrap">
+    <h2>Llevá tu marca a todos lados.</h2>
+    <div>
+      <p>¿Llegás con los regalos de fin de año? Contanos qué necesitás y te respondemos con una propuesta.</p>
+      <a class="btn" id="waMain" target="_blank" rel="noopener">Escribinos por WhatsApp</a><a class="link" href="https://www.instagram.com/sprecuerdos" target="_blank" rel="noopener">@sprecuerdos</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap"><div class="logo"><b style="font-size:22px">SP</b><span>RECUERDOS</span></div><span>Regalos empresariales · Envíos a todo el país · Venta por mayor</span></div></footer>
+
+<div class="veil" id="veil"></div>
+<aside class="drawer" id="drawer" aria-label="Mi pedido">
+  <div class="dh"><h3>Mi pedido</h3><button class="x" id="closeCart">Cerrar</button></div>
+  <div class="items" id="items"></div>
+  <div class="df">
+    <input id="name" placeholder="Nombre o empresa">
+    <textarea id="note" rows="2" placeholder="Notas: fecha de entrega, ciudad…"></textarea>
+    <button class="btn" id="send">Pedir cotización por WhatsApp</button>
+    <small>El precio se cotiza según cantidad y personalización.</small>
+  </div>
+</aside>
+<div class="toast" id="toast"></div>
+
+<script>
+/* Número de WhatsApp en formato internacional, sin + ni espacios (ej: "5493462123456").
+   Vacío = WhatsApp deja elegir el contacto. */
+const WHATSAPP = "";
+
+const COLORS={negro:"#1b1b1b",gris:"#8a8a8e",naranja:"#ff7a00",blanco:"#f2f0ea",azul:"#25406e",verde:"#2c5a40",rojo:"#b02a30"};
+const lum=h=>{const n=parseInt(h.slice(1),16);return .299*(n>>16)+.587*((n>>8)&255)+.114*(n&255)};
+const esc=s=>s.replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
+
+/* Marca del cliente: se aplica a todos los productos */
+let brand={t:"",img:""};
+const mark=(c,x,y,w=50)=>{
+  if(brand.img) return `<image href="${brand.img}" x="${x-w/2}" y="${y-w*.4}" width="${w}" height="${w*.8}" preserveAspectRatio="xMidYMid meet" opacity=".95"/>`;
+  const t=esc((brand.t||"TU LOGO").toUpperCase());
+  const fs=Math.max(4.8,Math.min(11,w/(t.length*.72)));
+  return `<text x="${x}" y="${y+fs*.35}" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-weight="${brand.t?700:400}" font-size="${fs.toFixed(1)}" letter-spacing=".08em" fill="${lum(c)>150?'#111':'#fff'}" opacity="${brand.t?.8:.45}">${t}</text>`;
+};
+const ART={
+ termo:c=>`<svg viewBox="0 0 200 250"><ellipse cx="100" cy="232" rx="46" ry="5" fill="#000" opacity=".14"/><rect x="72" y="52" width="56" height="176" rx="14" fill="${c}"/><rect x="68" y="30" width="64" height="30" rx="9" fill="${c}"/><rect x="68" y="30" width="64" height="30" rx="9" fill="#000" opacity=".28"/><rect x="80" y="64" width="7" height="150" rx="3.5" fill="#fff" opacity=".12"/>${mark(c,100,140,42)}</svg>`,
+ botella:c=>`<svg viewBox="0 0 200 250"><ellipse cx="100" cy="232" rx="40" ry="5" fill="#000" opacity=".14"/><rect x="86" y="18" width="28" height="22" rx="5" fill="#222"/><rect x="82" y="38" width="36" height="16" rx="4" fill="${c}"/><path d="M82 54h36c10 8 14 18 14 32v132c0 8-6 14-14 14H82c-8 0-14-6-14-14V86c0-14 4-24 14-32z" fill="${c}"/><rect x="77" y="74" width="7" height="130" rx="3.5" fill="#fff" opacity=".14"/>${mark(c,100,150,46)}</svg>`,
+ vaso:c=>`<svg viewBox="0 0 200 250"><ellipse cx="100" cy="232" rx="50" ry="5" fill="#000" opacity=".14"/><path d="M54 60h92l-11 160c-1 8-6 12-14 12H79c-8 0-13-4-14-12z" fill="${c}"/><path d="M48 44h104c4 0 6 3 6 6v10H42V50c0-3 2-6 6-6z" fill="#222"/>${mark(c,100,150,56)}</svg>`,
+ mate:c=>`<svg viewBox="0 0 200 250"><ellipse cx="100" cy="230" rx="58" ry="6" fill="#000" opacity=".14"/><line x1="110" y1="26" x2="126" y2="122" stroke="#b9b9b9" stroke-width="5" stroke-linecap="round"/><circle cx="110" cy="26" r="7" fill="#d6d6d6"/><path d="M44 92h112c0 58-10 124-56 124S44 150 44 92z" fill="${c}"/><ellipse cx="100" cy="92" rx="56" ry="13" fill="#000" opacity=".4"/><ellipse cx="100" cy="92" rx="44" ry="8" fill="#3a2d1a"/><path d="M44 124h112" stroke="#fff" stroke-width="3" opacity=".25"/>${mark(c,100,168,66)}</svg>`,
+ mochila:c=>`<svg viewBox="0 0 200 250"><ellipse cx="100" cy="234" rx="56" ry="6" fill="#000" opacity=".14"/><path d="M72 46c0-14 7-22 28-22s28 8 28 22" fill="none" stroke="#222" stroke-width="7" stroke-linecap="round"/><rect x="52" y="42" width="96" height="186" rx="32" fill="${c}"/><rect x="64" y="136" width="72" height="74" rx="16" fill="#ff7a00"/><rect x="74" y="92" width="52" height="7" rx="3.5" fill="#000" opacity=".3"/>${mark('#ff9a00',100,173,52)}</svg>`,
+ cuaderno:c=>`<svg viewBox="0 0 200 250"><ellipse cx="100" cy="234" rx="52" ry="5" fill="#000" opacity=".14"/><rect x="54" y="26" width="96" height="200" rx="8" fill="${c}"/><rect x="54" y="26" width="12" height="200" rx="5" fill="#000" opacity=".22"/><rect x="130" y="26" width="8" height="200" fill="#ff7a00"/>${mark(c,96,140,52)}</svg>`,
+ lata:c=>`<svg viewBox="0 0 200 250"><ellipse cx="100" cy="232" rx="48" ry="5" fill="#000" opacity=".14"/><rect x="58" y="70" width="84" height="156" rx="9" fill="${c}"/><rect x="54" y="48" width="92" height="28" rx="7" fill="${c}"/><rect x="54" y="48" width="92" height="28" rx="7" fill="#000" opacity=".28"/><rect x="68" y="86" width="7" height="126" rx="3.5" fill="#fff" opacity=".13"/>${mark(c,104,150,56)}</svg>`,
+ set:c=>`<svg viewBox="0 0 240 250"><ellipse cx="120" cy="232" rx="92" ry="6" fill="#000" opacity=".14"/><rect x="26" y="68" width="50" height="158" rx="13" fill="${c}"/><rect x="23" y="50" width="56" height="24" rx="8" fill="#000" opacity=".4"/>${mark(c,51,150,34)}<g transform="translate(70 90) scale(.78)"><line x1="110" y1="26" x2="126" y2="122" stroke="#b9b9b9" stroke-width="6" stroke-linecap="round"/><path d="M44 92h112c0 58-10 124-56 124S44 150 44 92z" fill="${c}"/><ellipse cx="100" cy="92" rx="56" ry="13" fill="#000" opacity=".4"/></g><g transform="translate(158 120) scale(.56)"><rect x="58" y="70" width="84" height="156" rx="9" fill="${c}"/><rect x="54" y="48" width="92" height="28" rx="7" fill="#000" opacity=".4"/></g></svg>`
+};
+
+const P=[
+ {id:1,n:"Termo de acero inoxidable",c:"Termos",a:"termo",d:"Grabado láser. Mantiene frío y calor por horas.",cols:["negro","gris","naranja","blanco"],b:"Más pedido"},
+ {id:2,n:"Termo media manija",c:"Termos",a:"termo",d:"El clásico para el mate, ideal para regalar.",cols:["negro","gris","azul","blanco"]},
+ {id:3,n:"Termo bala 1 litro",c:"Termos",a:"termo",d:"Gran capacidad para toda la jornada.",cols:["negro","naranja","gris","verde"]},
+ {id:4,n:"Mate de acero térmico",c:"Mates",a:"mate",d:"Doble pared, con tu marca grabada.",cols:["negro","gris","naranja","blanco"]},
+ {id:5,n:"Mate viajero",c:"Mates",a:"mate",d:"Compacto y resistente, para llevar a todos lados.",cols:["negro","azul","verde","rojo"]},
+ {id:6,n:"Mate algarrobo",c:"Mates",a:"mate",d:"Madera con grabado a medida.",cols:["negro","naranja","gris"]},
+ {id:7,n:"Botella térmica",c:"Botellas",a:"botella",d:"Con tu logo, nombre o frase.",cols:["negro","gris","naranja","azul"],b:"Nuevo"},
+ {id:8,n:"Botella deportiva",c:"Botellas",a:"botella",d:"Liviana y práctica para el día a día.",cols:["negro","blanco","verde","rojo"]},
+ {id:9,n:"Vaso térmico",c:"Vasos",a:"vaso",d:"Para ferias, congresos y eventos.",cols:["negro","gris","naranja","blanco"]},
+ {id:10,n:"Vaso cervecero con destapador",c:"Vasos",a:"vaso",d:"Acero inoxidable, un regalo que se usa.",cols:["negro","gris","azul"]},
+ {id:11,n:"Vaso fernetero",c:"Vasos",a:"vaso",d:"Personalizado para eventos y souvenirs.",cols:["negro","naranja","gris","blanco"]},
+ {id:12,n:"Mochila personalizada",c:"Mochilas",a:"mochila",d:"Para equipos, eventos y fin de año.",cols:["gris","negro","azul"]},
+ {id:13,n:"Cuaderno anillado",c:"Papelería",a:"cuaderno",d:"Tapa dura con cierre elástico y logo.",cols:["negro","gris","azul","naranja"]},
+ {id:14,n:"Lata yerbera / azucarera",c:"Accesorios",a:"lata",d:"Para yerba, azúcar o café, con grabado.",cols:["negro","gris","naranja","blanco"]},
+ {id:15,n:"Set matero",c:"Sets y combos",a:"set",d:"Termo, mate y yerbera. Regalo completo.",cols:["negro","gris","naranja"],b:"Combo"},
+ {id:16,n:"Combo de campaña",c:"Sets y combos",a:"set",d:"Combos armados para fechas especiales.",cols:["negro","naranja","gris"]}
+];
+const CATS=["Todos",...new Set(P.map(p=>p.c))];
+const LAB=[{id:1,l:"Termo"},{id:4,l:"Mate"},{id:7,l:"Botella"},{id:12,l:"Mochila"},{id:13,l:"Cuaderno"},{id:14,l:"Lata"}];
+
+let cat="Todos",query="",cart=[],labId=1,labCol="negro";
+try{cart=JSON.parse(localStorage.getItem("sp_cart")||"[]")}catch(e){}
+const sel={};P.forEach(p=>sel[p.id]=p.cols[0]);
+const $=s=>document.querySelector(s);
+const prod=id=>P.find(p=>p.id===id);
+const save=()=>{try{localStorage.setItem("sp_cart",JSON.stringify(cart))}catch(e){}};
+
+/* ---- Probador ---- */
+function lab(){
+  const p=prod(labId);
+  $("#obj").innerHTML=ART[p.a](COLORS[labCol]);
+  $("#labName").textContent=LAB.find(x=>x.id===labId).l;
+  $("#tabs").innerHTML=LAB.map(x=>`<button class="tab ${x.id===labId?'on':''}" data-t="${x.id}">${x.l}</button>`).join("");
+  const cols=p.cols.includes(labCol)?p.cols:(labCol=p.cols[0],p.cols);
+  $("#labSw").innerHTML=cols.map(k=>`<button class="${k===labCol?'on':''}" data-k="${k}" title="${k}" aria-label="${k}" style="background:${COLORS[k]}"></button>`).join("");
+  $("#obj").innerHTML=ART[p.a](COLORS[labCol]);
+}
+$("#tabs").onclick=e=>{const b=e.target.closest("[data-t]");if(!b)return;labId=+b.dataset.t;lab()};
+$("#labSw").onclick=e=>{const b=e.target.closest("[data-k]");if(!b)return;labCol=b.dataset.k;lab()};
+let tm;
+$("#brandText").oninput=e=>{brand.t=e.target.value.trim();lab();clearTimeout(tm);tm=setTimeout(paintAll,120)};
+$("#logo").onchange=e=>{
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=()=>{const im=new Image();im.onload=()=>{
+    const s=Math.min(1,320/Math.max(im.width,im.height)),cv=document.createElement("canvas");
+    cv.width=im.width*s;cv.height=im.height*s;cv.getContext("2d").drawImage(im,0,0,cv.width,cv.height);
+    brand.img=cv.toDataURL("image/png");$("#clearLogo").hidden=false;lab();paintAll();
+  };im.src=r.result};
+  r.readAsDataURL(f);
+};
+$("#clearLogo").onclick=()=>{brand.img="";$("#logo").value="";$("#clearLogo").hidden=true;lab();paintAll()};
+$("#labAdd").onclick=()=>add(labId,labCol);
+$("#stage").onpointermove=e=>{
+  const r=e.currentTarget.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+  $("#obj").style.transform=`rotateY(${x*14}deg) rotateX(${-y*10}deg) translateY(-4px)`;
+};
+$("#stage").onpointerleave=()=>$("#obj").style.transform="";
+
+/* ---- Catálogo ---- */
+function chips(){$("#chips").innerHTML=CATS.map(c=>`<button class="chip ${c===cat?'on':''}" data-c="${c}">${c}</button>`).join("")}
+function grid(){
+  const list=P.filter(p=>(cat==="Todos"||p.c===cat)&&(p.n+p.d+p.c).toLowerCase().includes(query.toLowerCase()));
+  $("#n").textContent=list.length+" productos";
+  $("#grid").innerHTML=list.length?list.map(p=>`
+    <article class="card" data-id="${p.id}">
+      <div class="pic">${p.b?`<span class="badge">${p.b}</span>`:""}${ART[p.a](COLORS[sel[p.id]])}<button class="quick" data-add="${p.id}">Agregar al pedido</button></div>
+      <div class="meta"><h3>${p.n}</h3><span>Consultar</span></div>
+      <p class="desc">${p.d}</p>
+      <div class="sw">${p.cols.map(k=>`<button class="${k===sel[p.id]?'on':''}" data-k="${k}" title="${k}" aria-label="${k}" style="background:${COLORS[k]}"></button>`).join("")}</div>
+    </article>`).join(""):`<div class="empty">No encontramos ese producto. Probá con otra búsqueda.</div>`;
+  reveal();
+}
+function paintAll(){
+  document.querySelectorAll(".card").forEach(c=>{const p=prod(+c.dataset.id);c.querySelector(".pic svg").outerHTML=ART[p.a](COLORS[sel[p.id]])});
+  cartUI();
+}
+function reveal(){
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.05});
+  document.querySelectorAll(".card:not(.in)").forEach(c=>io.observe(c));
+}
+function add(id,k){
+  const f=cart.find(i=>i.id===id&&i.k===k);
+  f?f.q++:cart.push({id,k,q:1});
+  cartUI();toast("Agregado al pedido");
+}
+function cartUI(){
+  $("#count").textContent=cart.reduce((a,i)=>a+i.q,0);
+  $("#items").innerHTML=cart.length?cart.map((it,i)=>{const p=prod(it.id);return `
+    <div class="it"><div class="t">${ART[p.a](COLORS[it.k])}</div>
+    <div><h5>${p.n}</h5><small>Color: ${it.k}</small></div>
+    <div class="qty"><button data-m="${i}" aria-label="Menos">−</button><span>${it.q}</span><button data-p="${i}" aria-label="Más">+</button></div></div>`}).join(""):`<div class="noitems">Todavía no agregaste productos.<br>Elegí del catálogo o probá tu marca arriba.</div>`;
+  save();
+}
+function toast(t){const e=$("#toast");e.textContent=t;e.classList.add("on");clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove("on"),1700)}
+const cartOpen=o=>{$("#drawer").classList.toggle("on",o);$("#veil").classList.toggle("on",o)};
+
+$("#chips").onclick=e=>{const b=e.target.closest("[data-c]");if(!b)return;cat=b.dataset.c;chips();grid()};
+$("#q").oninput=e=>{query=e.target.value;grid()};
+$("#grid").onclick=e=>{
+  const card=e.target.closest(".card");if(!card)return;
+  const id=+card.dataset.id,k=e.target.closest("[data-k]");
+  if(k){sel[id]=k.dataset.k;card.querySelector(".pic svg").outerHTML=ART[prod(id).a](COLORS[sel[id]]);
+    card.querySelectorAll(".sw button").forEach(b=>b.classList.toggle("on",b.dataset.k===sel[id]));return}
+  if(e.target.closest("[data-add]"))add(id,sel[id]);
+};
+$("#items").onclick=e=>{
+  const m=e.target.dataset.m,p=e.target.dataset.p;
+  if(m!==undefined){cart[m].q--;if(cart[m].q<=0)cart.splice(m,1)}
+  if(p!==undefined)cart[p].q++;
+  cartUI();
+};
+$("#openCart").onclick=()=>cartOpen(true);
+$("#closeCart").onclick=$("#veil").onclick=()=>cartOpen(false);
+const wa=t=>`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(t)}`;
+$("#waMain").href=wa("Hola SP Recuerdos! Quiero consultar por productos personalizados.");
+$("#send").onclick=()=>{
+  if(!cart.length){toast("Agregá al menos un producto");return}
+  const lines=cart.map(i=>`• ${i.q} x ${prod(i.id).n} (${i.k})`).join("\n");
+  const name=$("#name").value.trim(),note=$("#note").value.trim();
+  const b=brand.t?`\nTexto a grabar: ${brand.t}`:"";
+  const lg=brand.img?`\nTengo logo: lo envío por este chat.`:"";
+  window.open(wa(`Hola SP Recuerdos! Quiero cotizar este pedido:\n\n${lines}\n${b}${lg}${name?`\nNombre/Empresa: ${name}`:""}${note?`\nNotas: ${note}`:""}`),"_blank");
+};
+
+lab();chips();grid();cartUI();
+</script>
+</body>
+</html>
