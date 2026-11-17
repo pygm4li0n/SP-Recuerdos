@@ -55,25 +55,26 @@ nav a:hover::after{transform:scaleX(1)}
   min-height:calc(100svh - 102px);
   padding:clamp(16px,3vh,32px) 0;
   display:flex;
-  align-items:center;
+  align-items:stretch;          /* wrap fills hero height */
 }
 
 .hero .wrap{
   width:100%;
   max-width:1600px;
   display:grid;
-  grid-template-columns:minmax(0,1fr) minmax(0,1fr); /* 1:1 */
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  grid-template-rows:minmax(0,1fr);   /* one row, fills wrap height */
   gap:clamp(28px,4vw,64px);
-  align-items:stretch;   /* both columns fill the row height */
+  align-items:stretch;          /* both cells fill the row */
 }
 
 .hero-left{
-  max-width:620px;
+  max-width:none;
   padding:clamp(24px,4vh,48px) 0;
   display:flex;
   flex-direction:column;
-  justify-content:space-between;   /* distribute top → bottom */
-  gap:clamp(14px,2vh,26px);        /* minimum breathing room */
+  justify-content:space-between;
+  gap:clamp(14px,2vh,26px);
 }
 
 .hero-left > *{
@@ -98,7 +99,7 @@ nav a:hover::after{transform:scaleX(1)}
 }
 
 h1{
-  font-size:clamp(48px,5.2vw,84px);
+  font-size:clamp(52px,6.5vw,112px);
   font-weight:600;
   letter-spacing:-.055em;
   line-height:.94;
@@ -293,7 +294,6 @@ h1 u{text-decoration:none;color:var(--or)}
   h1{font-size:clamp(40px,4.6vw,68px)}
   .lede{margin-top:16px}
   .heroact{margin-top:20px}
-  .stage{min-height:180px}
   .ctrl{padding:12px 16px;gap:9px}
   .labhead{padding:10px 16px}
 }
