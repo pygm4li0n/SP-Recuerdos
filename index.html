@@ -6,7 +6,11 @@
 <title>SP Recuerdos — Regalos empresariales personalizados</title>
 <meta name="description" content="Productos personalizados para empresas, eventos y equipos. Probá tu marca en el producto. Envíos a todo el país. Venta por mayor.">
 <style>
-:root{--paper:#f6f4ef;--panel:#ebe8e1;--ink:#0c0c0c;--mute:#6f6b63;--line:#d9d5cc;--or:#ff7a00}
+:root{
+  --paper:#f6f4ef;--panel:#ebe8e1;--ink:#0c0c0c;--mute:#6f6b63;--line:#d9d5cc;--or:#ff7a00;
+  /* Admin Dark Theme */
+  --a-bg:#111111;--a-surface:#1a1a1a;--a-surface-hover:#222222;--a-border:#333333;--a-text:#eeeeee;--a-mute:#888888;
+}
 *{box-sizing:border-box;margin:0;padding:0}
 [hidden]{display:none !important}
 html{scroll-behavior:smooth}
@@ -45,12 +49,28 @@ nav a:hover::after{transform:scaleX(1)}
   .menu-toggle{display:flex}
 }
 
-/* HERO */
+/* HERO - Desktop Fit & Align */
 .hero{padding:64px 0 72px}
+@media(min-width:961px){
+  .hero{
+    min-height:calc(100vh - 104px); /* Viewport - Header - Util bar */
+    display:flex;
+    align-items:center;
+    padding:0;
+  }
+  .hero .wrap{
+    width:100%;
+    display:grid;
+    grid-template-columns:.9fr 1.1fr;
+    gap:56px;
+    align-items:start; /* Alinea los tops del título y el visualizador */
+  }
+  .hero-left { margin-top: 24px; } /* Ajuste óptico para alinear visualmente con el cajón del lab */
+}
 .hero .wrap{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:center}
 .kicker{font-size:13px;color:var(--mute);margin-bottom:24px;display:flex;gap:10px;align-items:center}
 .kicker::before{content:"";width:28px;height:1px;background:var(--ink)}
-h1{font-size:clamp(44px,6.6vw,98px);font-weight:600;letter-spacing:-.045em;line-height:.96}
+h1{font-size:clamp(44px,6vw,88px);font-weight:600;letter-spacing:-.045em;line-height:.96}
 h1 u{text-decoration:none;color:var(--or)}
 .lede{max-width:420px;color:var(--mute);margin-top:28px;font-size:17px}
 .heroact{display:flex;gap:26px;align-items:center;margin-top:32px;flex-wrap:wrap}
@@ -140,7 +160,7 @@ section{padding:90px 0;scroll-margin-top:80px}
 @media(hover:none){.quick{opacity:1;transform:none}}
 .meta{display:flex;justify-content:space-between;gap:14px;margin-top:16px;align-items:baseline}
 .meta h3{font-size:17px;font-weight:600;letter-spacing:-.015em;line-height:1.25}
-.meta span{font-size:13px;color:var(--mute);white-space:nowrap}
+.meta span{font-size:13px;color:var(--mute);white-space:nowrap;font-weight:600}
 .desc{font-size:14px;color:var(--mute);margin-top:4px;max-width:34ch}
 .card .sw{margin-top:12px}
 .card .sw button{width:16px;height:16px}
@@ -196,48 +216,69 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
 .toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,100px);background:var(--ink);color:var(--paper);padding:12px 22px;border-radius:99px;z-index:200;transition:.4s cubic-bezier(.2,.7,.2,1);font-size:14px}
 .toast.on{transform:translate(-50%,0)}
 
-/* ADMIN */
+/* ADMIN - DARK THEME */
 .admin-dot{width:9px;height:9px;border-radius:50%;background:var(--or);display:inline-block;margin-left:9px;box-shadow:0 0 0 0 #ff7a0080;animation:adminPulse 1.8s infinite;vertical-align:middle}
 @keyframes adminPulse{70%{box-shadow:0 0 0 9px #ff7a0000}100%{box-shadow:0 0 0 0 #ff7a0000}}
 .admin-trigger{display:inline-flex;align-items:center;gap:8px;color:#8c887f;font-size:12px;cursor:pointer}
 .admin-trigger:hover{color:#fff}
 .admin-trigger.logged-in .admin-dot{background:#287344;animation:none;box-shadow:0 0 8px #28734488}
-.admin-overlay{position:fixed;inset:0;background:#000b;z-index:300;display:none;align-items:center;justify-content:center;padding:18px;overflow:auto}
+
+.admin-overlay{position:fixed;inset:0;background:#000c;backdrop-filter:blur(4px);z-index:300;display:none;align-items:center;justify-content:center;padding:20px}
 .admin-overlay.open{display:flex}
-.admin-box{width:min(900px,100%);max-height:92vh;overflow:auto;background:var(--paper);border-radius:10px;color:var(--ink);box-shadow:0 24px 90px #0008}
-.admin-head{background:var(--ink);color:var(--paper);padding:18px 22px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:2}
+.admin-box{width:min(900px,100%);height:min(700px,90vh);display:flex;flex-direction:column;background:var(--a-bg);border-radius:12px;color:var(--a-text);box-shadow:0 32px 100px #000c, 0 0 0 1px var(--a-border);overflow:hidden}
+
+.admin-head{background:var(--a-surface);padding:18px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--a-border);flex-shrink:0}
 .admin-head b{font-size:15px;letter-spacing:.08em}
-.admin-head button{color:var(--paper);font-size:13px}
-.admin-body{padding:22px;display:grid;gap:18px}
-.admin-login{max-width:420px;margin:auto;width:100%;padding:28px 22px;display:grid;gap:14px}
-.admin-login h3{font-size:28px;letter-spacing:-.04em}
-.admin-login p,.admin-muted{font-size:13px;color:var(--mute)}
-.admin-field{display:grid;gap:6px}
-.admin-field label{font-size:12px;color:var(--mute)}
-.admin-field input,.admin-field textarea,.admin-field select{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:6px;background:#fff;color:var(--ink);font:inherit;font-size:14px;min-width:0}
-.admin-field textarea{min-height:78px;resize:vertical}
-.admin-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.admin-btn{background:var(--ink);color:#fff;padding:10px 16px;border-radius:99px;font-size:13px;font-weight:600}
+.admin-head button{color:var(--a-mute);font-size:13px;transition:.2s}
+.admin-head button:hover{color:#fff}
+
+.admin-body{flex:1;overflow-y:auto;display:flex;flex-direction:column}
+.admin-view{padding:24px;flex:1;display:flex;flex-direction:column;gap:20px}
+
+/* Login View */
+.admin-login{margin:auto;max-width:380px;width:100%;padding:40px 24px;display:grid;gap:18px;text-align:center}
+.admin-login h3{font-size:28px;letter-spacing:-.04em;color:#fff}
+.admin-login p{font-size:13px;color:var(--a-mute);margin-bottom:8px}
+.admin-field{display:grid;gap:8px;text-align:left}
+.admin-field label{font-size:11px;font-weight:600;letter-spacing:1px;color:var(--a-mute)}
+.admin-field input,.admin-field textarea,.admin-field select{width:100%;padding:12px 14px;border:1px solid var(--a-border);border-radius:6px;background:var(--a-surface);color:#fff;font:inherit;font-size:14px;outline:none;transition:.2s}
+.admin-field input:focus,.admin-field textarea:focus,.admin-field select:focus{border-color:var(--or)}
+.admin-field textarea{min-height:80px;resize:vertical}
+
+/* Buttons */
+.admin-btn{background:var(--or);color:#000;padding:12px 20px;border-radius:6px;font-size:13px;font-weight:700;transition:.2s;display:inline-flex;justify-content:center;align-items:center;gap:8px}
+.admin-btn:hover{background:#ff9a40}
 .admin-btn:disabled{opacity:.5;cursor:not-allowed}
-.admin-btn.alt{background:transparent;color:var(--ink);border:1px solid var(--line)}
-.admin-btn.danger{background:#9d2929}
-.admin-tabs{display:flex;gap:7px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:12px}
-.admin-tab{padding:8px 14px;border:1px solid var(--line);border-radius:99px;font-size:13px}
-.admin-tab.on{background:var(--ink);color:#fff;border-color:var(--ink)}
-.admin-layout{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-.admin-panel{border:1px solid var(--line);border-radius:8px;padding:16px;display:grid;gap:12px;align-content:start}
-.admin-panel h4{font-size:16px}
-.admin-list{display:grid;gap:7px;max-height:360px;overflow:auto}
-.admin-item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px;border:1px solid var(--line);border-radius:6px;background:#fff;font-size:13px}
-.admin-item span{min-width:0;overflow-wrap:anywhere}
-.admin-item button{font-size:12px;text-decoration:underline}
-.admin-msg{font-size:13px;min-height:18px;color:#9d2929}
-.admin-msg.ok{color:#287344}
-.admin-preview{width:72px;height:72px;object-fit:cover;border-radius:6px;background:var(--panel)}
-.admin-loading{display:flex;align-items:center;justify-content:center;gap:10px;padding:60px 22px;font-size:13px;color:var(--mute)}
-.admin-loading::before{content:"";width:14px;height:14px;border-radius:50%;border:2px solid var(--mute);border-top-color:transparent;animation:spin .7s linear infinite}
+.admin-btn.alt{background:var(--a-surface);color:var(--a-text);border:1px solid var(--a-border)}
+.admin-btn.alt:hover{background:var(--a-surface-hover);border-color:var(--a-mute)}
+.admin-btn.danger{background:transparent;color:#ff4d4d;border:1px solid #ff4d4d}
+.admin-btn.danger:hover{background:#ff4d4d;color:#fff}
+.admin-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px}
+
+/* Lists */
+.admin-list{display:grid;gap:8px}
+.admin-item{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 20px;background:var(--a-surface);border:1px solid var(--a-border);border-radius:8px;font-size:14px;cursor:pointer;transition:.2s}
+.admin-item:hover{background:var(--a-surface-hover);border-color:var(--mute)}
+.admin-item-info{display:flex;flex-direction:column;gap:4px}
+.admin-item-info b{color:#fff;font-size:15px}
+.admin-item-info small{color:var(--a-mute);font-size:12px}
+.admin-item-arrow{color:var(--a-mute);font-size:18px}
+.admin-item .admin-btn{padding:8px 14px;font-size:12px}
+
+.admin-header-bar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.admin-header-bar h3{font-size:20px;font-weight:600;color:#fff}
+.admin-breadcrumbs{font-size:12px;color:var(--a-mute);margin-bottom:8px;display:flex;gap:6px;align-items:center}
+.admin-breadcrumbs span{cursor:pointer;transition:.2s}
+.admin-breadcrumbs span:hover{color:var(--or)}
+.admin-breadcrumbs i{font-style:normal;opacity:.5}
+
+.admin-msg{font-size:13px;min-height:18px;color:#ff4d4d;text-align:center}
+.admin-msg.ok{color:#28c76f}
+.admin-preview{width:90px;height:90px;object-fit:cover;border-radius:8px;background:var(--a-surface);border:1px solid var(--a-border);margin-top:8px}
+
+.admin-loading{display:flex;align-items:center;justify-content:center;gap:12px;padding:60px 22px;font-size:14px;color:var(--a-mute);margin:auto}
+.admin-loading::before{content:"";width:16px;height:16px;border-radius:50%;border:2px solid var(--a-mute);border-top-color:var(--or);animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-@media(max-width:680px){.admin-layout{grid-template-columns:1fr}.admin-body{padding:14px}.admin-head{padding:15px}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -261,9 +302,9 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
 </header>
 
 <main id="top">
-<section class="hero" id="probador" style="padding-bottom:72px">
+<section class="hero" id="probador">
   <div class="wrap">
-    <div>
+    <div class="hero-left">
       <p class="kicker">Regalos empresariales · Argentina</p>
       <h1>Tu marca, <em>en las cosas</em> que <u>se usan.</u></h1>
       <p class="lede">Escribí el nombre de tu empresa o subí tu logo y mirá cómo queda. Después pedí la cotización por WhatsApp, en la cantidad que necesites.</p>
@@ -360,78 +401,149 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
 </aside>
 <div class="toast" id="toast"></div>
 
-<!-- ADMIN -->
+<!-- ADMIN DARK OVERLAY -->
 <div class="admin-overlay" id="adminOverlay" aria-hidden="true">
   <div class="admin-box">
-    <div class="admin-head"><b>SP RECUERDOS <span style="color:var(--or)">/ ADMIN</span></b><button id="adminClose" type="button">CERRAR ×</button></div>
+    <div class="admin-head">
+      <b>SP RECUERDOS <span style="color:var(--or)">/ ADMIN</span></b>
+      <button id="adminClose" type="button">CERRAR ×</button>
+    </div>
 
     <div id="adminChecking" class="admin-loading" hidden>Verificando sesión…</div>
 
+    <!-- LOGIN -->
     <div id="adminLogin" class="admin-login">
-      <h3>Acceso privado.</h3><p>Ingresá con el usuario administrador creado en Supabase Auth.</p>
-      <form id="adminLoginForm" style="display:grid;gap:12px">
-        <div class="admin-field"><label for="adminUsername">USUARIO</label><input id="adminUsername" type="text" autocomplete="username" required placeholder="admin" pattern="[A-Za-z0-9._-]{3,30}" title="3 a 30 caracteres: letras, números, punto, guion o guion bajo."></div>
-        <div class="admin-field"><label for="adminPassword">CONTRASEÑA</label><input id="adminPassword" type="password" autocomplete="current-password" required></div>
-        <button class="admin-btn" type="submit">INGRESAR</button>
+      <h3>Acceso Privado</h3>
+      <p>Ingresá con el usuario administrador de Supabase.</p>
+      <form id="adminLoginForm" style="display:grid;gap:16px">
+        <div class="admin-field">
+          <label for="adminUsername">USUARIO</label>
+          <input id="adminUsername" type="text" autocomplete="username" required placeholder="admin" pattern="[A-Za-z0-9._-]{3,30}">
+        </div>
+        <div class="admin-field">
+          <label for="adminPassword">CONTRASEÑA</label>
+          <input id="adminPassword" type="password" autocomplete="current-password" required>
+        </div>
+        <button class="admin-btn" type="submit" style="width:100%">INGRESAR</button>
         <div class="admin-msg" id="adminLoginMsg"></div>
       </form>
     </div>
 
+    <!-- DASHBOARD -->
     <div id="adminDashboard" class="admin-body" hidden>
-      <div class="admin-actions" style="justify-content:space-between">
-        <div><b>Panel de administración</b><div class="admin-muted">Los cambios se publican en el catálogo.</div></div>
-        <button class="admin-btn alt" id="adminLogout" type="button">Cerrar sesión</button>
-      </div>
-      <div class="admin-tabs">
-        <button class="admin-tab on" data-admin-tab="products" type="button">Productos</button>
-        <button class="admin-tab" data-admin-tab="categories" type="button">Categorías</button>
-      </div>
-      <section id="adminProducts" class="admin-layout">
-        <div class="admin-panel">
-          <h4>Productos publicados</h4>
-          <div class="admin-list" id="adminProductList"></div>
-          <button class="admin-btn alt" id="newProduct" type="button">+ Nuevo producto</button>
-        </div>
-        <form class="admin-panel" id="productForm">
-          <h4 id="productFormTitle">Editar producto</h4>
-          <input type="hidden" id="editProductId">
-          <div class="admin-field"><label>NOMBRE</label><input id="editProductName" required maxlength="90"></div>
-          <div class="admin-field"><label>CATEGORÍA</label><select id="editProductCategory" required></select></div>
-          <div class="admin-field"><label>DESCRIPCIÓN</label><textarea id="editProductDescription" maxlength="300"></textarea></div>
-          <div class="admin-field"><label>PRECIO (opcional)</label><input id="editProductPrice" placeholder="Ej: 12500" inputmode="decimal"></div>
-          <div class="admin-field"><label>ETIQUETA (opcional)</label><input id="editProductBadge" placeholder="Nuevo / Más pedido / Combo"></div>
-          <div class="admin-field"><label>MODELO DE VISTA PREVIA</label>
-            <select id="editProductArt">
-              <option value="termo">Termo</option>
-              <option value="botella">Botella</option>
-              <option value="vaso">Vaso</option>
-              <option value="mate">Mate</option>
-              <option value="mochila">Mochila</option>
-              <option value="cuaderno">Cuaderno</option>
-              <option value="lata">Lata</option>
-              <option value="set">Set</option>
-            </select>
+      
+      <!-- VIEW 1: CATEGORÍAS -->
+      <div id="adminViewCats" class="admin-view">
+        <div class="admin-header-bar">
+          <div>
+            <h3>Categorías</h3>
+            <p class="admin-breadcrumbs" style="margin-top:4px">Seleccioná una categoría para ver sus productos.</p>
           </div>
-          <div class="admin-field"><label>COLORES (separados por coma)</label><input id="editProductColors" placeholder="negro, gris, naranja"></div>
-          <div class="admin-field"><label>FOTO DEL PRODUCTO</label><input id="editProductImage" type="file" accept="image/png,image/jpeg,image/webp"><span class="admin-muted">JPG, PNG o WEBP. Máximo 5 MB.</span><img id="productImagePreview" class="admin-preview" hidden alt=""></div>
+          <div style="display:flex;gap:10px">
+            <button class="admin-btn alt" id="adminLogout" type="button">Cerrar Sesión</button>
+            <button class="admin-btn" id="adminNewCatBtn" type="button">+ Nueva</button>
+          </div>
+        </div>
+        
+        <form id="adminNewCatForm" class="admin-item" hidden style="align-items:flex-start;flex-direction:column;background:var(--a-surface-hover)">
+          <div class="admin-field" style="width:100%">
+            <label>NUEVA CATEGORÍA</label>
+            <input id="adminNewCatInput" required placeholder="Ej: Vasos térmicos">
+          </div>
           <div class="admin-actions">
-            <button class="admin-btn" type="submit">GUARDAR PRODUCTO</button>
-            <button class="admin-btn danger" id="deleteProduct" type="button">ELIMINAR</button>
+            <button class="admin-btn" type="submit" style="padding:8px 16px;font-size:12px">Guardar</button>
+            <button class="admin-btn alt" type="button" id="adminCancelNewCat" style="padding:8px 16px;font-size:12px">Cancelar</button>
+          </div>
+        </form>
+
+        <div class="admin-list" id="adminCatList"></div>
+        <div class="admin-msg" id="categoryMsg"></div>
+      </div>
+
+      <!-- VIEW 2: PRODUCTOS DE CATEGORÍA -->
+      <div id="adminViewProds" class="admin-view" hidden>
+        <div class="admin-header-bar">
+          <div>
+            <div class="admin-breadcrumbs">
+              <span id="adminBackToCats">Categorías</span> <i>/</i> <span id="adminCurrentCatName" style="color:#fff"></span>
+            </div>
+            <h3>Productos</h3>
+          </div>
+          <button class="admin-btn" id="adminNewProdBtn" type="button">+ Nuevo Producto</button>
+        </div>
+        <div class="admin-list" id="adminProdList"></div>
+      </div>
+
+      <!-- VIEW 3: EDITAR / CREAR PRODUCTO -->
+      <div id="adminViewForm" class="admin-view" hidden>
+        <div class="admin-header-bar">
+          <div>
+            <div class="admin-breadcrumbs">
+              <span id="adminBackToProds">Categorías</span> <i>/</i> <span id="adminFormCatName" style="color:#fff"></span>
+            </div>
+            <h3 id="productFormTitle">Editar Producto</h3>
+          </div>
+        </div>
+
+        <form id="productForm" style="display:grid;gap:16px;max-width:600px;width:100%">
+          <input type="hidden" id="editProductId">
+          <input type="hidden" id="editProductCategory">
+          
+          <div class="admin-field">
+            <label>NOMBRE</label>
+            <input id="editProductName" required maxlength="90" placeholder="Ej: Termo media manija">
+          </div>
+          
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+            <div class="admin-field">
+              <label>PRECIO UNITARIO (ARS)</label>
+              <input id="editProductPrice" placeholder="Ej: 12500" inputmode="decimal">
+            </div>
+            <div class="admin-field">
+              <label>ETIQUETA (opcional)</label>
+              <input id="editProductBadge" placeholder="Nuevo / Combo">
+            </div>
+          </div>
+
+          <div class="admin-field">
+            <label>DESCRIPCIÓN</label>
+            <textarea id="editProductDescription" maxlength="300" placeholder="Breve descripción..."></textarea>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+            <div class="admin-field">
+              <label>MODELO DE VISTA PREVIA</label>
+              <select id="editProductArt">
+                <option value="termo">Termo</option>
+                <option value="botella">Botella</option>
+                <option value="vaso">Vaso</option>
+                <option value="mate">Mate</option>
+                <option value="mochila">Mochila</option>
+                <option value="cuaderno">Cuaderno</option>
+                <option value="lata">Lata</option>
+                <option value="set">Set</option>
+              </select>
+            </div>
+            <div class="admin-field">
+              <label>COLORES (separados por coma)</label>
+              <input id="editProductColors" placeholder="negro, gris, naranja">
+            </div>
+          </div>
+
+          <div class="admin-field">
+            <label>FOTO DEL PRODUCTO</label>
+            <input id="editProductImage" type="file" accept="image/png,image/jpeg,image/webp" style="padding:9px">
+            <span style="font-size:11px;color:var(--a-mute)">Opcional. JPG, PNG o WEBP (Máx 5 MB).</span>
+            <img id="productImagePreview" class="admin-preview" hidden alt="">
+          </div>
+
+          <div class="admin-actions" style="justify-content:space-between;margin-top:8px">
+            <button class="admin-btn" type="submit" id="adminSaveProdBtn">GUARDAR PRODUCTO</button>
+            <button class="admin-btn danger" id="deleteProduct" type="button" hidden>ELIMINAR</button>
           </div>
           <div class="admin-msg" id="productMsg"></div>
         </form>
-      </section>
-      <section id="adminCategories" class="admin-layout" hidden>
-        <div class="admin-panel"><h4>Categorías actuales</h4><div class="admin-list" id="adminCategoryList"></div></div>
-        <form class="admin-panel" id="categoryForm">
-          <h4>Nueva categoría</h4>
-          <div class="admin-field"><label>NOMBRE</label><input id="newCategoryName" maxlength="50" required placeholder="Ej: Regalos premium"></div>
-          <button class="admin-btn" type="submit">CREAR CATEGORÍA</button>
-          <div class="admin-msg" id="categoryMsg"></div>
-          <p class="admin-muted">Para eliminar una categoría, primero reasigná o eliminá sus productos.</p>
-        </form>
-      </section>
-      <div class="admin-msg" id="adminSaveMsg"></div>
+      </div>
     </div>
   </div>
 </div>
@@ -440,8 +552,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
 /* ============================================================
    CONFIG
    ============================================================ */
-const WHATSAPP = ""; // ej: "5493462123456" (sin + ni espacios). Vacío → WhatsApp elige contacto.
-
+const WHATSAPP = ""; // ej: "5493462123456" (sin + ni espacios).
 const SUPABASE_URL = "https://zzrmqidzfjqrmrictels.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_6b27IFeNHruaWcIO5mP_yg_lwn79eZ5";
 const CONTENT_TABLE = "sp_recuerdos_content";
@@ -458,7 +569,6 @@ const sb = (window.supabase && SUPABASE_URL.startsWith("https://") && !SUPABASE_
 const COLORS = { negro:"#1b1b1b", gris:"#8a8a8e", naranja:"#ff7a00", blanco:"#f2f0ea", azul:"#25406e", verde:"#2c5a40", rojo:"#b02a30" };
 const lum = h => { const n = parseInt(h.slice(1),16); return .299*(n>>16)+.587*((n>>8)&255)+.114*(n&255); };
 const esc = s => String(s ?? "").replace(/[&<>"]/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
-const $ = s => document.querySelector(s);
 const $id = s => document.getElementById(s);
 
 /* ============================================================
@@ -490,7 +600,7 @@ const ART = {
    DATA: PRODUCTOS Y CATEGORÍAS
    ============================================================ */
 let P = [
-  {id:1, n:"Termo de acero inoxidable", c:"Termos", a:"termo", d:"Grabado láser. Mantiene frío y calor por horas.", cols:["negro","gris","naranja","blanco"], b:"Más pedido"},
+  {id:1, n:"Termo de acero inoxidable", c:"Termos", a:"termo", d:"Grabado láser. Mantiene frío y calor por horas.", cols:["negro","gris","naranja","blanco"], b:"Más pedido", price:"18500"},
   {id:2, n:"Termo media manija", c:"Termos", a:"termo", d:"El clásico para el mate, ideal para regalar.", cols:["negro","gris","azul","blanco"]},
   {id:3, n:"Termo bala 1 litro", c:"Termos", a:"termo", d:"Gran capacidad para toda la jornada.", cols:["negro","naranja","gris","verde"]},
   {id:4, n:"Mate de acero térmico", c:"Mates", a:"mate", d:"Doble pared, con tu marca grabada.", cols:["negro","gris","naranja","blanco"]},
@@ -607,7 +717,6 @@ function paintAll() {
     const svg = c.querySelector(".pic svg");
     if (p && svg) svg.outerHTML = ART[p.a](COLORS[sel[p.id]] || COLORS.negro);
   });
-  // Repintar stage también
   const p = prod(labId);
   if (p) $id("obj").innerHTML = ART[p.a](COLORS[labCol] || COLORS.negro);
   cartUI();
@@ -712,9 +821,11 @@ mainNav.addEventListener("click", e => {
 });
 
 /* ============================================================
-   ADMIN — Supabase
+   ADMIN DASHBOARD
    ============================================================ */
 let adminUser = null, adminIsAllowed = false;
+let adminCurrentCategory = null;
+
 const adminMsg = (id, msg, ok = false) => {
   const el = $id(id);
   if (el) { el.textContent = msg; el.classList.toggle("ok", !!ok); }
@@ -773,6 +884,16 @@ function setAdminTriggerState(on) {
   const t = $id("adminTrigger");
   if (t) t.classList.toggle("logged-in", !!on);
 }
+
+function switchAdminView(view) {
+  $id("adminViewCats").hidden = view !== "cats";
+  $id("adminViewProds").hidden = view !== "prods";
+  $id("adminViewForm").hidden = view !== "form";
+  
+  if(view === "cats") renderAdminCatsView();
+  if(view === "prods") renderAdminProdsView();
+}
+
 function showAdminChecking() {
   $id("adminChecking").hidden = false;
   $id("adminLogin").hidden = true;
@@ -789,9 +910,7 @@ function showAdminDashboard() {
   $id("adminChecking").hidden = true;
   $id("adminLogin").hidden = true;
   $id("adminDashboard").hidden = false;
-  renderAdminProducts();
-  renderAdminCategories();
-  fillCategorySelect();
+  switchAdminView("cats");
   setAdminTriggerState(true);
 }
 async function openAdmin() {
@@ -806,7 +925,7 @@ async function openAdmin() {
     const r = await checkAdmin();
     if (r.ok) { showAdminDashboard(); return; }
     if (r.reason === "table") {
-      showAdminLogin("Falta la tabla '" + ADMINS_TABLE + "' en Supabase o sus permisos (RLS). Revisá la consola.");
+      showAdminLogin("Falta la tabla '" + ADMINS_TABLE + "' en Supabase o sus permisos (RLS).");
     } else {
       showAdminLogin();
     }
@@ -824,64 +943,189 @@ function closeAdmin() {
   $id("adminDashboard").hidden = true;
 }
 
-/* ---- RENDER ADMIN ---- */
-function renderAdminProducts() {
-  $id("adminProductList").innerHTML = P.map(p => `
-    <div class="admin-item">
-      <span><b>${esc(p.n)}</b><br><small>${esc(p.c || "")}${p.price ? ` · $ ${esc(String(p.price))}` : ""}</small></span>
-      <button type="button" data-edit-product="${p.id}">EDITAR</button>
+/* ---- RENDER ADMIN VIEWS ---- */
+function renderAdminCatsView() {
+  const list = CATS.filter(c => c !== "Todos");
+  $id("adminCatList").innerHTML = list.map(c => `
+    <div class="admin-item" data-cat="${esc(c)}">
+      <div class="admin-item-info">
+        <b>${esc(c)}</b>
+        <small>${P.filter(p => p.c === c).length} productos</small>
+      </div>
+      <div class="admin-item-arrow">→</div>
     </div>
-  `).join("") || '<p class="admin-muted">Todavía no hay productos.</p>';
-}
-function renderAdminCategories() {
-  $id("adminCategoryList").innerHTML = CATS.filter(c => c !== "Todos").map(c => `
-    <div class="admin-item">
-      <span>${esc(c)} <small>(${P.filter(p => p.c === c).length})</small></span>
-      <button type="button" data-delete-category="${esc(c)}">ELIMINAR</button>
-    </div>
-  `).join("") || '<p class="admin-muted">No hay categorías.</p>';
-}
-function fillCategorySelect() {
-  $id("editProductCategory").innerHTML = CATS.filter(c => c !== "Todos")
-    .map(c => `<option value="${esc(c)}">${esc(c)}</option>`).join("");
-}
-function resetProductForm() {
-  $id("productForm").reset();
-  $id("editProductId").value = "";
-  $id("productFormTitle").textContent = "Nuevo producto";
-  $id("deleteProduct").hidden = true;
-  $id("productImagePreview").hidden = true;
-}
-function editProduct(id) {
-  const p = P.find(x => String(x.id) === String(id)); if (!p) return;
-  fillCategorySelect();
-  $id("editProductId").value = p.id;
-  $id("editProductName").value = p.n || "";
-  $id("editProductCategory").value = p.c || CATS[1] || "";
-  $id("editProductDescription").value = p.d || "";
-  $id("editProductPrice").value = p.price || "";
-  $id("editProductBadge").value = p.b || "";
-  $id("editProductArt").value = p.a || "termo";
-  $id("editProductColors").value = (p.cols || []).join(", ");
-  $id("productFormTitle").textContent = "Editar producto";
-  $id("deleteProduct").hidden = false;
-  const preview = $id("productImagePreview");
-  if (p.image) { preview.src = p.image; preview.hidden = false; } else { preview.hidden = true; }
-  adminMsg("productMsg", "");
-}
-async function uploadProductImage(file) {
-  if (!file) return null;
-  if (file.size > 5 * 1024 * 1024) throw new Error("La imagen supera los 5 MB.");
-  if (!["image/jpeg","image/png","image/webp"].includes(file.type)) throw new Error("Formato no permitido. Usá JPG, PNG o WEBP.");
-  const ext = file.type === "image/png" ? "png" : file.type === "image/webp" ? "webp" : "jpg";
-  const path = `products/${crypto.randomUUID()}.${ext}`;
-  const { error } = await sb.storage.from(STORAGE_BUCKET).upload(path, file, { upsert: false, contentType: file.type });
-  if (error) throw error;
-  const { data } = sb.storage.from(STORAGE_BUCKET).getPublicUrl(path);
-  return data.publicUrl;
+  `).join("") || '<p style="color:var(--a-mute);font-size:14px">No hay categorías.</p>';
 }
 
-/* ---- WIRING ADMIN ---- */
+function renderAdminProdsView() {
+  $id("adminCurrentCatName").textContent = adminCurrentCategory;
+  const list = P.filter(p => p.c === adminCurrentCategory);
+  $id("adminProdList").innerHTML = list.map(p => `
+    <div class="admin-item" data-prod="${p.id}">
+      <div class="admin-item-info">
+        <b>${esc(p.n)}</b>
+        <small>${p.price ? '$ ' + p.price : 'Sin precio'}</small>
+      </div>
+      <button class="admin-btn alt" type="button">Editar</button>
+    </div>
+  `).join("") || '<p style="color:var(--a-mute);font-size:14px">No hay productos en esta categoría.</p>';
+}
+
+function showProductForm(id = null) {
+  switchAdminView("form");
+  $id("adminFormCatName").textContent = adminCurrentCategory;
+  $id("adminBackToProds").onclick = () => switchAdminView("prods");
+  
+  if (id) {
+    const p = P.find(x => String(x.id) === String(id));
+    if (!p) return;
+    $id("editProductId").value = p.id;
+    $id("editProductName").value = p.n || "";
+    $id("editProductCategory").value = p.c || "";
+    $id("editProductDescription").value = p.d || "";
+    $id("editProductPrice").value = p.price || "";
+    $id("editProductBadge").value = p.b || "";
+    $id("editProductArt").value = p.a || "termo";
+    $id("editProductColors").value = (p.cols || []).join(", ");
+    $id("productFormTitle").textContent = "Editar Producto";
+    $id("deleteProduct").hidden = false;
+    const preview = $id("productImagePreview");
+    if (p.image) { preview.src = p.image; preview.hidden = false; } else { preview.hidden = true; }
+  } else {
+    $id("productForm").reset();
+    $id("editProductId").value = "";
+    $id("editProductCategory").value = adminCurrentCategory;
+    $id("productFormTitle").textContent = "Nuevo Producto";
+    $id("deleteProduct").hidden = true;
+    $id("productImagePreview").hidden = true;
+  }
+  adminMsg("productMsg", "");
+}
+
+/* ---- EVENTS ADMIN ---- */
+$id("adminBackToCats").onclick = () => switchAdminView("cats");
+
+$id("adminCatList").addEventListener("click", e => {
+  const item = e.target.closest("[data-cat]");
+  if (item) {
+    adminCurrentCategory = item.dataset.cat;
+    switchAdminView("prods");
+  }
+});
+
+$id("adminProdList").addEventListener("click", e => {
+  const item = e.target.closest("[data-prod]");
+  if (item) showProductForm(item.dataset.prod);
+});
+
+$id("adminNewProdBtn").onclick = () => showProductForm();
+
+$id("adminNewCatBtn").onclick = () => {
+  $id("adminNewCatForm").hidden = false;
+  $id("adminNewCatInput").focus();
+};
+$id("adminCancelNewCat").onclick = () => {
+  $id("adminNewCatForm").hidden = true;
+  $id("adminNewCatForm").reset();
+};
+
+$id("adminNewCatForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const name = $id("adminNewCatInput").value.trim();
+  if (!name) return;
+  if (CATS.some(c => c.toLowerCase() === name.toLowerCase())) {
+    adminMsg("categoryMsg", "Esa categoría ya existe."); return;
+  }
+  const previous = [...CATS];
+  CATS.push(name);
+  try {
+    await saveRemoteCatalog();
+    $id("adminNewCatForm").reset();
+    $id("adminNewCatForm").hidden = true;
+    renderAdminCatsView();
+    adminMsg("categoryMsg", "Categoría creada.", true);
+    setTimeout(()=>adminMsg("categoryMsg",""),3000);
+  } catch (err) {
+    CATS = previous;
+    adminMsg("categoryMsg", err.message || "No se pudo crear");
+  }
+});
+
+$id("productForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  if (!adminIsAllowed) return;
+  
+  const btn = $id("adminSaveProdBtn");
+  btn.disabled = true; btn.textContent = "GUARDANDO...";
+  adminMsg("productMsg", "");
+  
+  const id = $id("editProductId").value;
+  const old = P.find(p => String(p.id) === String(id));
+  const name = $id("editProductName").value.trim();
+  const category = $id("editProductCategory").value;
+  
+  const colors = $id("editProductColors").value.split(",").map(x => x.trim().toLowerCase()).filter(x => COLORS[x]);
+  const item = {
+    ...(old || {}),
+    id: old ? old.id : Date.now(),
+    n: name,
+    c: category,
+    d: $id("editProductDescription").value.trim(),
+    price: $id("editProductPrice").value.trim(),
+    b: $id("editProductBadge").value.trim(),
+    a: $id("editProductArt").value,
+    cols: colors.length ? colors : ["negro"]
+  };
+  
+  try {
+    const file = $id("editProductImage").files[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) throw new Error("La imagen supera los 5 MB.");
+      if (!["image/jpeg","image/png","image/webp"].includes(file.type)) throw new Error("Formato no permitido. Usá JPG, PNG o WEBP.");
+      
+      const ext = file.type === "image/png" ? "png" : file.type === "image/webp" ? "webp" : "jpg";
+      const path = `products/${crypto.randomUUID()}.${ext}`;
+      const { error } = await sb.storage.from(STORAGE_BUCKET).upload(path, file, { upsert: false, contentType: file.type });
+      if (error) throw error;
+      const { data } = sb.storage.from(STORAGE_BUCKET).getPublicUrl(path);
+      item.image = data.publicUrl;
+    }
+    
+    if (old) P = P.map(p => String(p.id) === String(id) ? item : p);
+    else P.push(item);
+    
+    await saveRemoteCatalog();
+    
+    btn.disabled = false; btn.textContent = "GUARDAR PRODUCTO";
+    adminMsg("productMsg", "Guardado y publicado.", true);
+    setTimeout(() => { switchAdminView("prods"); }, 800);
+    
+  } catch (err) {
+    btn.disabled = false; btn.textContent = "GUARDAR PRODUCTO";
+    adminMsg("productMsg", err.message || "No se pudo guardar.");
+  }
+});
+
+$id("deleteProduct").addEventListener("click", async () => {
+  const id = $id("editProductId").value;
+  if (!id || !confirm("¿Eliminar este producto del catálogo?")) return;
+  
+  const btn = $id("deleteProduct");
+  btn.disabled = true; btn.textContent = "ELIMINANDO...";
+  
+  const previous = P;
+  P = P.filter(p => String(p.id) !== String(id));
+  try {
+    await saveRemoteCatalog();
+    switchAdminView("prods");
+  } catch (err) {
+    P = previous;
+    adminMsg("productMsg", err.message || "No se pudo eliminar");
+    btn.disabled = false; btn.textContent = "ELIMINAR";
+  }
+});
+
+/* ---- WIRING GENERAL ADMIN ---- */
 $id("adminTrigger").addEventListener("click", openAdmin);
 $id("adminClose").addEventListener("click", closeAdmin);
 $id("adminOverlay").addEventListener("click", e => { if (e.target.id === "adminOverlay") closeAdmin(); });
@@ -930,112 +1174,10 @@ $id("adminLogout").addEventListener("click", async () => {
   showAdminLogin("Sesión cerrada.");
 });
 
-document.querySelectorAll("[data-admin-tab]").forEach(b => b.addEventListener("click", () => {
-  document.querySelectorAll("[data-admin-tab]").forEach(x => x.classList.toggle("on", x === b));
-  const products = b.dataset.adminTab === "products";
-  $id("adminProducts").hidden = !products;
-  $id("adminCategories").hidden = products;
-}));
-
-$id("adminProductList").addEventListener("click", e => {
-  const b = e.target.closest("[data-edit-product]");
-  if (b) editProduct(b.dataset.editProduct);
-});
-$id("newProduct").addEventListener("click", () => {
-  resetProductForm(); fillCategorySelect(); adminMsg("productMsg", "");
-});
 $id("editProductImage").addEventListener("change", e => {
   const f = e.target.files[0]; if (!f) return;
   $id("productImagePreview").src = URL.createObjectURL(f);
   $id("productImagePreview").hidden = false;
-});
-
-$id("productForm").addEventListener("submit", async e => {
-  e.preventDefault();
-  if (!adminIsAllowed) return;
-  const id = $id("editProductId").value;
-  const old = P.find(p => String(p.id) === String(id));
-  const name = $id("editProductName").value.trim();
-  const category = $id("editProductCategory").value;
-  if (!category) { adminMsg("productMsg", "Primero creá una categoría."); return; }
-  const colors = $id("editProductColors").value.split(",").map(x => x.trim().toLowerCase()).filter(x => COLORS[x]);
-  const item = {
-    ...(old || {}),
-    id: old ? old.id : Date.now(),
-    n: name,
-    c: category,
-    d: $id("editProductDescription").value.trim(),
-    price: $id("editProductPrice").value.trim(),
-    b: $id("editProductBadge").value.trim(),
-    a: $id("editProductArt").value,
-    cols: colors.length ? colors : ["negro"]
-  };
-  try {
-    adminMsg("productMsg", "Guardando…");
-    const file = $id("editProductImage").files[0];
-    if (file) item.image = await uploadProductImage(file);
-    if (old) P = P.map(p => String(p.id) === String(id) ? item : p);
-    else P.push(item);
-    await saveRemoteCatalog();
-    renderAdminProducts(); renderAdminCategories(); editProduct(item.id);
-    adminMsg("productMsg", "Producto guardado y publicado.", true);
-  } catch (err) {
-    adminMsg("productMsg", err.message || "No se pudo guardar el producto.");
-  }
-});
-
-$id("deleteProduct").addEventListener("click", async () => {
-  const id = $id("editProductId").value;
-  if (!id || !confirm("¿Eliminar este producto del catálogo?")) return;
-  const previous = P;
-  P = P.filter(p => String(p.id) !== String(id));
-  try {
-    await saveRemoteCatalog();
-    resetProductForm(); renderAdminProducts(); renderAdminCategories();
-    adminMsg("productMsg", "Producto eliminado.", true);
-  } catch (err) {
-    P = previous;
-    adminMsg("productMsg", err.message || "No se pudo eliminar");
-  }
-});
-
-$id("categoryForm").addEventListener("submit", async e => {
-  e.preventDefault();
-  const name = $id("newCategoryName").value.trim();
-  if (!name) return;
-  if (CATS.some(c => c.toLowerCase() === name.toLowerCase())) {
-    adminMsg("categoryMsg", "Esa categoría ya existe."); return;
-  }
-  const previous = [...CATS];
-  CATS.push(name);
-  try {
-    await saveRemoteCatalog();
-    renderAdminCategories(); fillCategorySelect();
-    $id("categoryForm").reset();
-    adminMsg("categoryMsg", "Categoría creada.", true);
-  } catch (err) {
-    CATS = previous;
-    adminMsg("categoryMsg", err.message || "No se pudo crear");
-  }
-});
-
-$id("adminCategoryList").addEventListener("click", async e => {
-  const b = e.target.closest("[data-delete-category]"); if (!b) return;
-  const name = b.dataset.deleteCategory;
-  if (P.some(p => p.c === name)) {
-    adminMsg("categoryMsg", "No se puede borrar: todavía tiene productos asignados."); return;
-  }
-  if (!confirm(`¿Eliminar la categoría ${name}?`)) return;
-  const previous = [...CATS];
-  CATS = CATS.filter(c => c !== name);
-  try {
-    await saveRemoteCatalog();
-    renderAdminCategories(); fillCategorySelect();
-    adminMsg("categoryMsg", "Categoría eliminada.", true);
-  } catch (err) {
-    CATS = previous;
-    adminMsg("categoryMsg", err.message || "No se pudo eliminar");
-  }
 });
 
 /* ============================================================
@@ -1044,7 +1186,6 @@ $id("adminCategoryList").addEventListener("click", async e => {
 async function initSite() {
   if (sb) {
     try { await loadRemoteCatalog(); } catch (e) { console.warn("[init] loadRemoteCatalog", e); }
-    // Detectar sesión para el trigger del footer
     checkAdmin().then(r => setAdminTriggerState(r.ok)).catch(() => {});
   }
   refreshCatalogState();
