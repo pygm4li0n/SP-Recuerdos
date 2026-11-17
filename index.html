@@ -17,7 +17,7 @@ html{scroll-behavior:smooth}
 body{background:var(--paper);color:var(--ink);font-family:"Helvetica Neue",Helvetica,Arial,system-ui,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
 button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
-.wrap{max-width:1320px;margin:0 auto;padding:0 28px}
+.wrap{max-width:1600px;margin:0 auto;padding:0 28px}
 ::selection{background:var(--or);color:#000}
 em{font-family:Georgia,"Times New Roman",serif;font-weight:400;font-style:italic}
 
@@ -307,29 +307,82 @@ h1 u{text-decoration:none;color:var(--or)}
 }
 
 /* SAY */
-.say{padding:100px 0 60px}
-.say .top{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;align-items:flex-end;margin-bottom:44px}
+.say{padding:100px 0 80px}
+.say .top{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;align-items:flex-end;margin-bottom:56px;position:relative}
+.say .top::before{content:"";position:absolute;left:0;bottom:-26px;width:52px;height:2px;background:var(--or)}
 h2{font-size:clamp(32px,4.6vw,62px);font-weight:600;letter-spacing:-.04em;line-height:1}
-.rows{border-bottom:1px solid var(--ink)}
-.rowx{display:grid;grid-template-columns:1.3fr 1fr auto;gap:30px;align-items:center;padding:26px 0;border-top:1px solid var(--ink);transition:.35s;position:relative}
-.rowx strong{font-size:clamp(46px,9vw,132px);font-weight:600;letter-spacing:-.055em;line-height:.9}
-.rowx p{color:var(--mute);font-size:16px;max-width:340px;transition:.3s}
-.rowx i{font-style:normal;font-size:34px;transition:.35s}
+.rows{border-bottom:1px solid var(--ink);counter-reset:say-idx}
+.rowx{
+  display:grid;
+  grid-template-columns:auto 1.35fr 1fr auto;
+  gap:28px;
+  align-items:center;
+  padding:34px 0;
+  border-top:1px solid var(--ink);
+  transition:padding .35s ease, background .35s ease, color .35s ease;
+  position:relative;
+  counter-increment:say-idx;
+}
+.rowx::before{
+  content:counter(say-idx, decimal-leading-zero);
+  font-family:Georgia,"Times New Roman",serif;
+  font-style:italic;
+  font-weight:400;
+  font-size:15px;
+  letter-spacing:.02em;
+  color:var(--or);
+  align-self:start;
+  padding-top:10px;
+  line-height:1;
+  transition:color .3s;
+}
+.rowx::after{
+  content:"";
+  position:absolute;
+  left:-1px;top:0;bottom:0;
+  width:3px;
+  background:var(--or);
+  transform:scaleY(0);
+  transform-origin:top;
+  transition:transform .4s ease;
+}
+.rowx strong{font-size:clamp(52px,9.6vw,140px);font-weight:600;letter-spacing:-.055em;line-height:.88}
+.rowx p{color:var(--mute);font-size:16px;max-width:380px;line-height:1.55;transition:color .3s}
+.rowx i{
+  font-style:normal;font-size:18px;
+  display:grid;place-items:center;
+  width:54px;height:54px;
+  border:1.5px solid var(--ink);
+  border-radius:50%;
+  color:var(--ink);
+  flex-shrink:0;
+  transition:transform .35s ease, background .35s, border-color .35s, color .35s;
+}
 
 /* hover: only on devices with a real cursor (mouse / trackpad) */
 @media(hover:hover){
-  .rowx:hover{background:var(--ink);color:var(--paper);padding-left:24px;padding-right:24px}
+  .rowx:hover{background:var(--ink);color:var(--paper);padding-left:28px;padding-right:28px}
+  .rowx:hover::after{transform:scaleY(1)}
   .rowx:hover p{color:#bdb9af}
-  .rowx:hover i{color:var(--or);transform:translateX(8px)}
+  .rowx:hover i{background:var(--or);border-color:var(--or);color:#000;transform:rotate(-45deg)}
   .rowx:hover strong{color:var(--or)}
 }
 
 /* mobile / touch: JS toggles .in-view as the row crosses the viewport center */
-.rowx.in-view{background:var(--ink);color:var(--paper);padding-left:24px;padding-right:24px}
+.rowx.in-view{background:var(--ink);color:var(--paper);padding-left:28px;padding-right:28px}
+.rowx.in-view::after{transform:scaleY(1)}
 .rowx.in-view p{color:#bdb9af}
-.rowx.in-view i{color:var(--or);transform:translateX(8px)}
+.rowx.in-view i{background:var(--or);border-color:var(--or);color:#000;transform:rotate(-45deg)}
 .rowx.in-view strong{color:var(--or)}
-@media(max-width:760px){.rowx{grid-template-columns:1fr;gap:10px}.rowx i{display:none}}
+
+@media(max-width:760px){
+  .rowx{grid-template-columns:1fr;gap:12px;padding:26px 0}
+  .rowx::before{padding-top:0;font-size:12px}
+  .rowx strong{font-size:clamp(52px,14vw,88px)}
+  .rowx p{max-width:100%}
+  .rowx i{display:none}
+  .rowx:hover,.rowx.in-view{padding-left:16px;padding-right:0}
+}
 
 /* CATALOG */
 section{padding:90px 0;scroll-margin-top:80px}
@@ -402,11 +455,57 @@ section{padding:90px 0;scroll-margin-top:80px}
 @media(max-width:860px){.contact .wrap{grid-template-columns:1fr}}
 .contact h2{font-size:clamp(42px,7.4vw,112px);letter-spacing:-.05em;line-height:.93}
 .contact p{margin-bottom:26px;max-width:360px;font-size:17px}
+.btn-short{display:none}
 .contact-actions{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
-.contact .btn.wa-btn{background:#25D366;color:#fff}
-.contact .btn.wa-btn:hover{background:#1eb858;color:#fff}
-.contact .btn.insta-btn{background:linear-gradient(45deg,#f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);color:#fff}
-.contact .btn.insta-btn:hover{filter:brightness(1.1);color:#fff}
+.contact .btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  padding:16px 28px;
+  border-radius:99px;
+  font-size:15px;
+  font-weight:700;
+  letter-spacing:-.01em;
+  transition:transform .25s ease, box-shadow .25s ease, background .25s, filter .25s;
+  will-change:transform;
+}
+.contact .btn svg{flex-shrink:0;display:block}
+.contact .btn.wa-btn{
+  background:#25D366;
+  color:#fff;
+  box-shadow:0 10px 26px rgba(37,211,102,.32);
+}
+.contact .btn.wa-btn:hover{
+  background:#1eb858;
+  box-shadow:0 14px 32px rgba(37,211,102,.42);
+  transform:translateY(-2px);
+}
+.contact .btn.insta-btn{
+  background:linear-gradient(45deg,#f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+  color:#fff;
+  box-shadow:0 10px 26px rgba(204,35,102,.32);
+}
+.contact .btn.insta-btn:hover{
+  filter:brightness(1.08);
+  box-shadow:0 14px 32px rgba(204,35,102,.42);
+  transform:translateY(-2px);
+}
+
+@media(max-width:560px){
+  .contact-actions{flex-wrap:nowrap;gap:8px;width:100%}
+  .contact .btn{
+    flex:1 1 0;
+    min-width:0;
+    padding:13px 10px;
+    font-size:13px;
+    gap:6px;
+    box-shadow:0 6px 16px rgba(0,0,0,.18);
+  }
+  .contact .btn svg{width:16px;height:16px}
+  .btn-full{display:none}
+  .btn-short{display:inline}
+}
 footer{background:var(--ink);color:#8c887f;font-size:13px;padding:30px 0}
 footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
 footer .logo{margin-right:0}
@@ -603,9 +702,17 @@ footer .logo{margin-right:0}
     <div>
       <p>¿Llegás con los regalos de fin de año? Contanos qué necesitás y te respondemos con una propuesta.</p>
       <div class="contact-actions">
-        <a class="btn wa-btn" id="waMain" target="_blank" rel="noopener">Escribinos por WhatsApp</a>
-        <a class="btn insta-btn" href="https://www.instagram.com/sprecuerdos" target="_blank" rel="noopener">@sprecuerdos</a>
-      </div>
+  <a class="btn wa-btn" id="waMain" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.71.306 1.262.489 1.693.625.711.226 1.358.194 1.87.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+    <span class="btn-full">Escribinos por WhatsApp</span>
+    <span class="btn-short">WhatsApp</span>
+  </a>
+  <a class="btn insta-btn" href="https://www.instagram.com/sprecuerdos" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+    <span class="btn-full">@sprecuerdos</span>
+    <span class="btn-short">Instagram</span>
+  </a>
+</div>
     </div>
   </div>
 </section>
