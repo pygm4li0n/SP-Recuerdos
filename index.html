@@ -22,7 +22,7 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
 em{font-family:Georgia,"Times New Roman",serif;font-weight:400;font-style:italic}
 
 /* HEADER */
-.util{background:var(--or);color:#000;font-size:12px;font-weight:600;text-align:center;padding:7px 12px;letter-spacing:.02em}
+.util{background:var(--or);color:#000;font-size:12px;font-weight:600;text-align:center;padding:7px 12px;letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 header.top{position:sticky;top:0;z-index:40;background:var(--ink);color:#f2efe8}
 header.top .wrap{display:flex;align-items:center;gap:12px;height:70px}
 .logo{display:flex;align-items:baseline;gap:9px;margin-right:auto}
@@ -42,6 +42,7 @@ nav a:hover::after{transform:scaleX(1)}
 .menu-toggle.on span:nth-child(2){opacity:0}
 .menu-toggle.on span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
 @media(max-width:760px){
+  header.top .wrap{gap:8px} /* Slight gap adjustment for mobile */
   nav{display:none;position:absolute;top:70px;left:0;right:0;background:var(--ink);flex-direction:column;gap:0;padding:10px 0;border-bottom:1px solid #2a2a2a;box-shadow:0 20px 30px #0008}
   nav.on{display:flex}
   nav a{padding:14px 28px;color:#b8b4aa}
@@ -274,16 +275,17 @@ h1 u{text-decoration:none;color:var(--or)}
   }
 
   .stage{min-height:260px;max-height:420px}
-h1{font-size:clamp(52px,9vw,80px)}
-h1 br{display:none}   /* ← let the h1 wrap naturally on mobile */
+  h1{font-size:clamp(52px,9vw,80px)}
+  h1 br{display:none}   /* ← let the h1 wrap naturally on mobile */
 }
 
 @media(max-width:560px){
-  .hero-left{padding:32px 20px}
+  /* Optimized mobile spacing to fit perfectly */
+  .hero-left{padding:24px 20px; gap:20px}
   .lab{margin:0 20px 44px}
-  h1{font-size:clamp(48px,13.5vw,68px)}
-  .lede{margin-top:18px}
-  .heroact{margin-top:22px}
+  h1{font-size:clamp(44px,12vw,64px); line-height:1.05}
+  .lede{margin-top:0; font-size:15.5px}
+  .heroact{margin-top:0}
   .stage{min-height:220px;max-height:340px}
 }
 
@@ -313,13 +315,23 @@ h1 br{display:none}   /* ← let the h1 wrap naturally on mobile */
 h2{font-size:clamp(32px,4.6vw,62px);font-weight:600;letter-spacing:-.04em;line-height:1}
 .rows{border-bottom:1px solid var(--ink)}
 .rowx{display:grid;grid-template-columns:1.3fr 1fr auto;gap:30px;align-items:center;padding:26px 0;border-top:1px solid var(--ink);transition:.35s;position:relative}
-.rowx:hover{background:var(--ink);color:var(--paper);padding-left:24px;padding-right:24px}
 .rowx strong{font-size:clamp(46px,9vw,132px);font-weight:600;letter-spacing:-.055em;line-height:.9}
 .rowx p{color:var(--mute);font-size:16px;max-width:340px;transition:.3s}
-.rowx:hover p{color:#bdb9af}
 .rowx i{font-style:normal;font-size:34px;transition:.35s}
-.rowx:hover i{color:var(--or);transform:translateX(8px)}
-.rowx:hover strong{color:var(--or)}
+
+/* hover: only on devices with a real cursor (mouse / trackpad) */
+@media(hover:hover){
+  .rowx:hover{background:var(--ink);color:var(--paper);padding-left:24px;padding-right:24px}
+  .rowx:hover p{color:#bdb9af}
+  .rowx:hover i{color:var(--or);transform:translateX(8px)}
+  .rowx:hover strong{color:var(--or)}
+}
+
+/* mobile / touch: JS toggles .in-view as the row crosses the viewport center */
+.rowx.in-view{background:var(--ink);color:var(--paper);padding-left:24px;padding-right:24px}
+.rowx.in-view p{color:#bdb9af}
+.rowx.in-view i{color:var(--or);transform:translateX(8px)}
+.rowx.in-view strong{color:var(--or)}
 @media(max-width:760px){.rowx{grid-template-columns:1fr;gap:10px}.rowx i{display:none}}
 
 /* CATALOG */
@@ -481,13 +493,14 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
 </head>
 <body>
 
-<div class="util">Envíos a todo el país · Venta por mayor · Productos personalizados</div>
+<div class="util">Envíos a todo el país · Venta por mayor</div>
 <header class="top">
   <div class="wrap">
-    <a href="#top" class="logo"><b>SP</b><span>RECUERDOS</span></a>
+    <!-- Menu icon moved to the left -->
     <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="mainNav">
       <span></span><span></span><span></span>
     </button>
+    <a href="#top" class="logo"><b>SP</b><span>RECUERDOS</span></a>
     <nav id="mainNav">
       <a href="#probador">Probá tu marca</a>
       <a href="#catalogo">Catálogo</a>
@@ -1387,8 +1400,25 @@ async function initSite() {
   }
   refreshCatalogState();
   lab(); chips(); grid(); cartUI();
+  setupScrollHoverRows();
 }
 initSite();
+
+/* Touch devices: emulate hover on the SAY rows as they scroll through the viewport center */
+function setupScrollHoverRows() {
+  // Skip on devices with a real cursor — they already have native :hover
+  if (window.matchMedia('(hover:hover) and (pointer:fine)').matches) return;
+
+  const rows = document.querySelectorAll('.rowx');
+  if (!rows.length) return;
+
+  // Activate when the row is inside the middle 40% band of the viewport
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => e.target.classList.toggle('in-view', e.isIntersecting));
+  }, { rootMargin: '-30% 0px -30% 0px', threshold: 0 });
+
+  rows.forEach(r => io.observe(r));
+}
 </script>
 </body>
 </html>
