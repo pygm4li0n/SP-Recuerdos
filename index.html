@@ -42,7 +42,8 @@ nav a:hover::after{transform:scaleX(1)}
 .menu-toggle.on span:nth-child(2){opacity:0}
 .menu-toggle.on span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
 @media(max-width:760px){
-  header.top .wrap{gap:8px} /* Slight gap adjustment for mobile */
+  header.top .wrap{gap:8px}
+  .util-extra{display:none}
   nav{display:none;position:absolute;top:70px;left:0;right:0;background:var(--ink);flex-direction:column;gap:0;padding:10px 0;border-bottom:1px solid #2a2a2a;box-shadow:0 20px 30px #0008}
   nav.on{display:flex}
   nav a{padding:14px 28px;color:#b8b4aa}
@@ -99,7 +100,7 @@ nav a:hover::after{transform:scaleX(1)}
 }
 
 h1{
-  font-size:clamp(52px,7.5vw,122px);
+  font-size:clamp(52px,6.8vw,112px);
   font-weight:600;
   letter-spacing:-.065em;
   line-height:1;
@@ -511,7 +512,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
 </head>
 <body>
 
-<div class="util">Envíos a todo el país · Venta por mayor</div>
+<div class="util">Envíos a todo el país · Venta por mayor<span class="util-extra"> · Productos personalizados</span></div>
 <header class="top">
   <div class="wrap">
     <!-- Menu icon moved to the left -->
