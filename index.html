@@ -425,6 +425,20 @@ section{padding:56px 0;scroll-margin-top:80px}
 .card .sw{margin-top:12px}
 .card .sw button{width:16px;height:16px}
 .empty{grid-column:1/-1;text-align:center;color:var(--mute);padding:60px 0}
+.cathead{display:flex;align-items:baseline;gap:14px;margin-bottom:28px}
+.cathead:empty{display:none}
+.cathead h3{font-size:clamp(30px,3.6vw,52px);font-weight:600;letter-spacing:-.04em;line-height:1}
+.cathead span{color:var(--mute);font-size:16px}
+.buy{display:grid;gap:7px;margin-top:12px;justify-items:start}
+.tiers{display:flex;gap:5px;flex-wrap:wrap}
+.tiers button{padding:5px 12px;border:1px solid var(--line);border-radius:99px;font-size:13px;font-weight:600;color:var(--mute);transition:.2s}
+.tiers button:hover{border-color:var(--ink);color:var(--ink)}
+.tiers button.on{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.buy .price{font-size:22px;font-weight:800;letter-spacing:-.025em;line-height:1.05}
+.buy .price small{font-size:13px;font-weight:600;color:var(--mute);letter-spacing:0}
+.buy .price.q{font-size:15px;color:var(--mute);font-weight:600}
+.buy .tot{font-size:13px;color:var(--mute)}
+@media(max-width:560px){.buy .price{font-size:18px}.tiers button{padding:4px 9px;font-size:12px}}
 
 /* Mobile Catalog Overrides — placed last so they win the cascade */
 @media(max-width:560px){
@@ -523,22 +537,27 @@ footer .logo{margin-right:0}
 .dh{display:flex;justify-content:space-between;align-items:center;padding:22px 26px;background:var(--ink);color:var(--paper)}
 .dh h3{font-size:20px;font-weight:600;letter-spacing:-.02em}
 .x{font-size:14px;border-bottom:1px solid var(--or)}
-.items{flex:1;overflow:auto;padding:6px 26px}
-.it{display:grid;grid-template-columns:64px 1fr auto;gap:14px;align-items:center;padding:16px 0;border-bottom:1px solid var(--line)}
-.it .t{width:64px;height:64px;border-radius:6px;background:var(--panel);display:grid;place-items:center;overflow:hidden}
+.items{flex:1;overflow:auto;padding:4px 26px}
+.it{display:grid;grid-template-columns:72px 1fr;gap:8px 16px;align-items:start;padding:18px 0;border-bottom:1px solid var(--line)}
+.it .t{grid-row:1/3;width:72px;height:72px;border-radius:8px;background:var(--panel);display:grid;place-items:center;overflow:hidden}
 .it .t svg{width:62%}
 .it .t img{width:88%;height:88%;object-fit:contain}
-.it h5{font-size:14.5px;font-weight:600;line-height:1.25}
-.it small{color:var(--mute);font-size:12.5px}
+.it h5{font-size:15px;font-weight:600;line-height:1.25}
+.it small{display:block;margin-top:2px;color:var(--mute);font-size:12.5px;line-height:1.4}
+.it .bot{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.it .sub{font-size:16px;font-weight:800;letter-spacing:-.02em}
 .qty{display:flex;align-items:center;border:1px solid var(--line);border-radius:99px}
 .qty button{width:28px;height:28px}
 .qty button:hover{color:var(--or)}
 .qty span{min-width:24px;text-align:center;font-size:14px}
-.df{padding:20px 26px 26px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:10px}
-.df input,.df textarea{background:#fff;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font:inherit;font-size:14px;outline:0;width:100%;resize:none;color:var(--ink)}
-.df input:focus,.df textarea:focus{border-color:var(--ink)}
-.df .btn{width:100%;margin-top:4px}
-.df small{color:var(--mute);font-size:12.5px;text-align:center}
+.df{display:grid;gap:12px;padding:20px 26px 26px;border-top:1px solid var(--line);background:#fff}
+.df .sum{display:flex;justify-content:space-between;align-items:baseline}
+.df .sum span{font-size:14px;color:var(--mute)}
+.df .sum b{font-size:30px;font-weight:800;letter-spacing:-.03em}
+.df .btn{width:100%;background:#25D366;color:#fff}
+.df .btn:hover{background:#1eb858;color:#fff}
+.df small{text-align:center;color:var(--mute);font-size:12.5px}
+.df small:empty{display:none}
 .noitems{text-align:center;color:var(--mute);padding:80px 10px;font-size:14.5px}
 .toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,100px);background:var(--ink);color:var(--paper);padding:12px 22px;border-radius:99px;z-index:200;transition:.4s cubic-bezier(.2,.7,.2,1);font-size:14px}
 .toast.on{transform:translate(-50%,0)}
@@ -550,16 +569,16 @@ footer .logo{margin-right:0}
 .admin-trigger:hover{background:#ffffff10}
 .admin-trigger.logged-in .admin-dot{background:#287344;animation:none;box-shadow:0 0 8px #28734488}
 
-.admin-overlay{position:fixed;inset:0;background:var(--a-bg);z-index:300;display:none}
-.admin-overlay.open{display:block}
-.admin-box{width:100%;height:100%;display:flex;flex-direction:column;background:var(--a-bg);color:var(--a-text);overflow:hidden}
-.admin-head{height:60px;background:var(--a-surface);padding:0 clamp(16px,3vw,36px);display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--a-border);flex-shrink:0}
+.admin-overlay{position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(8px);z-index:300;display:none;padding:clamp(10px,2.2vw,32px)}
+.admin-overlay.open{display:flex;justify-content:center}
+.admin-box{width:100%;max-width:1320px;height:100%;display:flex;flex-direction:column;background:var(--a-bg);color:var(--a-text);border:1px solid var(--a-border);border-radius:18px;box-shadow:0 40px 120px #000;overflow:hidden}
+.admin-head{height:64px;background:var(--a-surface);padding:0 clamp(16px,3vw,36px);display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--a-border);flex-shrink:0}
 .admin-head b{font-size:15px;letter-spacing:.1em}
 .admin-head button{color:var(--a-mute);font-size:14px;font-weight:600;transition:.2s;padding:8px 4px}
 .admin-head button:hover{color:#fff}
 
 .admin-body{flex:1;min-height:0;display:flex;flex-direction:column}
-.admin-view{flex:1;min-height:0;padding:clamp(16px,2.4vw,32px) clamp(16px,3vw,36px);display:flex;flex-direction:column;gap:clamp(14px,2vh,22px)}
+.admin-view{flex:1;min-height:0;padding:clamp(20px,2.6vw,36px);display:flex;flex-direction:column;gap:clamp(14px,2vh,22px)}
 .admin-view[hidden]{display:none}
 
 /* Login */
@@ -621,7 +640,12 @@ footer .logo{margin-right:0}
 .pf-prev{aspect-ratio:1;border-radius:14px;background:var(--a-surface);border:1px solid var(--a-border);display:flex;align-items:center;justify-content:center;overflow:hidden}
 .pf-prev svg{width:58%;height:auto}
 .admin-preview{width:78%;height:78%;object-fit:contain}
-.pf-main{display:grid;gap:14px;align-content:start;min-width:0}
+.pf-main{display:grid;gap:14px;align-content:start;min-width:0;border:1px solid var(--a-border);border-radius:16px;padding:clamp(16px,2vw,26px)}
+.pf-tiers{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:10px}
+.pf-tiers div{display:grid;gap:6px}
+.pf-tiers small{font-size:13px;font-weight:700;color:var(--or)}
+.pf-tiers input{width:100%;padding:12px 14px;border:1px solid var(--a-border);border-radius:8px;background:var(--a-surface);color:#fff;font:inherit;font-size:15px;outline:none}
+.pf-tiers input:focus{border-color:var(--or)}
 .pf-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .pf-foot{display:flex;gap:12px;justify-content:space-between;align-items:center;flex-wrap:wrap;margin-top:2px}
 @media(max-width:820px){
@@ -708,6 +732,7 @@ footer .logo{margin-right:0}
       <div class="chips" id="chips"></div>
       <input class="search" id="q" placeholder="Buscar" aria-label="Buscar producto">
     </div>
+        <div class="cathead" id="catHead"></div>
     <div class="grid" id="grid"></div>
   </div>
 </section>
@@ -752,11 +777,10 @@ footer .logo{margin-right:0}
 <aside class="drawer" id="drawer" aria-label="Mi pedido">
   <div class="dh"><h3>Mi pedido</h3><button class="x" id="closeCart">Cerrar</button></div>
   <div class="items" id="items"></div>
-  <div class="df">
-    <input id="name" placeholder="Nombre o empresa">
-    <textarea id="note" rows="2" placeholder="Notas: fecha de entrega, ciudad…"></textarea>
-    <button class="btn" id="send">Pedir cotización por WhatsApp</button>
-    <small>El precio se cotiza según cantidad y personalización.</small>
+    <div class="df" id="cartFoot">
+    <div class="sum"><span>Total</span><b id="cartTotal">$ 0</b></div>
+    <small id="cartNote"></small>
+    <button class="btn" id="send">Pedir por WhatsApp</button>
   </div>
 </aside>
 <div class="toast" id="toast"></div>
@@ -865,13 +889,23 @@ footer .logo{margin-right:0}
             </div>
             <div class="pf-row">
               <div class="admin-field">
-                <label>Precio unitario (ARS)</label>
-                <input id="editProductPrice" placeholder="Ej: 12500" inputmode="decimal">
+                <label>Precio base (ARS)</label>
+                <input id="editProductPrice" placeholder="Opcional" inputmode="decimal">
               </div>
               <div class="admin-field">
                 <label>Etiqueta (opcional)</label>
                 <input id="editProductBadge" placeholder="Nuevo / Combo">
               </div>
+            </div>
+            <div class="admin-field">
+              <label>Precio por unidad según pack</label>
+              <div class="pf-tiers">
+                <div><small>x10</small><input id="editTier10" inputmode="decimal" placeholder="$"></div>
+                <div><small>x25</small><input id="editTier25" inputmode="decimal" placeholder="$"></div>
+                <div><small>x50</small><input id="editTier50" inputmode="decimal" placeholder="$"></div>
+                <div><small>x100</small><input id="editTier100" inputmode="decimal" placeholder="$"></div>
+              </div>
+              <span class="admin-hint">Dejá vacío el pack que no quieras ofrecer. En la tienda solo aparecen los que tengan precio.</span>
             </div>
             <div class="admin-field">
               <label>Descripción</label>
@@ -911,7 +945,7 @@ footer .logo{margin-right:0}
 /* ============================================================
    CONFIG
    ============================================================ */
-const WHATSAPP = ""; // ej: "5493462123456" (sin + ni espacios).
+const WHATSAPP = "+549 236 420-4716"; // ej: "5493462123456" (sin + ni espacios).
 const SUPABASE_URL = "https://zzrmqidzfjqrmrictels.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_6b27IFeNHruaWcIO5mP_yg_lwn79eZ5";
 const CONTENT_TABLE = "sp_recuerdos_content";
@@ -987,6 +1021,23 @@ const sel = {}; P.forEach(p => sel[p.id] = p.cols[0]);
 try { cart = JSON.parse(localStorage.getItem("sp_cart") || "[]"); } catch (e) { cart = []; }
 const save = () => { try { localStorage.setItem("sp_cart", JSON.stringify(cart)); } catch (e) {} };
 const prod = id => P.find(p => p.id === id);
+const TIERS = [10, 25, 50, 100];
+const num = v => { const n = parseFloat(String(v ?? "").replace(/\./g, "").replace(",", ".")); return isFinite(n) ? n : 0; };
+const fmt = n => "$ " + Math.round(n).toLocaleString("es-AR");
+const tiersOf = p => TIERS.filter(t => num(p.tiers?.[t]) > 0);
+const defTier = p => tiersOf(p)[0] || 0;
+const selT = {};
+const getT = p => tiersOf(p).includes(selT[p.id]) ? selT[p.id] : defTier(p);
+const unitPrice = (p, t) => (t && num(p.tiers?.[t]) > 0) ? num(p.tiers[t]) : num(p.price);
+const fromPrice = p => { const a = [...tiersOf(p).map(t => num(p.tiers[t])), num(p.price)].filter(x => x > 0); return a.length ? Math.min(...a) : 0; };
+cart = cart.map(i => ({ t: 0, ...i }));
+function buyHTML(p) {
+  const ts = tiersOf(p), t = getT(p), u = unitPrice(p, t);
+  if (!u) return `<span class="price q">Consultar</span>`;
+  return `${ts.length ? `<div class="tiers">${ts.map(x => `<button class="${x === t ? "on" : ""}" data-t="${x}">x${x}</button>`).join("")}</div>` : ""}
+    <span class="price">${fmt(u)}<small> c/u</small></span>
+    ${t ? `<small class="tot">${t} unidades · ${fmt(u * t)}</small>` : ""}`;
+}
 
 /* ============================================================
    PROBADOR: RENDER
@@ -1052,6 +1103,7 @@ function grid() {
     (p.n + p.d + p.c).toLowerCase().includes(query.toLowerCase())
   );
   $id("n").textContent = list.length + " productos";
+  $id("catHead").innerHTML = cat === "Todos" ? "" : `<h3>${esc(cat)}</h3><span>${list.length} ${list.length === 1 ? "producto" : "productos"}</span>`;
   $id("grid").innerHTML = list.length ? list.map(p => `
     <article class="card" data-id="${p.id}">
       <div class="pic">
@@ -1061,8 +1113,9 @@ function grid() {
           : ART[p.a](COLORS[sel[p.id]] || COLORS.negro)}
         <button class="quick" data-add="${p.id}">Agregar al pedido</button>
       </div>
-      <div class="meta"><h3>${esc(p.n)}</h3><span${p.price ? ' class="price"' : ''}>${p.price ? `$ ${esc(String(p.price))}` : "Consultar"}</span></div>
+      <div class="meta"><h3>${esc(p.n)}</h3></div>
       <p class="desc">${esc(p.d || "")}</p>
+      <div class="buy">${buyHTML(p)}</div>
       <div class="sw">${p.cols.map(k =>
         `<button class="${k===sel[p.id]?'on':''}" data-k="${k}" title="${k}" aria-label="${k}" style="background:${COLORS[k]}"></button>`
       ).join("")}</div>
@@ -1086,29 +1139,33 @@ function reveal() {
   }), { threshold: .05 });
   document.querySelectorAll(".card:not(.in)").forEach(c => io.observe(c));
 }
-function add(id, k) {
-  const f = cart.find(i => i.id === id && i.k === k);
-  f ? f.q++ : cart.push({ id, k, q: 1 });
+function add(id, k, t = defTier(prod(id))) {
+  const f = cart.find(i => i.id === id && i.k === k && (i.t || 0) === (t || 0));
+  f ? f.q++ : cart.push({ id, k, t, q: 1 });
   cartUI(); toast("Agregado al pedido");
 }
 function cartUI() {
+  cart = cart.filter(i => prod(i.id));
   $id("count").textContent = cart.reduce((a, i) => a + i.q, 0);
-  $id("items").innerHTML = cart.length ? cart.filter(it => prod(it.id)).map((it, i) => {
-    const p = prod(it.id);
-    const visual = p.image
-      ? `<img src="${esc(p.image)}" alt="">`
-      : ART[p.a](COLORS[it.k] || COLORS.negro);
+  let total = 0, open = 0;
+  $id("items").innerHTML = cart.length ? cart.map((it, i) => {
+    const p = prod(it.id), u = unitPrice(p, it.t), units = (it.t || 1) * it.q, sub = u * units;
+    u ? total += sub : open++;
+    const visual = p.image ? `<img src="${esc(p.image)}" alt="">` : ART[p.a](COLORS[it.k] || COLORS.negro);
     return `
       <div class="it">
         <div class="t">${visual}</div>
-        <div><h5>${esc(p.n)}</h5><small>Color: ${esc(it.k || "sin especificar")}${p.price ? ` · $ ${esc(String(p.price))}` : ""}</small></div>
-        <div class="qty">
-          <button data-m="${i}" aria-label="Menos">−</button>
-          <span>${it.q}</span>
-          <button data-p="${i}" aria-label="Más">+</button>
+        <div class="inf"><h5>${esc(p.n)}</h5>
+          <small>${esc(it.k)}${it.t ? ` · ${it.q} × x${it.t} = ${units} u.` : ""}${u ? ` · ${fmt(u)} c/u` : ""}</small></div>
+        <div class="bot">
+          <div class="qty"><button data-m="${i}" aria-label="Menos">−</button><span>${it.q}</span><button data-p="${i}" aria-label="Más">+</button></div>
+          <b class="sub">${u ? fmt(sub) : "A cotizar"}</b>
         </div>
       </div>`;
   }).join("") : `<div class="noitems">Todavía no agregaste productos.<br>Elegí del catálogo o probá tu marca arriba.</div>`;
+  $id("cartFoot").hidden = !cart.length;
+  $id("cartTotal").textContent = fmt(total);
+  $id("cartNote").textContent = open ? `${open} ${open > 1 ? "ítems" : "ítem"} a cotizar, no incluido${open > 1 ? "s" : ""} en el total` : "";
   save();
 }
 function toast(t) {
@@ -1126,16 +1183,18 @@ $id("chips").onclick = e => { const b = e.target.closest("[data-c]"); if (!b) re
 $id("q").oninput = e => { query = e.target.value; grid(); };
 $id("grid").onclick = e => {
   const card = e.target.closest(".card"); if (!card) return;
-  const id = +card.dataset.id;
+  const id = +card.dataset.id, p = prod(id);
+  const t = e.target.closest("[data-t]");
+  if (t) { selT[id] = +t.dataset.t; card.querySelector(".buy").innerHTML = buyHTML(p); return; }
   const k = e.target.closest("[data-k]");
   if (k) {
     sel[id] = k.dataset.k;
     const svg = card.querySelector(".pic svg");
-    if (svg) svg.outerHTML = ART[prod(id).a](COLORS[sel[id]]);
+    if (svg) svg.outerHTML = ART[p.a](COLORS[sel[id]]);
     card.querySelectorAll(".sw button").forEach(b => b.classList.toggle("on", b.dataset.k === sel[id]));
     return;
   }
-  if (e.target.closest("[data-add]")) add(id, sel[id]);
+  if (e.target.closest("[data-add]")) add(id, sel[id], getT(p));
 };
 $id("items").onclick = e => {
   const m = e.target.dataset.m, p = e.target.dataset.p;
@@ -1150,17 +1209,16 @@ const wa = t => `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(t)}`;
 $id("waMain").href = wa("Hola SP Recuerdos! Quiero consultar por productos personalizados.");
 $id("send").onclick = () => {
   if (!cart.length) { toast("Agregá al menos un producto"); return; }
-  const lines = cart.filter(i => prod(i.id)).map(i => {
-    const p = prod(i.id);
-    return `• ${i.q} x ${p.n} (${i.k})${p.price ? ` — $ ${p.price}` : ""}`;
+  let total = 0, open = 0;
+  const lines = cart.map(i => {
+    const p = prod(i.id), u = unitPrice(p, i.t), units = (i.t || 1) * i.q, sub = u * units;
+    u ? total += sub : open++;
+    return `• ${p.n} (${i.k}) — ${i.t ? `${i.q} × x${i.t} = ${units} u.` : `${i.q} u.`}${u ? ` · ${fmt(u)} c/u = ${fmt(sub)}` : " · a cotizar"}`;
   }).join("\n");
-  const name = $id("name").value.trim();
-  const note = $id("note").value.trim();
   const b = brand.t ? `\nTexto a grabar: ${brand.t}` : "";
   const lg = brand.img ? `\nTengo logo: lo envío por este chat.` : "";
-  window.open(wa(`Hola SP Recuerdos! Quiero cotizar este pedido:\n\n${lines}\n${b}${lg}${name?`\nNombre/Empresa: ${name}`:""}${note?`\nNotas: ${note}`:""}`), "_blank");
+  window.open(wa(`Hola SP Recuerdos! Quiero hacer este pedido:\n\n${lines}\n\nTOTAL: ${fmt(total)}${open ? ` (+ ${open} a cotizar)` : ""}${b}${lg}`), "_blank");
 };
-
 /* ============================================================
    MOBILE NAV
    ============================================================ */
@@ -1329,7 +1387,7 @@ function renderAdminProdsView() {
     <div class="acard prod" data-prod="${esc(p.id)}">
       <div class="bg">${artOf(p)}</div>
       <span class="arrow">✎</span>
-      <div class="info"><b>${esc(p.n)}</b><small>${p.price ? "$ " + esc(p.price) : "Sin precio"}</small></div>
+      <div class="info"><b>${esc(p.n)}</b><small>${fromPrice(p) ? "Desde " + fmt(fromPrice(p)) : "Sin precio"}</small></div>
     </div>`).join("")
     + `<div class="acard new" data-prod=""><span>+</span>Nuevo producto</div>`;
 }
@@ -1357,6 +1415,7 @@ function showProductForm(id = null) {
     $id("editProductDescription").value = p.d || "";
     $id("editProductPrice").value = p.price || "";
     $id("editProductBadge").value = p.b || "";
+    TIERS.forEach(t => $id("editTier" + t).value = p.tiers?.[t] || "");
     $id("editProductArt").value = p.a || "termo";
     $id("editProductColors").value = (p.cols || []).join(", ");
     $id("productFormTitle").textContent = "Editar Producto";
@@ -1490,7 +1549,8 @@ $id("productForm").addEventListener("submit", async e => {
     price: $id("editProductPrice").value.trim(),
     b: $id("editProductBadge").value.trim(),
     a: $id("editProductArt").value,
-    cols: colors.length ? colors : ["negro"]
+    cols: colors.length ? colors : ["negro"],
+    tiers: Object.fromEntries(TIERS.map(t => [t, $id("editTier" + t).value.trim()]).filter(([, v]) => v))
   };
   
   try {
