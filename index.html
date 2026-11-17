@@ -64,12 +64,21 @@ nav a:hover::after{transform:scaleX(1)}
   display:grid;
   grid-template-columns:minmax(0,1fr) minmax(0,1fr); /* 1:1 */
   gap:clamp(28px,4vw,64px);
-  align-items:center;
+  align-items:stretch;   /* both columns fill the row height */
 }
 
 .hero-left{
   max-width:620px;
-  padding:0;
+  padding:clamp(24px,4vh,48px) 0;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;   /* distribute top → bottom */
+  gap:clamp(14px,2vh,26px);        /* minimum breathing room */
+}
+
+.hero-left > *{
+  margin-top:0;      /* let space-between own the spacing */
+  margin-bottom:0;
 }
 
 .kicker{
@@ -161,11 +170,13 @@ h1 u{text-decoration:none;color:var(--or)}
 .labhead b::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--or)}
 .labhead span{color:var(--mute)}
 
-/* stage flexes to fill leftover height, capped */
+/* stage: 1:1 square, height-driven, centered inside lab */
 .stage{
-  flex:1 1 auto;
-  min-height:200px;
-  max-height:460px;
+  flex:1 1 0%;
+  min-height:0;
+  aspect-ratio:1;
+  align-self:center;   /* centers the square horizontally */
+  max-width:100%;      /* caps at column width on narrow screens */
   display:flex;
   align-items:center;
   justify-content:center;
@@ -173,7 +184,6 @@ h1 u{text-decoration:none;color:var(--or)}
   position:relative;
   overflow:hidden;
 }
-
 .stage::before{
   content:"";
   position:absolute;
