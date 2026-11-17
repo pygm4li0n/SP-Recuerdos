@@ -70,11 +70,11 @@ nav a:hover::after{transform:scaleX(1)}
 
 .hero-left{
   max-width:none;
-  padding:clamp(24px,4vh,48px) 0;
+  padding:clamp(12px,2vh,28px) 0;  /* was clamp(24px,4vh,48px) – tighter top/bottom */
   display:flex;
   flex-direction:column;
-  justify-content:center;          /* was space-between */
-  gap:clamp(20px,3vh,42px);        /* was clamp(14px,2vh,26px) */
+  justify-content:space-between;   /* kicker top, CTA bottom, h1/lede in the middle */
+  gap:clamp(18px,2.6vh,36px);      /* minimum breathing between blocks */
 }
 .hero-left > *{
   margin-top:0;      /* let space-between own the spacing */
@@ -98,10 +98,10 @@ nav a:hover::after{transform:scaleX(1)}
 }
 
 h1{
-  font-size:clamp(52px,6.9vw,120px);
+  font-size:clamp(54px,7.15vw,124px);
   font-weight:600;
-  letter-spacing:-.055em;
-  line-height:.94;
+  letter-spacing:-.06em;
+  line-height:.93;
 }
 h1 u{text-decoration:none;color:var(--or)}
 
