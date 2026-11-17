@@ -243,7 +243,7 @@ h1 u{text-decoration:none;color:var(--or)}
   /* TABLET / MOBILE — hero text first, simulator stacked below */
 @media(max-width:960px){
   .hero{
-    min-height:0;
+    min-height:auto; /* Permite que el simulador fluya hacia arriba */
     padding:0;
     display:block;
   }
@@ -256,37 +256,42 @@ h1 u{text-decoration:none;color:var(--or)}
     max-width:100%;
   }
 
-  /* fills the first screen with just the text */
+  /* Texto arriba, pegado al header */
   .hero-left{
-    min-height:calc(100svh - 102px);
+    min-height:auto; /* Elimina el espacio forzado de pantalla completa */
     width:100%;
     max-width:none;
-    padding:40px 28px;
+    padding:20px 20px 10px;
     display:flex;
     flex-direction:column;
-    justify-content:center;
+    justify-content:flex-start;
   }
 
-  /* simulator appears below, after scroll */
+  /* Simulador compacto justo abajo */
   .lab{
     width:auto;
     max-height:none;
-    margin:0 28px 56px;
+    margin:0 20px 40px;
   }
 
-  .stage{min-height:260px;max-height:420px}
-  h1{font-size:clamp(52px,9vw,80px)}
-  h1 br{display:none}   /* ← let the h1 wrap naturally on mobile */
+  .stage{min-height:200px;max-height:300px}
+  h1{font-size:clamp(44px,8vw,60px); margin-bottom:12px}
+  .kicker { margin-bottom: 12px; }
+  .lede { font-size: 15px; line-height:1.45; margin-bottom: 16px; }
+  .heroact { margin-top: 0; }
+  h1 br{display:none}
 }
 
 @media(max-width:560px){
-  /* Optimized mobile spacing to fit perfectly */
-  .hero-left{padding:24px 20px; gap:20px}
-  .lab{margin:0 20px 44px}
-  h1{font-size:clamp(44px,12vw,64px); line-height:1.05}
-  .lede{margin-top:0; font-size:15.5px}
-  .heroact{margin-top:0}
-  .stage{min-height:220px;max-height:340px}
+  .hero-left{padding:16px 20px 10px}
+  .lab{margin:0 20px 32px}
+  h1{font-size:clamp(38px,10vw,52px); line-height:1.05; margin-bottom:8px}
+  .lede{font-size:14px; line-height:1.4; margin-bottom:12px}
+  .heroact{gap:16px}
+  .stage{min-height:180px;max-height:250px} /* Simulador aún más chico para que entre todo */
+  .ctrl { padding: 10px 12px; gap: 8px; }
+  .field input { padding: 8px 10px; font-size: 14px;}
+  .tab { padding: 4px 10px; font-size: 12px; }
 }
 
 /* SHORT DESKTOPS — compress so it still fits above the fold */
@@ -347,7 +352,6 @@ section{padding:90px 0;scroll-margin-top:80px}
 .search:focus{border-color:var(--ink)}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:46px 24px}
 @media(max-width:980px){.grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:560px){.grid{grid-template-columns:1fr}}
 .card{opacity:0;transform:translateY(14px);transition:opacity .6s,transform .6s}
 .card.in{opacity:1;transform:none}
 .pic{background:var(--panel);border-radius:8px;aspect-ratio:1/1.08;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
@@ -374,6 +378,20 @@ section{padding:90px 0;scroll-margin-top:80px}
 .card .sw{margin-top:12px}
 .card .sw button{width:16px;height:16px}
 .empty{grid-column:1/-1;text-align:center;color:var(--mute);padding:60px 0}
+
+/* Mobile Catalog Overrides — placed last so they win the cascade */
+@media(max-width:560px){
+  .grid{grid-template-columns:repeat(2,1fr); gap:24px 12px;}
+  .meta { flex-direction: column; align-items: flex-start; gap: 4px; margin-top: 12px; }
+  .meta h3{font-size:14px; line-height:1.25}
+  .meta span{font-size:12px}
+  .meta span.price{font-size:18px; padding-top:0}
+  .desc{font-size:12px; margin-top:4px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;}
+  .card .sw{margin-top:8px; flex-wrap: wrap}
+  .card .sw button{width:14px;height:14px}
+  .quick { padding: 10px; font-size: 13px; bottom: 10px; left: 10px; right: 10px;}
+  .badge { top: 10px; left: 10px; font-size: 10px; padding: 2px 8px;}
+}
 
 /* PROCESS */
 .process{border-top:1px solid var(--line)}
