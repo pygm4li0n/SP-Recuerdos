@@ -307,13 +307,42 @@ h1 u{text-decoration:none;color:var(--or)}
 }
 
 /* STRIP */
-.strip{border-block:1px solid var(--line)}
-.strip .wrap{display:grid;grid-template-columns:repeat(4,1fr)}
-.strip div{padding:20px 0 20px 22px;border-left:1px solid var(--line);font-size:14px}
-.strip div:first-child{border-left:0;padding-left:0}
-.strip b{display:block;font-weight:600}
-.strip span{color:var(--mute)}
-@media(max-width:760px){.strip .wrap{grid-template-columns:1fr 1fr}.strip div:nth-child(3){border-left:0;padding-left:0}.strip div:nth-child(n+3){border-top:1px solid var(--line)}}
+.strip{padding:8px 0 40px}
+.strip .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.strip div{
+  padding:18px 20px;
+  background:var(--panel);
+  border-radius:10px;
+  font-size:14px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  transition:.2s;
+}
+.strip div:hover{background:var(--line)}
+.strip b{display:block;font-weight:700;font-size:14px;margin-bottom:3px;color:var(--ink)}
+.strip span{color:var(--mute);font-size:13px}
+@media(max-width:760px){
+  .strip{padding:8px 0 28px}
+  .strip .wrap{
+    display:flex;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
+    padding:0 20px 8px;
+    gap:10px;
+    scrollbar-width:none;
+  }
+  .strip .wrap::-webkit-scrollbar{display:none}
+  .strip div{
+    flex:0 0 auto;
+    min-width:140px;
+    padding:14px 18px;
+    scroll-snap-align:start;
+  }
+}
 
 /* SAY */
 .say{padding:100px 0 60px}
@@ -419,8 +448,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
 footer .logo{margin-right:0}
 @media(max-width:760px){
   footer{padding:22px 0}
-  footer .wrap{flex-direction:column;gap:12px;text-align:center;align-items:center}
-  footer .footer-tagline{font-size:11px;line-height:1.5;color:#7a756d;max-width:280px}
+  footer .wrap{flex-direction:column;gap:12px;text-align:center;align-items:center;padding:0 16px}
+  footer .footer-tagline{font-size:9px;line-height:1.4;color:#7a756d;max-width:none;white-space:nowrap;letter-spacing:-0.01em}
 }
 
 /* DRAWER */
