@@ -70,11 +70,11 @@ nav a:hover::after{transform:scaleX(1)}
 
 .hero-left{
   max-width:none;
-  padding:clamp(12px,2vh,28px) 0;  /* was clamp(24px,4vh,48px) – tighter top/bottom */
+  padding:clamp(10px,1.5vh,24px) 0;   /* tighter top/bottom edges */
   display:flex;
   flex-direction:column;
-  justify-content:space-between;   /* kicker top, CTA bottom, h1/lede in the middle */
-  gap:clamp(18px,2.6vh,36px);      /* minimum breathing between blocks */
+  justify-content:space-between;      /* kicker top → CTA bottom */
+  gap:clamp(18px,2.6vh,34px);         /* min breathing */
 }
 .hero-left > *{
   margin-top:0;      /* let space-between own the spacing */
@@ -98,25 +98,25 @@ nav a:hover::after{transform:scaleX(1)}
 }
 
 h1{
-  font-size:clamp(54px,7.15vw,124px);
+  font-size:clamp(56px,7.35vw,132px);
   font-weight:600;
-  letter-spacing:-.06em;
-  line-height:.93;
+  letter-spacing:-.065em;
+  line-height:1.03;
 }
 h1 u{text-decoration:none;color:var(--or)}
 
-.lede{
-  max-width:470px;
+..lede{
+  max-width:520px;
   color:var(--mute);
-  margin-top:24px;
-  font-size:clamp(15px,1.2vw,17px);
+  margin-top:0;                /* space-between + gap handle it */
+  font-size:clamp(16px,1.28vw,18px);
 }
 
 .heroact{
   display:flex;
-  gap:24px;
+  gap:28px;
   align-items:center;
-  margin-top:30px;
+  margin-top:0;
   flex-wrap:wrap;
 }
 
