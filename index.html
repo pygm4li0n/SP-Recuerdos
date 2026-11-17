@@ -70,11 +70,11 @@ nav a:hover::after{transform:scaleX(1)}
 
 .hero-left{
   max-width:none;
-  padding:clamp(10px,1.5vh,24px) 0;   /* tighter top/bottom edges */
+  padding:clamp(10px,1.5vh,24px) 0;
   display:flex;
   flex-direction:column;
-  justify-content:space-between;      /* kicker top → CTA bottom */
-  gap:clamp(18px,2.6vh,34px);         /* min breathing */
+  justify-content:center;              /* tight group, centered – matches reference */
+  gap:clamp(22px,3.2vh,42px);          /* breathable but compact */
 }
 .hero-left > *{
   margin-top:0;      /* let space-between own the spacing */
@@ -98,18 +98,19 @@ nav a:hover::after{transform:scaleX(1)}
 }
 
 h1{
-  font-size:clamp(56px,7.35vw,132px);
+  font-size:clamp(58px,7.6vw,122px);
   font-weight:600;
   letter-spacing:-.065em;
-  line-height:1.03;
+  line-height:1;
 }
 h1 u{text-decoration:none;color:var(--or)}
 
-..lede{
-  max-width:520px;
+.lede{
+  max-width:560px;
   color:var(--mute);
-  margin-top:0;                /* space-between + gap handle it */
-  font-size:clamp(16px,1.28vw,18px);
+  margin-top:0;
+  font-size:clamp(16.5px,1.34vw,19px);
+  line-height:1.55;
 }
 
 .heroact{
@@ -273,13 +274,13 @@ h1 u{text-decoration:none;color:var(--or)}
   }
 
   .stage{min-height:260px;max-height:420px}
-  h1{font-size:clamp(46px,8vw,72px)}
+  h1{font-size:clamp(52px,10vw,88px)}
 }
 
 @media(max-width:560px){
   .hero-left{padding:32px 20px}
   .lab{margin:0 20px 44px}
-  h1{font-size:clamp(43px,12vw,60px)}
+  h1{font-size:clamp(48px,13.5vw,68px)}
   .lede{margin-top:18px}
   .heroact{margin-top:22px}
   .stage{min-height:220px;max-height:340px}
@@ -346,9 +347,17 @@ section{padding:90px 0;scroll-margin-top:80px}
 .card:hover .quick{opacity:1;transform:none}
 .quick:hover{background:var(--or);color:#000}
 @media(hover:none){.quick{opacity:1;transform:none}}
-.meta{display:flex;justify-content:space-between;gap:14px;margin-top:16px;align-items:baseline}
-.meta h3{font-size:17px;font-weight:600;letter-spacing:-.015em;line-height:1.25}
-.meta span{font-size:13px;color:var(--mute);white-space:nowrap;font-weight:600}
+.meta{display:flex;justify-content:space-between;gap:14px;margin-top:16px;align-items:flex-start}
+.meta h3{font-size:17px;font-weight:600;letter-spacing:-.015em;line-height:1.25;flex:1 1 auto;min-width:0}
+.meta span{font-size:14px;color:var(--mute);white-space:nowrap;font-weight:600;padding-top:2px}
+.meta span.price{
+  font-size:22px;
+  font-weight:800;
+  color:var(--ink);
+  letter-spacing:-.025em;
+  padding-top:0;
+  line-height:1.05;
+}
 .desc{font-size:14px;color:var(--mute);margin-top:4px;max-width:34ch}
 .card .sw{margin-top:12px}
 .card .sw button{width:16px;height:16px}
@@ -890,7 +899,7 @@ function grid() {
           : ART[p.a](COLORS[sel[p.id]] || COLORS.negro)}
         <button class="quick" data-add="${p.id}">Agregar al pedido</button>
       </div>
-      <div class="meta"><h3>${esc(p.n)}</h3><span>${p.price ? `$ ${esc(String(p.price))}` : "Consultar"}</span></div>
+      <div class="meta"><h3>${esc(p.n)}</h3><span${p.price ? ' class="price"' : ''}>${p.price ? `$ ${esc(String(p.price))}` : "Consultar"}</span></div>
       <p class="desc">${esc(p.d || "")}</p>
       <div class="sw">${p.cols.map(k =>
         `<button class="${k===sel[p.id]?'on':''}" data-k="${k}" title="${k}" aria-label="${k}" style="background:${COLORS[k]}"></button>`
@@ -930,7 +939,7 @@ function cartUI() {
     return `
       <div class="it">
         <div class="t">${visual}</div>
-        <div><h5>${esc(p.n)}</h5><small>Color: ${esc(it.k || "sin especificar")}</small></div>
+        <div><h5>${esc(p.n)}</h5><small>Color: ${esc(it.k || "sin especificar")}${p.price ? ` · $ ${esc(String(p.price))}` : ""}</small></div>
         <div class="qty">
           <button data-m="${i}" aria-label="Menos">−</button>
           <span>${it.q}</span>
