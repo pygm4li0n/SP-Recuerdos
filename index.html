@@ -676,6 +676,7 @@ footer .logo{margin-right:0}
 
 .acard{
   aspect-ratio:1;
+  contain:size;                    /* ⭐ ignore content's intrinsic size */
   min-height:0;
   position:relative;
   overflow:hidden;
@@ -684,8 +685,6 @@ footer .logo{margin-right:0}
   border:1px solid var(--a-border);
   cursor:pointer;
   display:grid;
-  /* minmax(0,1fr) caps the preview track at 0 minimum so an uploaded
-     photo can never push the card taller than its 1:1 box */
   grid-template-rows:minmax(0,1fr) auto;
   transition:transform .25s ease, border-color .25s, box-shadow .25s, background .25s;
 }
