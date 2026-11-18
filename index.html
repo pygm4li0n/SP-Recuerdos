@@ -316,47 +316,63 @@ h1 u{text-decoration:none;color:var(--or)}
   .labhead{padding:10px 16px}
 }
 
-/* SAY (HORIZONTAL SCROLL) */
-.say-scroll {
-  position: relative;
-  height: 300vh; /* Da espacio para scrollear 3 pantallas */
+/* SAY (TARJETA HORIZONTAL QUE ACTUALIZA AL BAJAR) */
+.say-simple {
+  padding: 80px 0;
   background: var(--paper);
 }
-.say-sticky {
-  position: sticky;
-  top: 0;
-  height: 100vh;
+.say-card {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  height: 250px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
   display: flex;
   align-items: center;
-  overflow: hidden;
 }
-.say-track {
-  display: flex;
-  width: 300vw;
-  will-change: transform;
-  transition: transform 0.1s linear;
-}
-.say-item {
-  width: 100vw;
-  flex-shrink: 0;
+.say-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0 60px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0 10vw;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  pointer-events: none;
 }
-.say-item strong {
-  font-size: clamp(60px, 12vw, 180px);
+.say-slide.active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.say-slide strong {
+  font-size: clamp(48px, 6vw, 72px);
   font-weight: 600;
-  letter-spacing: -.06em;
-  line-height: .9;
+  letter-spacing: -.04em;
+  line-height: 1;
   color: var(--ink);
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
-.say-item p {
-  font-size: clamp(16px, 2vw, 22px);
+.say-slide p {
+  font-size: 18px;
   color: var(--mute);
   max-width: 500px;
   line-height: 1.5;
+}
+@media(max-width:760px){
+  .say-card{height: 280px;}
+  .say-slide{padding: 0 30px;}
+  .say-slide strong{font-size: 40px;}
+  .say-slide p{font-size: 16px;}
 }
 
 /* CATALOG */
@@ -453,20 +469,19 @@ section{padding:56px 0;scroll-margin-top:80px}
 .step small{font-size:14px;color:var(--mute)}
 .step h4{font-size:28px;font-weight:600;letter-spacing:-.02em;margin:36px 0 10px}
 .step p{font-size:16px;color:var(--mute);line-height:1.55}
-
-/* CONTACT (DARK THEME & WORDPLAY) */
-.contact{background:var(--ink);color:#fff;padding:100px 0} /* Fondo oscuro como el header */
+/* CONTACT (ORANGE & WORDPLAY) */
+.contact{background:var(--or);color:#000;padding:80px 0}
 .contact .wrap{display:grid;grid-template-columns:1.3fr .7fr;gap:60px;align-items:end}
 @media(max-width:860px){.contact .wrap{grid-template-columns:1fr}}
 .contact h2{
-  font-size:clamp(46px,8.4vw,136px);
+  font-size:clamp(40px,7vw,100px);
   letter-spacing:-.05em;
-  line-height:.93;
-  color:#fff;
+  line-height:.95;
+  color:#000;
 }
-.contact h2 em{font-family:Georgia,"Times New Roman",serif;font-style:italic;font-weight:400;color:var(--or)} /* Juego de letra 1 */
-.contact h2 u{text-decoration:none;color:var(--or)} /* Juego de letra 2 */
-.contact p{margin-bottom:28px;max-width:440px;font-size:19px;line-height:1.55;color:#b8b4aa} /* Párrafo más sutil */
+.contact h2 em{font-family:Georgia,"Times New Roman",serif;font-style:italic;font-weight:400;color:#fff}
+.contact h2 u{text-decoration:none;color:#fff}
+.contact p{margin-bottom:28px;max-width:440px;font-size:19px;line-height:1.55;color:#000;opacity:0.85}
 
 @media(max-width:560px){
   .contact-actions{flex-wrap:nowrap;gap:8px;width:100%}
@@ -872,18 +887,18 @@ footer .logo{margin-right:0}
   </div>
 </section>
 
-<section class="say-scroll">
-  <div class="say-sticky">
-    <div class="say-track" id="sayTrack">
-      <div class="say-item">
+<section class="say-simple" id="saySection">
+  <div class="wrap">
+    <div class="say-card">
+      <div class="say-slide active">
         <strong>se use.</strong>
         <p>Productos pensados para el día a día: termos, mates, botellas y más.</p>
       </div>
-      <div class="say-item">
+      <div class="say-slide">
         <strong>se vea.</strong>
         <p>Tu logo grabado o impreso en cada pieza, bien presente.</p>
       </div>
-      <div class="say-item">
+      <div class="say-slide">
         <strong>se comparta.</strong>
         <p>Regalos para clientes, equipos y eventos que dejan recuerdo.</p>
       </div>
@@ -1836,26 +1851,29 @@ async function initSite() {
   }
   refreshCatalogState();
   lab(); chips(); grid(); cartUI();
-  setupHorizontalScroll();
+  setupSayScroll();
 }
 initSite();
-
-/* Horizontal scroll animation for SAY section */
-function setupHorizontalScroll() {
-  const section = document.querySelector('.say-scroll');
-  const track = document.getElementById('sayTrack');
-  if (!section || !track) return;
+/* Scroll simple para cambiar el texto de la tarjeta SAY */
+function setupSayScroll() {
+  const section = document.getElementById('saySection');
+  const slides = document.querySelectorAll('.say-slide');
+  if (!section || !slides.length) return;
 
   window.addEventListener('scroll', () => {
     const rect = section.getBoundingClientRect();
-    const sectionHeight = section.offsetHeight - window.innerHeight;
-    
-    // Solo animamos cuando la sección está en pantalla
-    if (rect.top <= 0 && rect.top >= -sectionHeight) {
-      const progress = Math.abs(rect.top) / sectionHeight;
-      // Mueve el track hacia la izquierda (0vw a -200vw)
-      track.style.transform = `translateX(-${progress * 200}vw)`;
-    }
+    const windowH = window.innerHeight;
+
+    // Calcula el progreso de 0 a 1 según cuánto scrolleaste a través de la sección
+    const scrollProgress = (windowH - rect.top) / (windowH + rect.height);
+
+    let activeIndex = 0;
+    if (scrollProgress > 0.35) activeIndex = 1;
+    if (scrollProgress > 0.65) activeIndex = 2;
+
+    slides.forEach((slide, i) => {
+      slide.classList.toggle('active', i === activeIndex);
+    });
   });
 }
 </script>
