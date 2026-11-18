@@ -848,6 +848,11 @@ footer .logo{margin-right:0}
   .pf-main{border:0;padding:0;overflow:visible}
   .pf-tiers{grid-template-columns:repeat(3,1fr)}
 }
+.crow{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
+.crow .cn{display:flex;align-items:center;gap:8px;font-size:13px;text-transform:capitalize}
+.crow .cn i{width:12px;height:12px;border-radius:50%;box-shadow:inset 0 0 0 1px #0003}
+.it .hint{display:block;margin-top:8px;font-size:12px;font-weight:600;color:var(--or)}
+.it .bot{justify-content:flex-end}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -1216,7 +1221,7 @@ const selT = {};
 const getT = p => tiersOf(p).includes(selT[p.id]) ? selT[p.id] : defTier(p);
 const unitPrice = (p, t) => (t && num(p.tiers?.[t]) > 0) ? num(p.tiers[t]) : num(p.price);
 const fromPrice = p => { const a = [...tiersOf(p).map(t => num(p.tiers[t])), num(p.price)].filter(x => x > 0); return a.length ? Math.min(...a) : 0; };
-cart = cart.map(i => ({ t: 0, ...i }));
+cart = cart.map(i => ({ id: i.id, k: i.k, q: (i.q || 1) * (i.t || 1) }));
 function buyHTML(p) {
   const ts = tiersOf(p), t = getT(p), u = unitPrice(p, t);
   if (!u) return `<span class="price q">Consultar</span>`;
@@ -1225,9 +1230,7 @@ function buyHTML(p) {
     ${t ? `<small class="tot">${t} ${t === 1 ? "unidad" : "unidades"} · ${fmt(u * t)}</small>` : ""}`;
 }
 
-/* ============================================================
-   PROBADOR: RENDER
-   ============================================================ */
+/* PROBADOR: RENDER */
 function lab() {
   const p = prod(labId) || P[0];
   if (!p) return;
@@ -1275,9 +1278,7 @@ $id("stage").onpointermove = e => {
 };
 $id("stage").onpointerleave = () => $id("obj").style.transform = "";
 
-/* ============================================================
-   CATÁLOGO
-   ============================================================ */
+/* CATÁLOGO */
 function chips() {
   $id("chips").innerHTML = CATS.filter(c => c === "Todos" || P.some(p => p.c === c)).map(c =>
     `<button class="chip ${c===cat?'on':''}" data-c="${esc(c)}">${esc(c)}</button>`
@@ -1324,29 +1325,42 @@ function reveal() {
     if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
   }), { threshold: .05 });
   document.querySelectorAll(".card:not(.in)").forEach(c => io.observe(c));
-}
+}  
 function add(id, k, t = defTier(prod(id))) {
-  const f = cart.find(i => i.id === id && i.k === k && (i.t || 0) === (t || 0));
-  f ? f.q++ : cart.push({ id, k, t, q: 1 });
+  const n = t > 0 ? t : 1;
+  const f = cart.find(i => i.id === id && i.k === k);
+  f ? f.q += n : cart.push({ id, k, q: n });
   cartUI(); toast("Agregado al pedido");
 }
+const totalU = id => cart.filter(i => i.id === id).reduce((a, i) => a + i.q, 0);
+const tierFor = (p, n) => Math.max(0, ...tiersOf(p).filter(t => t <= n));
+const unitFor = (p, n) => {
+  const t = tierFor(p, n);
+  if (t) return num(p.tiers[t]);
+  return num(p.price) || (tiersOf(p).length ? num(p.tiers[tiersOf(p)[0]]) : 0);
+};
 function cartUI() {
   cart = cart.filter(i => prod(i.id));
   $id("count").textContent = cart.reduce((a, i) => a + i.q, 0);
   let total = 0, open = 0;
-  $id("items").innerHTML = cart.length ? cart.map((it, i) => {
-    const p = prod(it.id), u = unitPrice(p, it.t), units = (it.t || 1) * it.q, sub = u * units;
+  const ids = [...new Set(cart.map(i => i.id))];
+  $id("items").innerHTML = ids.length ? ids.map(id => {
+    const p = prod(id), n = totalU(id), u = unitFor(p, n), sub = u * n, tr = tierFor(p, n);
     u ? total += sub : open++;
-    const visual = p.image ? `<img src="${esc(p.image)}" alt="">` : ART[p.a](COLORS[it.k] || COLORS.negro);
+    const nt = TIERS.find(t => t > n && num(p.tiers?.[t]) > 0);
+    const hint = nt ? `Sumá ${nt - n} u. más y pagás ${fmt(num(p.tiers[nt]))} c/u (x${nt})` : "";
+    const visual = p.image ? `<img src="${esc(p.image)}" alt="">` : ART[p.a](COLORS[cart.find(i => i.id === id).k] || COLORS.negro);
+    const rows = cart.map((it, i) => ({ it, i })).filter(x => x.it.id === id).map(({ it, i }) => `
+      <div class="crow"><label class="cn"><i style="background:${COLORS[it.k] || "#999"}"></i>${esc(it.k)}</label>
+        <div class="qty"><button data-m="${i}" aria-label="Menos">−</button><span>${it.q}</span><button data-p="${i}" aria-label="Más">+</button></div></div>`).join("");
     return `
       <div class="it">
         <div class="t">${visual}</div>
         <div class="inf"><h5>${esc(p.n)}</h5>
-          <small>${esc(it.k)} · ${it.t > 1 ? `${it.q} × pack x${it.t} = ${units} u.` : `${units} u.`}${u ? ` · ${fmt(u)} c/u` : ""}</small></div>
-        <div class="bot">
-          <div class="qty"><button data-m="${i}" aria-label="Menos">−</button><span>${it.q}</span><button data-p="${i}" aria-label="Más">+</button></div>
-          <b class="sub">${u ? fmt(sub) : "A cotizar"}</b>
-        </div>
+          <small>${n} u.${u ? ` · ${fmt(u)} c/u${tr > 1 ? ` (precio x${tr})` : ""}` : ""}</small>
+          ${rows}
+          ${hint ? `<span class="hint">${hint}</span>` : ""}</div>
+        <div class="bot"><b class="sub">${u ? fmt(sub) : "A cotizar"}</b></div>
       </div>`;
   }).join("") : `<div class="noitems">Todavía no agregaste productos.<br>Elegí del catálogo o probá tu marca arriba.</div>`;
   $id("cartFoot").hidden = !cart.length;
@@ -1403,10 +1417,11 @@ $id("waMain").href = wa("Hola SP Recuerdos! Quiero consultar por productos perso
 $id("send").onclick = () => {
   if (!cart.length) { toast("Agregá al menos un producto"); return; }
   let total = 0, open = 0;
-  const lines = cart.map(i => {
-    const p = prod(i.id), u = unitPrice(p, i.t), units = (i.t || 1) * i.q, sub = u * units;
+  const lines = [...new Set(cart.map(i => i.id))].map(id => {
+    const p = prod(id), n = totalU(id), u = unitFor(p, n), sub = u * n;
     u ? total += sub : open++;
-    return `• ${p.n} (${i.k}) — ${i.t > 1 ? `${i.q} × pack x${i.t} = ${units} u.` : `${units} u.`}${u ? ` · ${fmt(u)} c/u = ${fmt(sub)}` : " · a cotizar"}`;
+    const cs = cart.filter(i => i.id === id).map(i => `${i.q} ${i.k}`).join(", ");
+    return `• ${p.n} — ${n} u. (${cs})${u ? ` · ${fmt(u)} c/u = ${fmt(sub)}` : " · a cotizar"}`;
   }).join("\n");
   const b = brand.t ? `\nTexto a grabar: ${brand.t}` : "";
   const lg = brand.img ? `\nTengo logo: lo envío por este chat.` : "";
