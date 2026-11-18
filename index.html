@@ -349,10 +349,12 @@ section{padding:56px 0;scroll-margin-top:80px}
   position:relative;overflow:hidden;
 }
 .pic svg{width:56%;height:auto;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
-.pic .product-photo{width:72%;height:78%;object-fit:contain;filter:drop-shadow(0 18px 18px #0002);transition:transform .6s cubic-bezier(.2,.7,.2,1)}
-.card:hover .pic svg,.card:hover .pic .product-photo{transform:translateY(-8px) scale(1.03)}
-.badge{position:absolute;top:14px;left:14px;font-size:12px;background:var(--ink);color:var(--paper);padding:4px 11px;border-radius:99px}
-.quick{position:absolute;left:14px;right:14px;bottom:14px;background:var(--ink);color:var(--paper);border-radius:99px;padding:12px;font-size:14px;font-weight:600;text-align:center;opacity:0;transform:translateY(8px);transition:.3s}
+.pic{cursor:zoom-in}
+.pic .product-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.card:hover .pic svg{transform:translateY(-8px) scale(1.03)}
+.card:hover .pic .product-photo{transform:scale(1.05)}
+.badge{z-index:2;position:absolute;top:14px;left:14px;font-size:12px;background:var(--ink);color:var(--paper);padding:4px 11px;border-radius:99px}
+.quick{z-index:2;position:absolute;left:14px;right:14px;bottom:14px;background:var(--ink);color:var(--paper);border-radius:99px;padding:12px;font-size:14px;font-weight:600;text-align:center;opacity:0;transform:translateY(8px);transition:.3s}
 .card:hover .quick{opacity:1;transform:none}
 .quick:hover{background:var(--or);color:#000}
 @media(hover:none){.quick{opacity:1;transform:none}}
@@ -504,7 +506,7 @@ footer .logo{margin-right:0}
 .it{display:grid;grid-template-columns:72px 1fr;gap:8px 16px;align-items:start;padding:18px 0;border-bottom:1px solid var(--line)}
 .it .t{grid-row:1/3;width:72px;height:72px;border-radius:8px;background:var(--panel);display:grid;place-items:center;overflow:hidden}
 .it .t svg{width:62%}
-.it .t img{width:88%;height:88%;object-fit:contain}
+.it .t img{width:100%;height:100%;object-fit:cover}
 .it h5{font-size:15px;font-weight:600;line-height:1.25}
 .it small{display:block;margin-top:2px;color:var(--mute);font-size:12.5px;line-height:1.4}
 .it .bot{display:flex;justify-content:space-between;align-items:center;gap:10px}
@@ -811,6 +813,41 @@ footer .logo{margin-right:0}
 .admin-loading{display:flex;align-items:center;justify-content:center;gap:12px;padding:60px 22px;font-size:15px;color:var(--a-mute);margin:auto}
 .admin-loading::before{content:"";width:16px;height:16px;border-radius:50%;border:2px solid var(--a-mute);border-top-color:var(--or);animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
+
+/* Lightbox */
+.lb{position:fixed;inset:0;z-index:250;background:#000d;display:none;align-items:center;justify-content:center;padding:4vmin;cursor:zoom-out}
+.lb.on{display:flex}
+.lb img{max-width:100%;max-height:100%;border-radius:10px}
+.lb svg{width:min(80vmin,520px);height:auto;background:var(--panel);border-radius:10px;padding:20px}
+.lb-x{position:absolute;top:14px;right:18px;color:#fff;font-size:34px;line-height:1}
+
+/* Admin: fotos llenan las cards */
+.acard .bg{padding:0}
+.acard .bg img{width:100%;height:100%;max-width:none;max-height:none;object-fit:cover}
+.acard .bg svg{max-width:62%;max-height:62%}
+.pf-prev .admin-preview{max-width:100%;max-height:100%;width:100%;height:100%;object-fit:cover}
+.pf-foot{position:sticky;bottom:0;background:var(--a-bg);padding:10px 0}
+.acard .bg{position:relative}
+.acard .bg img{position:absolute;inset:0}
+
+/* Admin: limpio en mobile */
+@media(max-width:560px){
+  .admin-overlay{padding:0}
+  .admin-box{border-radius:0;border:0}
+  .admin-head{height:54px}
+  .admin-view{padding:14px;gap:12px}
+  .admin-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%}
+  #adminNewProdBtn,#adminBatchBtn,#adminSaveProdBtn{grid-column:1/-1}
+  .admin-btn{padding:11px 12px;font-size:13px}
+  .admin-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .acard .arrow{display:none}
+  .acard .info{padding:7px 9px}
+  .acard b{font-size:12.5px}
+  .acard small{font-size:10.5px}
+  .pf-prev{max-width:170px}
+  .pf-main{border:0;padding:0;overflow:visible}
+  .pf-tiers{grid-template-columns:repeat(3,1fr)}
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -923,6 +960,7 @@ footer .logo{margin-right:0}
   </div>
 </aside>
 <div class="toast" id="toast"></div>
+<div class="lb" id="lb"><button class="lb-x" aria-label="Cerrar">×</button><div id="lbBody" style="display:contents"></div></div>
 
 <!-- ADMIN DARK OVERLAY -->
 <div class="admin-overlay" id="adminOverlay" aria-hidden="true">
@@ -989,8 +1027,11 @@ footer .logo{margin-right:0}
             <button class="admin-btn alt" id="adminRenameCatBtn" type="button">Renombrar</button>
             <button class="admin-btn danger" id="adminDeleteCatBtn" type="button">Eliminar categoría</button>
             <button class="admin-btn" id="adminNewProdBtn" type="button">+ Nuevo producto</button>
+            <button class="admin-btn" id="adminBatchBtn" type="button">⇪ Cargar varias fotos</button>
+            <input type="file" id="adminBatch" accept="image/png,image/jpeg,image/webp" multiple hidden>
           </div>
         </div>
+        <div class="admin-msg" id="batchMsg"></div>
         <div class="admin-grid" id="adminProdList"></div>
       </div>
 
@@ -1039,6 +1080,7 @@ footer .logo{margin-right:0}
             <div class="admin-field">
               <label>Precio por unidad según pack</label>
               <div class="pf-tiers">
+                <div><small>x1</small><input id="editTier1" inputmode="decimal" placeholder="$"></div>
                 <div><small>x10</small><input id="editTier10" inputmode="decimal" placeholder="$"></div>
                 <div><small>x25</small><input id="editTier25" inputmode="decimal" placeholder="$"></div>
                 <div><small>x50</small><input id="editTier50" inputmode="decimal" placeholder="$"></div>
@@ -1084,7 +1126,7 @@ footer .logo{margin-right:0}
 /* ============================================================
    CONFIG
    ============================================================ */
-const WHATSAPP = "+549 236 420-4716"; // ej: "5493462123456" (sin + ni espacios).
+const WHATSAPP = "5492364204716"; // solo dígitos
 const SUPABASE_URL = "https://zzrmqidzfjqrmrictels.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_6b27IFeNHruaWcIO5mP_yg_lwn79eZ5";
 const CONTENT_TABLE = "sp_recuerdos_content";
@@ -1160,8 +1202,13 @@ const sel = {}; P.forEach(p => sel[p.id] = p.cols[0]);
 try { cart = JSON.parse(localStorage.getItem("sp_cart") || "[]"); } catch (e) { cart = []; }
 const save = () => { try { localStorage.setItem("sp_cart", JSON.stringify(cart)); } catch (e) {} };
 const prod = id => P.find(p => p.id === id);
-const TIERS = [10, 25, 50, 100];
-const num = v => { const n = parseFloat(String(v ?? "").replace(/\./g, "").replace(",", ".")); return isFinite(n) ? n : 0; };
+const TIERS = [1, 10, 25, 50, 100];
+const num = v => {
+  let s = String(v ?? "").trim().replace(/[^\d.,]/g, "");
+  if (s.includes(",")) s = s.replace(/\./g, "").replace(",", ".");
+  else if (/^\d{1,3}(\.\d{3})+$/.test(s)) s = s.replace(/\./g, "");
+  const n = parseFloat(s); return isFinite(n) ? n : 0;
+};
 const fmt = n => "$ " + Math.round(n).toLocaleString("es-AR");
 const tiersOf = p => TIERS.filter(t => num(p.tiers?.[t]) > 0);
 const defTier = p => tiersOf(p)[0] || 0;
@@ -1175,7 +1222,7 @@ function buyHTML(p) {
   if (!u) return `<span class="price q">Consultar</span>`;
   return `${ts.length ? `<div class="tiers">${ts.map(x => `<button class="${x === t ? "on" : ""}" data-t="${x}">x${x}</button>`).join("")}</div>` : ""}
     <span class="price">${fmt(u)}<small> c/u</small></span>
-    ${t ? `<small class="tot">${t} unidades · ${fmt(u * t)}</small>` : ""}`;
+    ${t ? `<small class="tot">${t} ${t === 1 ? "unidad" : "unidades"} · ${fmt(u * t)}</small>` : ""}`;
 }
 
 /* ============================================================
@@ -1295,7 +1342,7 @@ function cartUI() {
       <div class="it">
         <div class="t">${visual}</div>
         <div class="inf"><h5>${esc(p.n)}</h5>
-          <small>${esc(it.k)}${it.t ? ` · ${it.q} × x${it.t} = ${units} u.` : ""}${u ? ` · ${fmt(u)} c/u` : ""}</small></div>
+          <small>${esc(it.k)} · ${it.t > 1 ? `${it.q} × pack x${it.t} = ${units} u.` : `${units} u.`}${u ? ` · ${fmt(u)} c/u` : ""}</small></div>
         <div class="bot">
           <div class="qty"><button data-m="${i}" aria-label="Menos">−</button><span>${it.q}</span><button data-p="${i}" aria-label="Más">+</button></div>
           <b class="sub">${u ? fmt(sub) : "A cotizar"}</b>
@@ -1333,8 +1380,15 @@ $id("grid").onclick = e => {
     card.querySelectorAll(".sw button").forEach(b => b.classList.toggle("on", b.dataset.k === sel[id]));
     return;
   }
-  if (e.target.closest("[data-add]")) add(id, sel[id], getT(p));
+  if (e.target.closest("[data-add]")) { add(id, sel[id], getT(p)); return; }
+  if (e.target.closest(".pic")) openLB(p, sel[id]);
 };
+function openLB(p, k) {
+  $id("lbBody").innerHTML = p.image ? `<img src="${esc(p.image)}" alt="${esc(p.n)}">` : ART[p.a](COLORS[k] || COLORS.negro);
+  $id("lb").classList.add("on");
+}
+$id("lb").onclick = () => $id("lb").classList.remove("on");
+document.addEventListener("keydown", e => { if (e.key === "Escape") $id("lb").classList.remove("on"); });
 $id("items").onclick = e => {
   const m = e.target.dataset.m, p = e.target.dataset.p;
   if (m !== undefined) { cart[m].q--; if (cart[m].q <= 0) cart.splice(m, 1); }
@@ -1352,7 +1406,7 @@ $id("send").onclick = () => {
   const lines = cart.map(i => {
     const p = prod(i.id), u = unitPrice(p, i.t), units = (i.t || 1) * i.q, sub = u * units;
     u ? total += sub : open++;
-    return `• ${p.n} (${i.k}) — ${i.t ? `${i.q} × x${i.t} = ${units} u.` : `${i.q} u.`}${u ? ` · ${fmt(u)} c/u = ${fmt(sub)}` : " · a cotizar"}`;
+    return `• ${p.n} (${i.k}) — ${i.t > 1 ? `${i.q} × pack x${i.t} = ${units} u.` : `${units} u.`}${u ? ` · ${fmt(u)} c/u = ${fmt(sub)}` : " · a cotizar"}`;
   }).join("\n");
   const b = brand.t ? `\nTexto a grabar: ${brand.t}` : "";
   const lg = brand.img ? `\nTengo logo: lo envío por este chat.` : "";
@@ -1592,6 +1646,34 @@ $id("adminProdList").addEventListener("click", e => {
 });
 
 $id("adminNewProdBtn").onclick = () => showProductForm();
+
+$id("adminBatchBtn").onclick = () => $id("adminBatch").click();
+$id("adminBatch").onchange = async e => {
+  const files = [...e.target.files].filter(f => ["image/jpeg","image/png","image/webp"].includes(f.type) && f.size <= 5*1024*1024);
+  e.target.value = "";
+  if (!files.length) { adminMsg("batchMsg", "Elegí JPG, PNG o WEBP de hasta 5 MB."); return; }
+  const prev = P, added = [];
+  adminMsg("batchMsg", `Subiendo 0/${files.length}…`);
+  try {
+    for (const f of files) {
+      const ext = f.type === "image/png" ? "png" : f.type === "image/webp" ? "webp" : "jpg";
+      const path = `products/${crypto.randomUUID()}.${ext}`;
+      const { error } = await sb.storage.from(STORAGE_BUCKET).upload(path, f, { upsert:false, contentType:f.type });
+      if (error) throw error;
+      added.push({
+        id: Date.now() + added.length,
+        n: f.name.replace(/\.[^.]+$/, "").replace(/[-_]+/g, " ").trim() || "Producto nuevo",
+        c: adminCurrentCategory, d: "", price: "", b: "", a: "termo", cols: ["negro"], tiers: {},
+        image: sb.storage.from(STORAGE_BUCKET).getPublicUrl(path).data.publicUrl
+      });
+      adminMsg("batchMsg", `Subiendo ${added.length}/${files.length}…`);
+    }
+    P = [...P, ...added];
+    await saveRemoteCatalog();
+    renderAdminProdsView();
+    adminMsg("batchMsg", `${added.length} productos creados. Tocá cada uno para ponerle nombre y precios.`, true);
+  } catch (err) { P = prev; adminMsg("batchMsg", err.message || "Falló la carga."); }
+};
 
 /* ---- Renombrar / eliminar categoría ---- */
 $id("adminRenameCatBtn").onclick = async () => {
