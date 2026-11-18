@@ -316,82 +316,47 @@ h1 u{text-decoration:none;color:var(--or)}
   .labhead{padding:10px 16px}
 }
 
-/* SAY */
-.say{padding:56px 0 56px}
-.say .top{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;align-items:flex-end;margin-bottom:56px;position:relative}
-.say .top::before{content:"";position:absolute;left:0;bottom:-26px;width:52px;height:2px;background:var(--or)}
-h2{font-size:clamp(36px,5.2vw,80px);font-weight:600;letter-spacing:-.04em;line-height:1}
-.rows{border-bottom:1px solid var(--ink);counter-reset:say-idx}
-.rowx{
-  display:grid;
-  grid-template-columns:auto 1.35fr 1fr auto;
-  gap:28px;
-  align-items:center;
-  padding:34px 0;
-  border-top:1px solid var(--ink);
-  transition:padding .35s ease, background .35s ease, color .35s ease;
-  position:relative;
-  counter-increment:say-idx;
+/* SAY (HORIZONTAL SCROLL) */
+.say-scroll {
+  position: relative;
+  height: 300vh; /* Da espacio para scrollear 3 pantallas */
+  background: var(--paper);
 }
-.rowx::before{
-  content:counter(say-idx, decimal-leading-zero);
-  font-family:Georgia,"Times New Roman",serif;
-  font-style:italic;
-  font-weight:400;
-  font-size:15px;
-  letter-spacing:.02em;
-  color:var(--or);
-  align-self:start;
-  padding-top:10px;
-  line-height:1;
-  transition:color .3s;
+.say-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
 }
-.rowx::after{
-  content:"";
-  position:absolute;
-  left:-1px;top:0;bottom:0;
-  width:3px;
-  background:var(--or);
-  transform:scaleY(0);
-  transform-origin:top;
-  transition:transform .4s ease;
+.say-track {
+  display: flex;
+  width: 300vw;
+  will-change: transform;
+  transition: transform 0.1s linear;
 }
-.rowx strong{font-size:clamp(56px,10.4vw,160px);font-weight:600;letter-spacing:-.055em;line-height:.88}
-.rowx p{color:var(--mute);font-size:17px;max-width:400px;line-height:1.55;transition:color .3s}
-.rowx i{
-  font-style:normal;font-size:18px;
-  display:grid;place-items:center;
-  width:54px;height:54px;
-  border:1.5px solid var(--ink);
-  border-radius:50%;
-  color:var(--ink);
-  flex-shrink:0;
-  transition:transform .35s ease, background .35s, border-color .35s, color .35s;
+.say-item {
+  width: 100vw;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 10vw;
 }
-
-/* hover: only on devices with a real cursor (mouse / trackpad) */
-@media(hover:hover){
-  .rowx:hover{background:var(--ink);color:var(--paper);padding-left:28px;padding-right:28px}
-  .rowx:hover::after{transform:scaleY(1)}
-  .rowx:hover p{color:#bdb9af}
-  .rowx:hover i{background:var(--or);border-color:var(--or);color:#000;transform:rotate(-45deg)}
-  .rowx:hover strong{color:var(--or)}
+.say-item strong {
+  font-size: clamp(60px, 12vw, 180px);
+  font-weight: 600;
+  letter-spacing: -.06em;
+  line-height: .9;
+  color: var(--ink);
+  margin-bottom: 20px;
 }
-
-/* mobile / touch: JS toggles .in-view as the row crosses the viewport center */
-.rowx.in-view{background:var(--ink);color:var(--paper);padding-left:28px;padding-right:28px}
-.rowx.in-view::after{transform:scaleY(1)}
-.rowx.in-view p{color:#bdb9af}
-.rowx.in-view i{background:var(--or);border-color:var(--or);color:#000;transform:rotate(-45deg)}
-.rowx.in-view strong{color:var(--or)}
-
-@media(max-width:760px){
-  .rowx{grid-template-columns:1fr;gap:12px;padding:26px 0}
-  .rowx::before{padding-top:0;font-size:12px}
-  .rowx strong{font-size:clamp(52px,14vw,88px)}
-  .rowx p{max-width:100%}
-  .rowx i{display:none}
-  .rowx:hover,.rowx.in-view{padding-left:16px;padding-right:0}
+.say-item p {
+  font-size: clamp(16px, 2vw, 22px);
+  color: var(--mute);
+  max-width: 500px;
+  line-height: 1.5;
 }
 
 /* CATALOG */
@@ -489,48 +454,19 @@ section{padding:56px 0;scroll-margin-top:80px}
 .step h4{font-size:28px;font-weight:600;letter-spacing:-.02em;margin:36px 0 10px}
 .step p{font-size:16px;color:var(--mute);line-height:1.55}
 
-/* CONTACT */
-.contact{background:var(--or);color:#000;padding:72px 0}
+/* CONTACT (DARK THEME & WORDPLAY) */
+.contact{background:var(--ink);color:#fff;padding:100px 0} /* Fondo oscuro como el header */
 .contact .wrap{display:grid;grid-template-columns:1.3fr .7fr;gap:60px;align-items:end}
 @media(max-width:860px){.contact .wrap{grid-template-columns:1fr}}
-.contact h2{font-size:clamp(46px,8.4vw,136px);letter-spacing:-.05em;line-height:.93}
-.contact p{margin-bottom:28px;max-width:440px;font-size:19px;line-height:1.55}
-.btn-short{display:none}
-.contact-actions{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
-.contact .btn{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-  padding:16px 28px;
-  border-radius:99px;
-  font-size:15px;
-  font-weight:700;
-  letter-spacing:-.01em;
-  transition:transform .25s ease, box-shadow .25s ease, background .25s, filter .25s;
-  will-change:transform;
-}
-.contact .btn svg{flex-shrink:0;display:block}
-.contact .btn.wa-btn{
-  background:#25D366;
+.contact h2{
+  font-size:clamp(46px,8.4vw,136px);
+  letter-spacing:-.05em;
+  line-height:.93;
   color:#fff;
-  box-shadow:0 10px 26px rgba(37,211,102,.32);
 }
-.contact .btn.wa-btn:hover{
-  background:#1eb858;
-  box-shadow:0 14px 32px rgba(37,211,102,.42);
-  transform:translateY(-2px);
-}
-.contact .btn.insta-btn{
-  background:linear-gradient(45deg,#f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
-  color:#fff;
-  box-shadow:0 10px 26px rgba(204,35,102,.32);
-}
-.contact .btn.insta-btn:hover{
-  filter:brightness(1.08);
-  box-shadow:0 14px 32px rgba(204,35,102,.42);
-  transform:translateY(-2px);
-}
+.contact h2 em{font-family:Georgia,"Times New Roman",serif;font-style:italic;font-weight:400;color:var(--or)} /* Juego de letra 1 */
+.contact h2 u{text-decoration:none;color:var(--or)} /* Juego de letra 2 */
+.contact p{margin-bottom:28px;max-width:440px;font-size:19px;line-height:1.55;color:#b8b4aa} /* Párrafo más sutil */
 
 @media(max-width:560px){
   .contact-actions{flex-wrap:nowrap;gap:8px;width:100%}
@@ -936,13 +872,21 @@ footer .logo{margin-right:0}
   </div>
 </section>
 
-<section class="say">
-  <div class="wrap">
-    <div class="top"><h2>No es solo vender.<br>Es que tu marca…</h2><p class="count">Lo que buscamos en cada pedido</p></div>
-    <div class="rows">
-      <div class="rowx"><strong>se use.</strong><p>Productos pensados para el día a día: termos, mates, botellas y más.</p><i>→</i></div>
-      <div class="rowx"><strong>se vea.</strong><p>Tu logo grabado o impreso en cada pieza, bien presente.</p><i>→</i></div>
-      <div class="rowx"><strong>se comparta.</strong><p>Regalos para clientes, equipos y eventos que dejan recuerdo.</p><i>→</i></div>
+<section class="say-scroll">
+  <div class="say-sticky">
+    <div class="say-track" id="sayTrack">
+      <div class="say-item">
+        <strong>se use.</strong>
+        <p>Productos pensados para el día a día: termos, mates, botellas y más.</p>
+      </div>
+      <div class="say-item">
+        <strong>se vea.</strong>
+        <p>Tu logo grabado o impreso en cada pieza, bien presente.</p>
+      </div>
+      <div class="say-item">
+        <strong>se comparta.</strong>
+        <p>Regalos para clientes, equipos y eventos que dejan recuerdo.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -976,7 +920,7 @@ footer .logo{margin-right:0}
 
 <section class="contact" id="contacto">
   <div class="wrap">
-    <h2>Llevá tu marca a todos lados.</h2>
+    <h2>Llevá tu <em>marca</em> a<br><u>todos</u> lados.</h2>
     <div>
       <p>¿Llegás con los regalos de fin de año? Contanos qué necesitás y te respondemos con una propuesta.</p>
       <div class="contact-actions">
@@ -1892,24 +1836,27 @@ async function initSite() {
   }
   refreshCatalogState();
   lab(); chips(); grid(); cartUI();
-  setupScrollHoverRows();
+  setupHorizontalScroll();
 }
 initSite();
 
-/* Touch devices: emulate hover on the SAY rows as they scroll through the viewport center */
-function setupScrollHoverRows() {
-  // Skip on devices with a real cursor — they already have native :hover
-  if (window.matchMedia('(hover:hover) and (pointer:fine)').matches) return;
+/* Horizontal scroll animation for SAY section */
+function setupHorizontalScroll() {
+  const section = document.querySelector('.say-scroll');
+  const track = document.getElementById('sayTrack');
+  if (!section || !track) return;
 
-  const rows = document.querySelectorAll('.rowx');
-  if (!rows.length) return;
-
-  // Activate when the row is inside the middle 40% band of the viewport
-  const io = new IntersectionObserver(entries => {
-    entries.forEach(e => e.target.classList.toggle('in-view', e.isIntersecting));
-  }, { rootMargin: '-30% 0px -30% 0px', threshold: 0 });
-
-  rows.forEach(r => io.observe(r));
+  window.addEventListener('scroll', () => {
+    const rect = section.getBoundingClientRect();
+    const sectionHeight = section.offsetHeight - window.innerHeight;
+    
+    // Solo animamos cuando la sección está en pantalla
+    if (rect.top <= 0 && rect.top >= -sectionHeight) {
+      const progress = Math.abs(rect.top) / sectionHeight;
+      // Mueve el track hacia la izquierda (0vw a -200vw)
+      track.style.transform = `translateX(-${progress * 200}vw)`;
+    }
+  });
 }
 </script>
 </body>
