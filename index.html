@@ -625,7 +625,7 @@ footer .logo{margin-right:0}
 .admin-head button:hover{color:#fff}
 
 .admin-body{flex:1;min-height:0;display:flex;flex-direction:column}
-.admin-view{flex:1;min-height:0;padding:clamp(20px,2.6vw,36px);display:flex;flex-direction:column;gap:clamp(14px,2vh,22px)}
+.admin-view{flex:1;min-height:0;padding:clamp(16px,2vw,26px);display:flex;flex-direction:column;gap:clamp(12px,1.6vh,18px)}
 .admin-view[hidden]{display:none}
 
 /* Login */
@@ -651,12 +651,12 @@ footer .logo{margin-right:0}
 .admin-actions{display:flex;gap:12px;flex-wrap:wrap}
 
 .admin-header-bar{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:14px;flex-shrink:0}
-.admin-header-bar h3{font-size:clamp(24px,3vw,34px);font-weight:600;letter-spacing:-.03em;color:#fff;line-height:1.1}
+.admin-header-bar h3{font-size:clamp(20px,2.2vw,26px);font-weight:600;letter-spacing:-.03em;color:#fff;line-height:1.15}
 .admin-breadcrumbs{font-size:14px;color:var(--a-mute);margin-bottom:6px;display:flex;gap:8px;align-items:center}
 .admin-breadcrumbs span{cursor:pointer;transition:.2s}
 .admin-breadcrumbs span:hover{color:var(--or)}
 .admin-breadcrumbs i{font-style:normal;opacity:.5}
-.admin-sub{font-size:14.5px;color:var(--a-mute);margin-top:6px}
+.admin-sub{font-size:13px;color:var(--a-mute);margin-top:4px}
 
 .admin-inline{display:flex;gap:10px;align-items:center;flex-wrap:wrap;flex-shrink:0}
 .admin-inline[hidden]{display:none}
@@ -666,75 +666,71 @@ footer .logo{margin-right:0}
 .admin-grid{
   flex:1;min-height:0;
   display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(clamp(150px,17vw,240px),1fr));
-  gap:clamp(12px,1.4vw,20px);
+  grid-template-columns:repeat(auto-fill,minmax(clamp(140px,15vw,200px),1fr));
+  gap:14px;
   align-content:start;
-  align-items:start;   /* don't stretch cards to row height */
+  align-items:start;
   overflow:auto;
-  padding:6px 4px 34px;
+  padding:4px 4px 24px;
 }
 
 .acard{
-  aspect-ratio:1;
-  contain:size;                    /* ⭐ ignore content's intrinsic size */
-  min-height:0;
   position:relative;
+  aspect-ratio:1 / 1;
+  contain:strict;
+  min-width:0;
+  min-height:0;
   overflow:hidden;
   border-radius:14px;
   background:var(--a-surface);
   border:1px solid var(--a-border);
   cursor:pointer;
-  display:grid;
-  grid-template-rows:minmax(0,1fr) auto;
-  transition:transform .25s ease, border-color .25s, box-shadow .25s, background .25s;
+  display:flex;
+  flex-direction:column;
+  transition:border-color .25s, box-shadow .25s, transform .25s;
 }
 .acard:hover{
   border-color:var(--or);
-  transform:translateY(-3px);
-  box-shadow:0 14px 34px rgba(0,0,0,.45);
+  transform:translateY(-2px);
+  box-shadow:0 10px 22px rgba(0,0,0,.4);
 }
 
-/* preview zone — flexes, clips its own overflow */
+/* preview — flexes, clips hard, centers image */
 .acard .bg{
+  flex:1 1 0;
+  min-width:0;
+  min-height:0;
   display:flex;
   align-items:center;
   justify-content:center;
-  height:100%;                     /* definite height for % sizing */
-  min-height:0;
   overflow:hidden;
-  padding:14px;
-  transition:transform .35s ease;
+  padding:12px;
 }
-.acard:hover .bg{transform:scale(1.04)}
-.acard .bg svg{width:60%;height:auto;max-height:100%;opacity:.95}
+.acard .bg svg,
 .acard .bg img{
   display:block;
+  max-width:100%;
+  max-height:100%;
   width:auto;
   height:auto;
-  max-width:88%;
-  max-height:100%;
-  min-width:0;
-  min-height:0;
   object-fit:contain;
-  filter:drop-shadow(0 8px 14px rgba(0,0,0,.45));
 }
 
-/* info bar — its own row, opaque, so text is always legible */
+/* info bar — fixed-height row, always below the preview */
 .acard .info{
-  position:relative;
+  flex:0 0 auto;
   display:flex;
   flex-direction:column;
   gap:2px;
-  padding:10px 14px 12px;
-  border-top:1px solid var(--a-border);
+  padding:8px 12px 10px;
   background:var(--a-bg);
+  border-top:1px solid var(--a-border);
   min-width:0;
-  z-index:1;
 }
+
 .acard b{
-  font-size:clamp(14px,1.3vw,18px);
+  font-size:14px;
   font-weight:600;
-  letter-spacing:-.02em;
   color:#fff;
   line-height:1.2;
   white-space:nowrap;
@@ -742,7 +738,7 @@ footer .logo{margin-right:0}
   text-overflow:ellipsis;
 }
 .acard small{
-  font-size:13px;
+  font-size:12px;
   color:var(--a-mute);
   white-space:nowrap;
   overflow:hidden;
@@ -752,12 +748,12 @@ footer .logo{margin-right:0}
 /* floating action arrow */
 .acard .arrow{
   position:absolute;
-  top:10px;right:12px;
+  top:8px;right:10px;
   z-index:2;
-  width:26px;height:26px;
+  width:24px;height:24px;
   display:grid;place-items:center;
   border-radius:99px;
-  font-size:15px;
+  font-size:14px;
   color:var(--a-mute);
   background:rgba(0,0,0,.55);
   backdrop-filter:blur(6px);
