@@ -89,7 +89,7 @@ nav a:hover::after{transform:scaleX(1)}
   gap:clamp(16px,2.2vh,28px);
 }
 .hero-left > *{
-  margin-top:0;      /* let space-between own the spacing */
+  margin-top:0;
   margin-bottom:0;
 }
 
@@ -188,8 +188,8 @@ h1 u{text-decoration:none;color:var(--or)}
   flex:1 1 0%;
   min-height:0;
   aspect-ratio:1;
-  align-self:center;   /* centers the square horizontally */
-  max-width:100%;      /* caps at column width on narrow screens */
+  align-self:center;
+  max-width:100%;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -254,7 +254,7 @@ h1 u{text-decoration:none;color:var(--or)}
   /* TABLET / MOBILE — hero text first, simulator stacked below */
 @media(max-width:960px){
   .hero{
-    min-height:auto; /* Permite que el simulador fluya hacia arriba */
+    min-height:auto;
     padding:0;
     display:block;
   }
@@ -267,9 +267,8 @@ h1 u{text-decoration:none;color:var(--or)}
     max-width:100%;
   }
 
-  /* Texto arriba, pegado al header */
   .hero-left{
-    min-height:auto; /* Elimina el espacio forzado de pantalla completa */
+    min-height:auto;
     width:100%;
     max-width:none;
     padding:20px 20px 10px;
@@ -278,7 +277,6 @@ h1 u{text-decoration:none;color:var(--or)}
     justify-content:flex-start;
   }
 
-  /* Simulador compacto justo abajo */
   .lab{
     width:auto;
     max-height:none;
@@ -299,7 +297,7 @@ h1 u{text-decoration:none;color:var(--or)}
   h1{font-size:clamp(38px,10vw,52px); line-height:1.05; margin-bottom:8px}
   .lede{font-size:14px; line-height:1.4; margin-bottom:12px}
   .heroact{gap:16px}
-  .stage{min-height:180px;max-height:250px} /* Simulador aún más chico para que entre todo */
+  .stage{min-height:180px;max-height:250px}
   .ctrl { padding: 10px 12px; gap: 8px; }
   .field input { padding: 8px 10px; font-size: 14px;}
   .tab { padding: 4px 10px; font-size: 12px; }
@@ -314,65 +312,6 @@ h1 u{text-decoration:none;color:var(--or)}
   .heroact{margin-top:0}
   .ctrl{padding:12px 16px;gap:9px}
   .labhead{padding:10px 16px}
-}
-
-/* SAY (TARJETA HORIZONTAL QUE ACTUALIZA AL BAJAR) */
-.say-simple {
-  padding: 80px 0;
-  background: var(--paper);
-}
-.say-card {
-  width: 100%;
-  max-width: 1000px;
-  margin: 0 auto;
-  height: 250px;
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-}
-.say-slide {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  padding: 0 60px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-  pointer-events: none;
-}
-.say-slide.active {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-}
-.say-slide strong {
-  font-size: clamp(48px, 6vw, 72px);
-  font-weight: 600;
-  letter-spacing: -.04em;
-  line-height: 1;
-  color: var(--ink);
-  margin-bottom: 16px;
-}
-.say-slide p {
-  font-size: 18px;
-  color: var(--mute);
-  max-width: 500px;
-  line-height: 1.5;
-}
-@media(max-width:760px){
-  .say-card{height: 280px;}
-  .say-slide{padding: 0 30px;}
-  .say-slide strong{font-size: 40px;}
-  .say-slide p{font-size: 16px;}
 }
 
 /* CATALOG */
@@ -447,7 +386,7 @@ section{padding:56px 0;scroll-margin-top:80px}
 .buy .tot{font-size:13px;color:var(--mute)}
 @media(max-width:560px){.buy .price{font-size:18px}.tiers button{padding:4px 9px;font-size:12px}}
 
-/* Mobile Catalog Overrides — placed last so they win the cascade */
+/* Mobile Catalog Overrides */
 @media(max-width:560px){
   .grid{grid-template-columns:repeat(2,1fr); gap:24px 12px;}
   .meta{margin-top:12px}
@@ -469,7 +408,8 @@ section{padding:56px 0;scroll-margin-top:80px}
 .step small{font-size:14px;color:var(--mute)}
 .step h4{font-size:28px;font-weight:600;letter-spacing:-.02em;margin:36px 0 10px}
 .step p{font-size:16px;color:var(--mute);line-height:1.55}
-/* CONTACT (ORANGE & WORDPLAY) */
+
+/* CONTACT */
 .contact{background:var(--or);color:#000;padding:80px 0}
 .contact .wrap{display:grid;grid-template-columns:1.3fr .7fr;gap:60px;align-items:end}
 @media(max-width:860px){.contact .wrap{grid-template-columns:1fr}}
@@ -482,6 +422,44 @@ section{padding:56px 0;scroll-margin-top:80px}
 .contact h2 em{font-family:Georgia,"Times New Roman",serif;font-style:italic;font-weight:400;color:#fff}
 .contact h2 u{text-decoration:none;color:#fff}
 .contact p{margin-bottom:28px;max-width:440px;font-size:19px;line-height:1.55;color:#000;opacity:0.85}
+
+/* Contact buttons – brand colors + same width */
+.contact-actions{
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+  margin-top:8px;
+}
+.contact .btn{
+  flex:1 1 0;
+  min-width:0;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  padding:15px 22px;
+  border-radius:99px;
+  font-size:15px;
+  font-weight:600;
+  transition:.2s;
+  box-shadow:0 8px 20px rgba(0,0,0,.18);
+}
+.contact .wa-btn{
+  background:#25D366;
+  color:#fff;
+}
+.contact .wa-btn:hover{
+  background:#1ebe57;
+  color:#fff;
+}
+.contact .insta-btn{
+  background:linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  color:#fff;
+}
+.contact .insta-btn:hover{
+  filter:brightness(1.08);
+  color:#fff;
+}
 
 @media(max-width:560px){
   .contact-actions{flex-wrap:nowrap;gap:8px;width:100%}
@@ -497,6 +475,7 @@ section{padding:56px 0;scroll-margin-top:80px}
   .btn-full{display:none}
   .btn-short{display:inline}
 }
+
 footer{background:var(--ink);color:#8c887f;font-size:13px;padding:30px 0}
 footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
 footer .logo{margin-right:0}
@@ -613,12 +592,12 @@ footer .logo{margin-right:0}
 .admin-inline[hidden]{display:none}
 .admin-inline input{flex:1 1 240px;max-width:420px;padding:12px 14px;border:1px solid var(--or);border-radius:8px;background:var(--a-surface);color:#fff;font:inherit;font-size:15px;outline:none}
 
-/* 1:1 cards grid — Clean, compact, bulletproof */
+/* 1:1 cards grid */
 .admin-grid{
   flex:1;min-height:0;
   display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); /* Ancho justo para que quepa el texto */
-  gap:12px; /* Menos espacio entre tarjetas para que no se vea desparramado */
+  grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+  gap:12px;
   align-content:start;
   align-items:start;
   overflow-y:auto;
@@ -626,12 +605,12 @@ footer .logo{margin-right:0}
 }
 
 .acard{
-  aspect-ratio:1 / 1; /* Cuadrado perfecto */
+  aspect-ratio:1 / 1;
   width:100%;
   min-width:0;
   min-height:0;
   position:relative;
-  overflow:hidden; /* Si la foto es gigante, se corta acá y no rompe nada */
+  overflow:hidden;
   border-radius:12px;
   background:var(--a-surface);
   border:1px solid var(--a-border);
@@ -646,11 +625,10 @@ footer .logo{margin-right:0}
   box-shadow:0 8px 16px rgba(0,0,0,.4);
 }
 
-/* Zona de la foto */
 .acard .bg{
   flex:1 1 0;
   min-width:0;
-  min-height:0; /* ⭐ ESTO evita que la foto estire la tarjeta */
+  min-height:0;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -667,7 +645,6 @@ footer .logo{margin-right:0}
   object-fit:contain;
 }
 
-/* Barra inferior con el título */
 .acard .info{
   flex:0 0 auto;
   display:flex;
@@ -679,7 +656,7 @@ footer .logo{margin-right:0}
   min-width:0;
 }
 .acard b{
-  font-size:13px; /* Un toque más chico para que no se vea pesado */
+  font-size:13px;
   font-weight:600;
   color:#fff;
   line-height:1.2;
@@ -695,7 +672,6 @@ footer .logo{margin-right:0}
   text-overflow:ellipsis;
 }
 
-/* Flecha de acción */
 .acard .arrow{
   position:absolute;
   top:8px;right:8px;
@@ -715,7 +691,6 @@ footer .logo{margin-right:0}
   transform:translateX(2px);
 }
 
-/* Tarjeta de "+ Nueva categoría" */
 .acard.new{
   display:flex;
   flex-direction:column;
@@ -733,7 +708,6 @@ footer .logo{margin-right:0}
 .acard.new span{font-size:32px;line-height:1;color:var(--or);font-weight:300}
 .acard.new:hover{color:#fff;border-color:var(--or);background:var(--a-surface);transform:translateY(-2px)}
 
-/* Product form: Clean, no scroll, perfect square preview */
 .pf{
   flex:1;
   min-height:0;
@@ -743,7 +717,6 @@ footer .logo{margin-right:0}
   align-items:stretch;
 }
 
-/* Columna izquierda (Vista previa) */
 .pf-side{
   display:flex;
   flex-direction:column;
@@ -751,7 +724,6 @@ footer .logo{margin-right:0}
   min-height:0;
 }
 
-/* Cuadrado de la foto */
 .pf-prev{
   width:100%;
   aspect-ratio:1;
@@ -778,7 +750,6 @@ footer .logo{margin-right:0}
   object-fit:contain;
 }
 
-/* Columna derecha (Inputs) */
 .pf-main{
   display:flex;
   flex-direction:column;
@@ -787,10 +758,9 @@ footer .logo{margin-right:0}
   border-radius:16px;
   padding:clamp(16px,2vw,24px);
   min-height:0;
-  overflow-y:auto; /* Si hay una pantalla muy baja, el scroll queda solo acá y no rompe nada */
+  overflow-y:auto;
 }
 
-/* ⭐ Restaurar estilos de las filas y los packs de precios */
 .pf-row{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -842,7 +812,6 @@ footer .logo{margin-right:0}
 <div class="util">Envíos a todo el país · Venta por mayor<span class="util-extra"> · Productos personalizados</span></div>
 <header class="top">
   <div class="wrap">
-    <!-- Menu icon moved to the left -->
     <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="mainNav">
       <span></span><span></span><span></span>
     </button>
@@ -862,7 +831,7 @@ footer .logo{margin-right:0}
   <div class="wrap">
     <div class="hero-left">
       <p class="kicker">Regalos empresariales · Argentina</p>
-<h1>Tu marca, <em>en las</em> <br><em>cosas</em> que <u>se</u> <br><u>usan.</u></h1>
+      <h1>Tu marca, <em>en las</em> <br><em>cosas</em> que <u>se</u> <br><u>usan.</u></h1>
       <p class="lede">Escribí el nombre de tu empresa o subí tu logo y mirá cómo queda. Después pedí la cotización por WhatsApp, en la cantidad que necesites.</p>
       <div class="heroact"><a href="#catalogo" class="btn">Ver catálogo</a><a href="#como" class="link">Cómo pedir</a></div>
     </div>
@@ -887,26 +856,7 @@ footer .logo{margin-right:0}
   </div>
 </section>
 
-<section class="say-simple" id="saySection">
-  <div class="wrap">
-    <div class="say-card">
-      <div class="say-slide active">
-        <strong>se use.</strong>
-        <p>Productos pensados para el día a día: termos, mates, botellas y más.</p>
-      </div>
-      <div class="say-slide">
-        <strong>se vea.</strong>
-        <p>Tu logo grabado o impreso en cada pieza, bien presente.</p>
-      </div>
-      <div class="say-slide">
-        <strong>se comparta.</strong>
-        <p>Regalos para clientes, equipos y eventos que dejan recuerdo.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="catalogo" style="padding-top:60px">
+<section id="catalogo" style="padding-top:40px">
   <div class="wrap">
     <div class="head">
       <h2>El <em>catálogo</em></h2>
@@ -916,7 +866,7 @@ footer .logo{margin-right:0}
       <div class="chips" id="chips"></div>
       <input class="search" id="q" placeholder="Buscar" aria-label="Buscar producto">
     </div>
-        <div class="cathead" id="catHead"></div>
+    <div class="cathead" id="catHead"></div>
     <div class="grid" id="grid"></div>
   </div>
 </section>
@@ -939,17 +889,17 @@ footer .logo{margin-right:0}
     <div>
       <p>¿Llegás con los regalos de fin de año? Contanos qué necesitás y te respondemos con una propuesta.</p>
       <div class="contact-actions">
-  <a class="btn wa-btn" id="waMain" target="_blank" rel="noopener">
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.71.306 1.262.489 1.693.625.711.226 1.358.194 1.87.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-    <span class="btn-full">Escribinos por WhatsApp</span>
-    <span class="btn-short">WhatsApp</span>
-  </a>
-  <a class="btn insta-btn" href="https://www.instagram.com/sprecuerdos" target="_blank" rel="noopener">
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-    <span class="btn-full">@sprecuerdos</span>
-    <span class="btn-short">Instagram</span>
-  </a>
-</div>
+        <a class="btn wa-btn" id="waMain" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.71.306 1.262.489 1.693.625.711.226 1.358.194 1.87.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+          <span class="btn-full">Escribinos por WhatsApp</span>
+          <span class="btn-short">WhatsApp</span>
+        </a>
+        <a class="btn insta-btn" href="https://www.instagram.com/sprecuerdos" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+          <span class="btn-full">@sprecuerdos</span>
+          <span class="btn-short">Instagram</span>
+        </a>
+      </div>
     </div>
   </div>
 </section>
@@ -961,7 +911,7 @@ footer .logo{margin-right:0}
 <aside class="drawer" id="drawer" aria-label="Mi pedido">
   <div class="dh"><h3>Mi pedido</h3><button class="x" id="closeCart">Cerrar</button></div>
   <div class="items" id="items"></div>
-    <div class="df" id="cartFoot">
+  <div class="df" id="cartFoot">
     <div class="sum"><span>Total</span><b id="cartTotal">$ 0</b></div>
     <small id="cartNote"></small>
     <button class="btn" id="send">Pedir por WhatsApp</button>
@@ -979,7 +929,7 @@ footer .logo{margin-right:0}
 
     <div id="adminChecking" class="admin-loading" hidden>Verificando sesión…</div>
 
-       <!-- LOGIN -->
+    <!-- LOGIN -->
     <div id="adminLogin" class="admin-login">
       <h3>Acceso privado</h3>
       <p>Ingresá con el usuario administrador.</p>
@@ -1403,6 +1353,7 @@ $id("send").onclick = () => {
   const lg = brand.img ? `\nTengo logo: lo envío por este chat.` : "";
   window.open(wa(`Hola SP Recuerdos! Quiero hacer este pedido:\n\n${lines}\n\nTOTAL: ${fmt(total)}${open ? ` (+ ${open} a cotizar)` : ""}${b}${lg}`), "_blank");
 };
+
 /* ============================================================
    MOBILE NAV
    ============================================================ */
@@ -1615,8 +1566,8 @@ function showProductForm(id = null) {
     $id("productImagePreview").hidden = true;
   }
  
- updateArtPreview();
- adminMsg("productMsg", "");
+  updateArtPreview();
+  adminMsg("productMsg", "");
 }
 
 /* ---- EVENTS ADMIN ---- */
@@ -1851,31 +1802,8 @@ async function initSite() {
   }
   refreshCatalogState();
   lab(); chips(); grid(); cartUI();
-  setupSayScroll();
 }
 initSite();
-/* Scroll simple para cambiar el texto de la tarjeta SAY */
-function setupSayScroll() {
-  const section = document.getElementById('saySection');
-  const slides = document.querySelectorAll('.say-slide');
-  if (!section || !slides.length) return;
-
-  window.addEventListener('scroll', () => {
-    const rect = section.getBoundingClientRect();
-    const windowH = window.innerHeight;
-
-    // Calcula el progreso de 0 a 1 según cuánto scrolleaste a través de la sección
-    const scrollProgress = (windowH - rect.top) / (windowH + rect.height);
-
-    let activeIndex = 0;
-    if (scrollProgress > 0.35) activeIndex = 1;
-    if (scrollProgress > 0.65) activeIndex = 2;
-
-    slides.forEach((slide, i) => {
-      slide.classList.toggle('active', i === activeIndex);
-    });
-  });
-}
 </script>
 </body>
 </html>
